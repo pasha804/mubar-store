@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>M&J CHRONOS — Master Catalog & Multi-Angle Gallery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #070709;
+      --card-bg: rgba(255, 255, 255, 0.03);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --gold: #D4AF37;
+      --gold-light: #F3E5AB;
+      --gold-gradient: linear-gradient(135deg, #E5C378 0%, #D4AF37 50%, #996515 100%);
+      --emerald: #2ECC71;
+      --text: #F5F5F7;
+      --text-muted: #8E8E93;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      padding: 30px 20px;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid var(--card-border);
+      position: relative;
+    }
+    .logo-img {
+      width: 140px;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 2px solid var(--gold);
+      box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+      margin-bottom: 16px;
+    }
+    .brand-title {
+      font-family: 'Cinzel', serif;
+      font-size: 2.8rem;
+      letter-spacing: 5px;
+      background: var(--gold-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 4px;
+    }
+    .brand-sub {
+      font-size: 0.95rem;
+      letter-spacing: 3px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+    .tag-row {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 15px;
+      flex-wrap: wrap;
+    }
+    .tag {
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      background: rgba(212, 175, 55, 0.08);
+      color: var(--gold-light);
+    }
+    .section-heading {
+      font-family: 'Cinzel', serif;
+      font-size: 1.8rem;
+      color: var(--gold-light);
+      margin: 45px 0 25px 0;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .section-heading::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--card-border);
+    }
+    .unboxing-hero {
+      background: var(--card-bg);
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: 16px;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      margin-bottom: 45px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    }
+    .unboxing-hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .unboxing-content {
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .sale-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      background: #E74C3C;
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.75rem;
+      border-radius: 4px;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+    .products-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 35px;
+    }
+    .product-row {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      transition: border-color 0.3s ease;
+    }
+    .product-row:hover {
+      border-color: rgba(212, 175, 55, 0.4);
+    }
+    .gallery-col {
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: rgba(0,0,0,0.3);
+    }
+    .main-shot {
+      width: 100%;
+      height: 340px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 1px solid var(--card-border);
+    }
+    .thumbs-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+    .thumb {
+      width: 100%;
+      height: 75px;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.1);
+      cursor: pointer;
+      opacity: 0.75;
+      transition: opacity 0.2s, border-color 0.2s;
+    }
+    .thumb:hover, .thumb.active {
+      opacity: 1;
+      border-color: var(--gold);
+    }
+    .info-col {
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .p-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+    .p-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.5rem;
+      color: #fff;
+    }
+    .stock-chip {
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: rgba(46, 204, 113, 0.15);
+      color: var(--emerald);
+      border: 1px solid rgba(46, 204, 113, 0.3);
+    }
+    .p-desc {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin: 10px 0 16px 0;
+    }
+    .price-strip {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 8px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    .selling-price {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--gold-light);
+    }
+    .crossed-price {
+      font-size: 1rem;
+      color: var(--text-muted);
+      text-decoration: line-through;
+    }
+    .discount-tag {
+      background: #C0392B;
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+    .wholesale-box {
+      margin-left: auto;
+      text-align: right;
+    }
+    .wholesale-val {
+      font-size: 0.85rem;
+      color: #2ECC71;
+      font-weight: 600;
+    }
+    .net-profit {
+      font-size: 0.78rem;
+      color: var(--gold);
+    }
+    .specs-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px 20px;
+      font-size: 0.85rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding-top: 16px;
+    }
+    .spec-item {
+      display: flex;
+      justify-content: space-between;
+      color: var(--text-muted);
+    }
+    .spec-item strong {
+      color: #ddd;
+    }
+    @media (max-width: 900px) {
+      .product-row { grid-template-columns: 1fr; }
+      .unboxing-hero { grid-template-columns: 1fr; }
+      .brand-title { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    
+    <!-- HEADER -->
+    <header>
+      <img src="images/branding/mj_chronos_logo.jpg" alt="M&J Chronos Official Luxury Crest Logo" class="logo-img">
+      <h1 class="brand-title">M&J CHRONOS</h1>
+      <p class="brand-sub">Haute Horlogerie & Luxury Timepieces</p>
+      <div class="tag-row">
+        <span class="tag">Founders: Muhammad Mubashir & Hamza Javed</span>
+        <span class="tag">Wholesale Hub: Shah Alam & Rang Mahal, Lahore</span>
+        <span class="tag">Packaging: 1200 GSM Rigid Slide Box + Warranty Card</span>
+      </div>
+    </header>
+
+    <!-- UNBOXING SECTION -->
+    <h2 class="section-heading">01. Official Unboxing Packaging (The Margin Multiplier)</h2>
+    <div class="unboxing-hero">
+      <img src="images/branding/watch_box_unboxing.jpg" alt="M&J Chronos Unboxing Presentation">
+      <div class="unboxing-content">
+        <span class="sale-badge">300% Margin Multiplier</span>
+        <h3 style="font-family: 'Cinzel', serif; font-size: 1.8rem; color: var(--gold-light); margin-bottom: 12px;">The M&J Presentation Set</h3>
+        <p style="color: var(--text-muted); margin-bottom: 20px;">
+          Manufactured in <strong>Rang Mahal / Sarafa Bazaar (Lahore)</strong>. Sourcing a watch for Rs. 1,150–1,900 and delivering it in this bespoke gold-stamped box guarantees customer satisfaction and minimizes Cash-on-Delivery returns.
+        </p>
+        <div style="background: rgba(0,0,0,0.4); padding: 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.06);">
+          <div style="display:flex; justify-content:space-between; margin-bottom: 6px; font-size: 0.85rem;">
+            <span>1200 GSM Matte Black Slide Box</span><strong>Rs. 95</strong>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-bottom: 6px; font-size: 0.85rem;">
+            <span>Gold Foil Monogram Stamping (M&J)</span><strong>Rs. 15 / box</strong>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-bottom: 6px; font-size: 0.85rem;">
+            <span>Plush Black Velvet Cushion</span><strong>Rs. 30</strong>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-bottom: 6px; font-size: 0.85rem;">
+            <span>Brushed Metallic 1-Year Warranty Card</span><strong>Rs. 25</strong>
+          </div>
+          <div style="display:flex; justify-content:space-between; border-top: 1px dashed var(--gold); padding-top: 8px; margin-top: 8px; color: var(--gold-light); font-weight:700;">
+            <span>Complete Packaging Cost</span><span>Rs. 165 / unit</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRODUCTS SECTION -->
+    <h2 class="section-heading">02. Curated High-Margin Watch Collection (4-Angle Gallery)</h2>
+    <div class="products-grid">
+
+      <!-- PRODUCT 0: POEDAGAR ROYAL DATEJUST (BUDGET WINNER) -->
+      <div class="product-row">
+        <div class="gallery-col">
+          <img id="main-0" src="images/products/poedagar-royal-datejust/01-front-datejust.jpg" alt="Poedagar Royal Datejust" class="main-shot">
+          <div class="thumbs-row">
+            <img src="images/products/poedagar-royal-datejust/01-front-datejust.jpg" class="thumb active" onclick="swapImg('main-0', this)">
+            <img src="images/products/poedagar-royal-datejust/02-fluted-bezel.jpg" class="thumb" onclick="swapImg('main-0', this)">
+            <img src="images/products/poedagar-royal-datejust/03-unboxing-box.jpg" class="thumb" onclick="swapImg('main-0', this)">
+            <img src="images/products/poedagar-royal-datejust/04-jubilee-bracelet.jpg" class="thumb" onclick="swapImg('main-0', this)">
+          </div>
+        </div>
+        <div class="info-col">
+          <div>
+            <div class="p-header">
+              <h3 class="p-title">Poedagar Royal Datejust (Emerald Sunburst)</h3>
+              <span class="stock-chip">Available Stock: 40 Pieces</span>
+            </div>
+            <p class="p-desc">The undisputed king of high-perceived value in Pakistan. Shimmering fluted grooved sunburst bezel, presidential 5-link jubilee bracelet, and magnified 2.5x date window.</p>
+            <div class="price-strip">
+              <span class="selling-price">Rs. 3,499</span>
+              <span class="crossed-price">Rs. 5,999</span>
+              <span class="discount-tag">SAVE 42%</span>
+              <div class="wholesale-box">
+                <div class="wholesale-val">Wholesale: Rs. 1,150</div>
+                <div class="net-profit">Net Profit: ~Rs. 1,550/unit</div>
+              </div>
+            </div>
+            <div class="specs-grid">
+              <div class="spec-item"><span>Movement:</span> <strong>Japanese Quartz Date</strong></div>
+              <div class="spec-item"><span>Bezel:</span> <strong>Fluted Sunburst Grooves</strong></div>
+              <div class="spec-item"><span>Bracelet:</span> <strong>Solid Steel Jubilee</strong></div>
+              <div class="spec-item"><span>Packaging:</span> <strong>Full M&J Box Set</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRODUCT 00: CURREN AVIATOR CHRONO (BUDGET WINNER) -->
+      <div class="product-row">
+        <div class="gallery-col">
+          <img id="main-00" src="images/products/curren-aviator-chrono/01-front-aviator.jpg" alt="Curren Aviator Chrono" class="main-shot">
+          <div class="thumbs-row">
+            <img src="images/products/curren-aviator-chrono/01-front-aviator.jpg" class="thumb active" onclick="swapImg('main-00', this)">
+            <img src="images/products/curren-aviator-chrono/02-subdials.jpg" class="thumb" onclick="swapImg('main-00', this)">
+            <img src="images/products/curren-aviator-chrono/03-unboxing-box.jpg" class="thumb" onclick="swapImg('main-00', this)">
+            <img src="images/products/curren-aviator-chrono/04-leather-strap.jpg" class="thumb" onclick="swapImg('main-00', this)">
+          </div>
+        </div>
+        <div class="info-col">
+          <div>
+            <div class="p-header">
+              <h3 class="p-title">Curren Tactical Aviator Chronograph</h3>
+              <span class="stock-chip">Available Stock: 30 Pieces</span>
+            </div>
+            <p class="p-desc">Rugged cockpit styling with active dual sub-dials, date calendar, matte black tachymeter bezel, and vintage distressed tan saddle leather strap with contrast stitching.</p>
+            <div class="price-strip">
+              <span class="selling-price">Rs. 3,899</span>
+              <span class="crossed-price">Rs. 6,999</span>
+              <span class="discount-tag">SAVE 44%</span>
+              <div class="wholesale-box">
+                <div class="wholesale-val">Wholesale: Rs. 1,350</div>
+                <div class="net-profit">Net Profit: ~Rs. 1,650/unit</div>
+              </div>
+            </div>
+            <div class="specs-grid">
+              <div class="spec-item"><span>Movement:</span> <strong>Quartz Chronograph</strong></div>
+              <div class="spec-item"><span>Strap:</span> <strong>Saddle Tan Leather</strong></div>
+              <div class="spec-item"><span>Case:</span> <strong>44mm Matte Black</strong></div>
+              <div class="spec-item"><span>Packaging:</span> <strong>Full M&J Box Set</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRODUCT 1: CHRONOGRAPH NOIR -->
+      <div class="product-row">
+        <div class="gallery-col">
+          <img id="main-1" src="images/products/chronograph-noir/01-front-dial.jpg" alt="Chronograph Noir Front" class="main-shot">
+          <div class="thumbs-row">
+            <img src="images/products/chronograph-noir/01-front-dial.jpg" class="thumb active" onclick="swapImg('main-1', this)">
+            <img src="images/products/chronograph-noir/02-wrist-lifestyle.jpg" class="thumb" onclick="swapImg('main-1', this)">
+            <img src="images/products/chronograph-noir/03-unboxing-box.jpg" class="thumb" onclick="swapImg('main-1', this)">
+            <img src="images/products/chronograph-noir/04-case-detail.jpg" class="thumb" onclick="swapImg('main-1', this)">
+          </div>
+        </div>
+        <div class="info-col">
+          <div>
+            <div class="p-header">
+              <h3 class="p-title">Aethelgard Chronograph Noir (Emerald)</h3>
+              <span class="stock-chip">Available Stock: 25 Pieces</span>
+            </div>
+            <p class="p-desc">Deep sunburst emerald dial with triple active sub-dials (stopwatch, seconds, 24h), scratch-resistant sapphire-coated glass, and high-density 316L matte black steel oyster bracelet.</p>
+            <div class="price-strip">
+              <span class="selling-price">Rs. 5,499</span>
+              <span class="crossed-price">Rs. 8,999</span>
+              <span class="discount-tag">SAVE 39%</span>
+              <div class="wholesale-box">
+                <div class="wholesale-val">Wholesale: Rs. 1,900</div>
+                <div class="net-profit">Net Profit: ~Rs. 1,800/unit</div>
+              </div>
+            </div>
+            <div class="specs-grid">
+              <div class="spec-item"><span>Movement:</span> <strong>Japanese Quartz Chrono</strong></div>
+              <div class="spec-item"><span>Water Resistance:</span> <strong>3 ATM / 30m</strong></div>
+              <div class="spec-item"><span>Case Diameter:</span> <strong>42mm</strong></div>
+              <div class="spec-item"><span>Packaging:</span> <strong>Full M&J Box Set</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRODUCT 2: SKELETON AUTOMATIQUE -->
+      <div class="product-row">
+        <div class="gallery-col">
+          <img id="main-2" src="images/products/skeleton-automatique/01-front-skeleton.jpg" alt="Skeleton Automatique Front" class="main-shot">
+          <div class="thumbs-row">
+            <img src="images/products/skeleton-automatique/01-front-skeleton.jpg" class="thumb active" onclick="swapImg('main-2', this)">
+            <img src="images/products/skeleton-automatique/02-macro-gears.jpg" class="thumb" onclick="swapImg('main-2', this)">
+            <img src="images/products/skeleton-automatique/03-unboxing-box.jpg" class="thumb" onclick="swapImg('main-2', this)">
+            <img src="images/products/skeleton-automatique/04-leather-strap.jpg" class="thumb" onclick="swapImg('main-2', this)">
+          </div>
+        </div>
+        <div class="info-col">
+          <div>
+            <div class="p-header">
+              <h3 class="p-title">Vanguard Skeleton Mechanical Automatique</h3>
+              <span class="stock-chip">Available Stock: 15 Pieces</span>
+            </div>
+            <p class="p-desc">Zero batteries needed. Pure self-winding mechanical craftsmanship featuring an open-heart visible tourbillon escapement and handcrafted Italian leather crocodile strap.</p>
+            <div class="price-strip">
+              <span class="selling-price">Rs. 7,499</span>
+              <span class="crossed-price">Rs. 12,499</span>
+              <span class="discount-tag">SAVE 40%</span>
+              <div class="wholesale-box">
+                <div class="wholesale-val">Wholesale: Rs. 2,900</div>
+                <div class="net-profit">Net Profit: ~Rs. 2,400/unit</div>
+              </div>
+            </div>
+            <div class="specs-grid">
+              <div class="spec-item"><span>Movement:</span> <strong>Self-Winding Mechanical</strong></div>
+              <div class="spec-item"><span>Power Reserve:</span> <strong>40 Hours</strong></div>
+              <div class="spec-item"><span>Strap:</span> <strong>Top-Grain Italian Leather</strong></div>
+              <div class="spec-item"><span>Caseback:</span> <strong>Exhibition Crystal</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRODUCT 3: OCTA-LUXE TIFFANY -->
+      <div class="product-row">
+        <div class="gallery-col">
+          <img id="main-3" src="images/products/octaluxe-tiffany/01-front-tiffany.jpg" alt="Octa-Luxe Tiffany Front" class="main-shot">
+          <div class="thumbs-row">
+            <img src="images/products/octaluxe-tiffany/01-front-tiffany.jpg" class="thumb active" onclick="swapImg('main-3', this)">
+            <img src="images/products/octaluxe-tiffany/02-unboxing-box.jpg" class="thumb" onclick="swapImg('main-3', this)">
+            <img src="images/products/octaluxe-tiffany/03-bezel-detail.jpg" class="thumb" onclick="swapImg('main-3', this)">
+            <img src="images/products/octaluxe-tiffany/04-steel-bracelet.jpg" class="thumb" onclick="swapImg('main-3', this)">
+          </div>
+        </div>
+        <div class="info-col">
+          <div>
+            <div class="p-header">
+              <h3 class="p-title">Mariner Octa-Luxe (Tiffany Baby Blue)</h3>
+              <span class="stock-chip">Available Stock: 20 Pieces</span>
+            </div>
+            <p class="p-desc">The viral social media phenomenon. Brushed octagonal steel bezel with polished chamfers, horizontal waffle tapisserie texture, and integrated butterfly link bracelet.</p>
+            <div class="price-strip">
+              <span class="selling-price">Rs. 5,999</span>
+              <span class="crossed-price">Rs. 9,999</span>
+              <span class="discount-tag">SAVE 40%</span>
+              <div class="wholesale-box">
+                <div class="wholesale-val">Wholesale: Rs. 2,100</div>
+                <div class="net-profit">Net Profit: ~Rs. 1,950/unit</div>
+              </div>
+            </div>
+            <div class="specs-grid">
+              <div class="spec-item"><span>Bezel:</span> <strong>Brushed Octagonal 41mm</strong></div>
+              <div class="spec-item"><span>Dial:</span> <strong>Tiffany Blue Tapisserie</strong></div>
+              <div class="spec-item"><span>Water Resistance:</span> <strong>5 ATM</strong></div>
+              <div class="spec-item"><span>Clasp:</span> <strong>Hidden Butterfly Clasp</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    function swapImg(mainId, thumbEl) {
+      document.getElementById(mainId).src = thumbEl.src;
+      const parent = thumbEl.parentElement;
+      const thumbs = parent.getElementsByClassName('thumb');
+      for (let t of thumbs) { t.classList.remove('active'); }
+      thumbEl.classList.add('active');
+    }
+  </script>
+</body>
+</html>

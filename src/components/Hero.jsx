@@ -1,0 +1,307 @@
+import React, { useState } from 'react';
+import { ArrowRight, ShieldCheck, Truck, Award, Sparkles, Zap, Flame, Eye, CheckCircle2 } from 'lucide-react';
+
+export default function Hero({ onExploreClick, onUnboxingClick, onQuickBuyFlagship }) {
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [activeAngleIndex, setActiveAngleIndex] = useState(0);
+
+  const flagshipImages = [
+    "/images/products/mubar-apex-wheel-rim/angle-01.jpeg",
+    "/images/products/mubar-apex-wheel-rim/angle-02.jpeg",
+    "/images/products/mubar-apex-wheel-rim/angle-03.jpeg",
+    "/images/products/mubar-apex-wheel-rim/angle-04.jpeg"
+  ];
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 16;
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * -16;
+    setMousePos({ x, y });
+  };
+
+  const handleMouseLeave = () => {
+    setMousePos({ x: 0, y: 0 });
+  };
+
+  return (
+    <section 
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        position: 'relative',
+        padding: '60px 24px 75px',
+        overflow: 'hidden',
+        background: 'radial-gradient(ellipse at 50% 15%, rgba(212, 175, 55, 0.12) 0%, rgba(7, 7, 9, 1) 75%)',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.06)'
+      }}
+    >
+      <div style={{
+        maxWidth: '1280px',
+        margin: '0 auto',
+        display: 'grid',
+        gridTemplateColumns: '1.15fr 1fr',
+        gap: '45px',
+        alignItems: 'center'
+      }}>
+        
+        {/* Left Column: High-Converting Pakistani Value Proposition */}
+        <div>
+          {/* Top Urgency Pill */}
+          <div style={{ 
+            display: 'inline-flex', 
+            alignItems: 'center', 
+            gap: '8px', 
+            padding: '6px 14px', 
+            borderRadius: '30px', 
+            background: 'rgba(231, 76, 60, 0.12)', 
+            border: '1px solid rgba(231, 76, 60, 0.35)', 
+            marginBottom: '18px' 
+          }}>
+            <Flame size={15} color="#E74C3C" />
+            <span style={{ fontSize: '0.8rem', color: '#FFA07A', fontWeight: 700, letterSpacing: '0.8px', textTransform: 'uppercase' }}>
+              PAKISTAN'S #1 VIRAL TIMEPIECES • UNDER RS. 2,500
+            </span>
+          </div>
+
+          <h1 className="font-cinzel" style={{ fontSize: 'clamp(2.3rem, 4.2vw, 3.7rem)', fontWeight: 800, lineHeight: 1.14, marginBottom: '18px', color: '#FFFFFF' }}>
+            LOOK MILLION-DOLLAR. <br />
+            <span className="gold-text">PAY ZERO REPUTATION TAX.</span>
+          </h1>
+
+          <p style={{ fontSize: '1.02rem', color: '#A0A0A8', lineHeight: 1.7, marginBottom: '24px', maxWidth: '580px' }}>
+            Heavy stainless steel presence, scratch-resistant hardlex crystal, and authentic kinetic motion. Backed by our signature <strong style={{ color: '#F3E5AB' }}>100% Open Parcel Doorstep Check</strong> — rider ke samne parcel khol kar ghari check karein, tassali honay par cash dein!
+          </p>
+
+          {/* Pricing Highlight Pill */}
+          <div style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '14px',
+            background: 'rgba(212, 175, 55, 0.08)',
+            border: '1px solid rgba(212, 175, 55, 0.25)',
+            borderRadius: '12px',
+            padding: '10px 18px',
+            marginBottom: '28px'
+          }}>
+            <div>
+              <span style={{ fontSize: '0.72rem', color: '#888', textTransform: 'uppercase' }}>Starting From</span>
+              <div className="font-cinzel" style={{ fontSize: '1.5rem', fontWeight: 800, color: '#F3E5AB', lineHeight: 1.1 }}>
+                Rs. 1,999 <span style={{ fontSize: '0.82rem', color: '#888', textDecoration: 'line-through' }}>Rs. 3,499</span>
+              </div>
+            </div>
+            <div style={{ height: '32px', width: '1px', background: 'rgba(255,255,255,0.1)' }} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#2ECC71', fontSize: '0.82rem', fontWeight: 700 }}>
+              <CheckCircle2 size={16} /> Free Nationwide Delivery (COD & Online)
+            </div>
+          </div>
+
+          {/* Action CTAs */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap', marginBottom: '36px' }}>
+            <button 
+              className="btn-gold" 
+              onClick={onExploreClick}
+              style={{ padding: '14px 30px', fontSize: '0.92rem', display: 'flex', alignItems: 'center', gap: '8px' }}
+            >
+              <span>Explore Collection (5 Watches)</span>
+              <ArrowRight size={17} />
+            </button>
+
+            <button 
+              className="btn-outline-gold" 
+              onClick={onUnboxingClick}
+              style={{ padding: '14px 22px', fontSize: '0.9rem' }}
+            >
+              <span>Open Parcel Guarantee</span>
+            </button>
+          </div>
+
+          {/* Trust Guarantees */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '14px', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '22px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <div style={{ background: 'rgba(212, 175, 55, 0.1)', padding: '8px', borderRadius: '8px' }}>
+                <ShieldCheck size={20} color="#D4AF37" />
+              </div>
+              <div>
+                <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#fff' }}>Open Parcel</div>
+                <div style={{ fontSize: '0.72rem', color: '#8E8E93' }}>Check before pay</div>
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <div style={{ background: 'rgba(46, 204, 113, 0.1)', padding: '8px', borderRadius: '8px' }}>
+                <Truck size={20} color="#2ECC71" />
+              </div>
+              <div>
+                <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#fff' }}>Free COD</div>
+                <div style={{ fontSize: '0.72rem', color: '#8E8E93' }}>2–3 Day Express</div>
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <div style={{ background: 'rgba(243, 229, 171, 0.1)', padding: '8px', borderRadius: '8px' }}>
+                <Award size={20} color="#E5C378" />
+              </div>
+              <div>
+                <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#fff' }}>7-Day Exchange</div>
+                <div style={{ fontSize: '0.72rem', color: '#8E8E93' }}>100% Replacement</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Column: Interactive Flagship Showcase Card */}
+        <div style={{
+          position: 'relative',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}>
+          {/* Ambient Glow */}
+          <div style={{
+            position: 'absolute',
+            width: '380px',
+            height: '380px',
+            background: 'radial-gradient(circle, rgba(212, 175, 55, 0.22) 0%, rgba(0,0,0,0) 70%)',
+            filter: 'blur(45px)',
+            zIndex: 0
+          }} />
+
+          {/* Watch Card with 3D Tilt */}
+          <div 
+            style={{
+              position: 'relative',
+              zIndex: 1,
+              width: '100%',
+              maxWidth: '470px',
+              borderRadius: '20px',
+              overflow: 'hidden',
+              background: 'linear-gradient(145deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.01) 100%)',
+              border: '1.5px solid rgba(212, 175, 55, 0.35)',
+              boxShadow: '0 30px 60px rgba(0,0,0,0.85), 0 0 35px rgba(212, 175, 55, 0.15)',
+              transform: `perspective(1000px) rotateX(${mousePos.y}deg) rotateY(${mousePos.x}deg)`,
+              transition: 'transform 0.15s ease-out'
+            }}
+          >
+            {/* Main Interactive Watch Image */}
+            <div style={{ position: 'relative' }}>
+              <img 
+                src={flagshipImages[activeAngleIndex]} 
+                alt="Apex 3D Wheel Rim Kinetic Watch" 
+                style={{
+                  width: '100%',
+                  height: '420px',
+                  objectFit: 'cover',
+                  display: 'block',
+                  transition: 'opacity 0.2s'
+                }}
+              />
+              
+              {/* Floating Flagship Badge */}
+              <div style={{
+                position: 'absolute',
+                top: '16px',
+                left: '16px',
+                background: 'rgba(7, 7, 9, 0.88)',
+                backdropFilter: 'blur(8px)',
+                border: '1px solid rgba(212, 175, 55, 0.4)',
+                padding: '6px 14px',
+                borderRadius: '20px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}>
+                <span className="pulse-dot" />
+                <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#F3E5AB', letterSpacing: '1px' }}>
+                  🔥 TIKTOK VIRAL #1
+                </span>
+              </div>
+
+              {/* Price Tag Pill */}
+              <div style={{
+                position: 'absolute',
+                bottom: '16px',
+                right: '16px',
+                background: 'rgba(7, 7, 9, 0.92)',
+                backdropFilter: 'blur(8px)',
+                border: '1px solid rgba(212, 175, 55, 0.45)',
+                padding: '8px 14px',
+                borderRadius: '10px',
+                textAlign: 'right'
+              }}>
+                <div style={{ fontSize: '0.7rem', color: '#8E8E93', textDecoration: 'line-through' }}>
+                  Rs. 3,499
+                </div>
+                <div className="font-cinzel" style={{ fontSize: '1.35rem', fontWeight: 800, color: '#F3E5AB' }}>
+                  Rs. 2,499
+                </div>
+              </div>
+
+              {/* Interactive Angle Switcher Thumbnails on Image */}
+              <div style={{
+                position: 'absolute',
+                bottom: '16px',
+                left: '16px',
+                display: 'flex',
+                gap: '6px',
+                background: 'rgba(0,0,0,0.65)',
+                backdropFilter: 'blur(6px)',
+                padding: '4px',
+                borderRadius: '8px',
+                border: '1px solid rgba(255,255,255,0.1)'
+              }}>
+                {flagshipImages.map((img, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => setActiveAngleIndex(idx)}
+                    style={{
+                      width: '32px',
+                      height: '32px',
+                      borderRadius: '4px',
+                      border: activeAngleIndex === idx ? '1.5px solid #D4AF37' : '1px solid rgba(255,255,255,0.2)',
+                      padding: 0,
+                      overflow: 'hidden',
+                      cursor: 'pointer',
+                      background: '#000',
+                      opacity: activeAngleIndex === idx ? 1 : 0.6
+                    }}
+                  >
+                    <img src={img} alt="Angle" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Bottom mini bar with instant buy CTA */}
+            <div style={{ 
+              padding: '14px 18px', 
+              background: 'rgba(0,0,0,0.7)', 
+              borderTop: '1px solid rgba(255,255,255,0.06)', 
+              display: 'flex', 
+              justifyContent: 'space-between', 
+              alignItems: 'center' 
+            }}>
+              <div>
+                <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#fff' }}>
+                  Apex 3D Wheel Rim Kinetic Watch
+                </div>
+                <div style={{ fontSize: '0.74rem', color: '#D4AF37' }}>
+                  Spinning Rotor • Brembo Caliper • PVD Steel
+                </div>
+              </div>
+
+              <button
+                onClick={onQuickBuyFlagship}
+                className="btn-gold"
+                style={{ padding: '8px 14px', fontSize: '0.78rem', whiteSpace: 'nowrap' }}
+              >
+                Instant Order
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  );
+}
