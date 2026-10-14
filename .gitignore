@@ -32,3 +32,5 @@ build/
 Thumbs.db
 [Dd]esktop.ini
 .DS_Store
+
+.vercel
