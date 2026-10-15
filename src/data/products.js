@@ -185,12 +185,11 @@ export const PRODUCTS = [
     badge: "MOST POPULAR",
     isFlashSale: true,
     images: [
-      "/images/all-watches/watch 2/01_all_colors_hero_studio.jpg",
-      "/images/all-watches/watch 2/02_green_blue_unboxing_studio.jpg",
       "/images/products/mubar-heritage-diver/angle-02.jpeg",
       "/images/products/mubar-heritage-diver/angle-04.jpeg",
       "/images/products/mubar-heritage-diver/angle-01.jpeg",
-      "/images/products/mubar-heritage-diver/angle-03.jpeg"
+      "/images/products/mubar-heritage-diver/angle-03.jpeg",
+      "/images/products/mubar-heritage-diver/angle-05.jpeg"
     ],
     variants: [
       "Emerald Green (Hulk Bezel & Dial)",
