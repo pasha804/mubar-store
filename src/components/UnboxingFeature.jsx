@@ -9,7 +9,7 @@ export default function UnboxingFeature({ onOrderAnyClick }) {
 
   return (
     <section id="trust-standard" style={{
-      padding: '75px 24px',
+      padding: 'clamp(40px, 6vw, 75px) clamp(14px, 3vw, 24px)',
       background: 'linear-gradient(180deg, #070709 0%, #0c0c11 50%, #070709 100%)',
       borderBottom: '1px solid rgba(255, 255, 255, 0.06)'
     }}>
@@ -237,12 +237,7 @@ export default function UnboxingFeature({ onOrderAnyClick }) {
 
         {/* TAB 2: MUBAR VS OTHER SELLERS */}
         {activeTab === 'comparison' && (
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: '24px',
-            marginBottom: '36px'
-          }}>
+          <div className="unboxing-comparison-grid">
             {/* Other Sellers */}
             <div style={{
               background: 'rgba(231, 76, 60, 0.05)',
@@ -310,17 +305,16 @@ export default function UnboxingFeature({ onOrderAnyClick }) {
 
         {/* TAB 3: PACKAGING & SAFETY */}
         {activeTab === 'box' && (
-          <div style={{
-            background: 'rgba(255,255,255,0.02)',
-            border: '1px solid rgba(212, 175, 55, 0.25)',
-            borderRadius: '16px',
-            padding: '32px',
-            display: 'grid',
-            gridTemplateColumns: '1.2fr 1fr',
-            gap: '30px',
-            alignItems: 'center',
-            marginBottom: '36px'
-          }}>
+          <div 
+            className="unboxing-box-grid"
+            style={{
+              background: 'rgba(255,255,255,0.02)',
+              border: '1px solid rgba(212, 175, 55, 0.25)',
+              borderRadius: '16px',
+              padding: 'clamp(18px, 4vw, 32px)',
+              marginBottom: '36px'
+            }}
+          >
             <div>
               <span style={{ fontSize: '0.78rem', color: '#D4AF37', fontWeight: 700, letterSpacing: '1px', textTransform: 'uppercase' }}>
                 Complimentary Presentation Set

@@ -66,7 +66,7 @@ export default function ProductCard({ product, onSelectProduct, onQuickBuy }) {
       {/* Main Image View */}
       <div 
         onClick={() => onSelectProduct(product)}
-        style={{ position: 'relative', height: '330px', cursor: 'pointer', overflow: 'hidden', background: '#0a0a0d' }}
+        style={{ position: 'relative', height: 'clamp(260px, 45vw, 330px)', cursor: 'pointer', overflow: 'hidden', background: '#0a0a0d' }}
       >
         <img 
           src={product.images[activeImgIndex]} 
@@ -106,7 +106,7 @@ export default function ProductCard({ product, onSelectProduct, onQuickBuy }) {
         display: 'grid',
         gridTemplateColumns: 'repeat(4, 1fr)',
         gap: '6px',
-        padding: '10px 14px',
+        padding: '8px 12px',
         background: 'rgba(0,0,0,0.35)',
         borderBottom: '1px solid rgba(255,255,255,0.06)'
       }}>
@@ -121,7 +121,7 @@ export default function ProductCard({ product, onSelectProduct, onQuickBuy }) {
             }}
             style={{
               width: '100%',
-              height: '52px',
+              height: '48px',
               objectFit: 'cover',
               borderRadius: '4px',
               cursor: 'pointer',
@@ -134,7 +134,7 @@ export default function ProductCard({ product, onSelectProduct, onQuickBuy }) {
       </div>
 
       {/* Product Details */}
-      <div style={{ padding: '22px', display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'space-between' }}>
+      <div style={{ padding: 'clamp(16px, 3.5vw, 22px)', display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'space-between' }}>
         
         <div>
           {/* Category & Rating */}

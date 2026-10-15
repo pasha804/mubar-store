@@ -37,7 +37,7 @@ export default function SocialProof() {
 
   return (
     <section id="reviews" style={{
-      padding: '75px 24px',
+      padding: 'clamp(40px, 6vw, 75px) clamp(14px, 3vw, 24px)',
       background: 'radial-gradient(circle at 50% 100%, rgba(212, 175, 55, 0.06) 0%, rgba(7, 7, 9, 1) 80%)',
       borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
       overflow: 'hidden'
@@ -54,18 +54,19 @@ export default function SocialProof() {
             borderRadius: '20px', 
             background: 'rgba(212, 175, 55, 0.1)', 
             border: '1px solid rgba(212, 175, 55, 0.3)', 
-            marginBottom: '14px' 
+            marginBottom: '14px',
+            maxWidth: '100%'
           }}>
-            <Star size={14} fill="#D4AF37" color="#D4AF37" />
-            <span style={{ fontSize: '0.78rem', color: '#F3E5AB', fontWeight: 700, letterSpacing: '1.5px', textTransform: 'uppercase' }}>
+            <Star size={14} fill="#D4AF37" color="#D4AF37" style={{ flexShrink: 0 }} />
+            <span style={{ fontSize: '0.78rem', color: '#F3E5AB', fontWeight: 700, letterSpacing: '1px', textTransform: 'uppercase' }}>
               REAL PAKISTANI BUYER FEEDBACK (ROMAN URDU)
             </span>
           </div>
 
-          <h2 className="font-cinzel" style={{ fontSize: 'clamp(2rem, 3.5vw, 2.8rem)', color: '#fff', marginBottom: '10px' }}>
+          <h2 className="font-cinzel" style={{ fontSize: 'clamp(1.85rem, 3.5vw, 2.8rem)', color: '#fff', marginBottom: '10px' }}>
             WHAT OUR <span className="gold-text">CUSTOMERS SAY</span>
           </h2>
-          <p style={{ color: '#8E8E93', fontSize: '0.95rem' }}>
+          <p style={{ color: '#8E8E93', fontSize: 'clamp(0.85rem, 2vw, 0.95rem)', maxWidth: '640px', margin: '0 auto' }}>
             Rated 4.9/5 by 1,400+ satisfied customers across Lahore, Karachi, Islamabad, Rawalpindi, and all over Pakistan.
           </p>
 
@@ -95,7 +96,7 @@ export default function SocialProof() {
           {/* Review Cards Grid */}
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
             gap: '20px',
             transition: 'all 0.4s ease'
           }}>

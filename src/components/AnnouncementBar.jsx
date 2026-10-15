@@ -26,22 +26,23 @@ export default function AnnouncementBar() {
     <div style={{
       background: 'linear-gradient(90deg, #120e06 0%, #2a1f09 50%, #120e06 100%)',
       borderBottom: '1px solid rgba(212, 175, 55, 0.25)',
-      padding: '8px 16px',
-      fontSize: '0.8rem',
+      padding: '6px 12px',
+      fontSize: 'clamp(0.72rem, 2vw, 0.8rem)',
       color: '#F5E8BA',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       flexWrap: 'wrap',
-      gap: '16px',
+      gap: '8px 16px',
       zIndex: 100,
-      position: 'relative'
+      position: 'relative',
+      textAlign: 'center'
     }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-        <span className="shimmer-badge" style={{ padding: '2px 6px', borderRadius: '3px', color: '#fff', fontSize: '0.7rem', fontWeight: 700 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap', justifyContent: 'center' }}>
+        <span className="shimmer-badge" style={{ padding: '2px 6px', borderRadius: '3px', color: '#fff', fontSize: '0.68rem', fontWeight: 700 }}>
           FLASH SALE
         </span>
-        <span style={{ fontWeight: 600 }}>FLAT 40% OFF STOREWIDE + FREE NATIONWIDE COD</span>
+        <span style={{ fontWeight: 600 }}>FLAT 40% OFF + FREE NATIONWIDE COD</span>
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'rgba(0,0,0,0.4)', padding: '3px 10px', borderRadius: '20px', border: '1px solid rgba(212, 175, 55, 0.2)' }}>

@@ -20,8 +20,8 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQty, on
     >
       <div 
         style={{
-          width: '100%',
-          maxWidth: '440px',
+          width: 'min(440px, 100vw)',
+          maxWidth: '100vw',
           height: '100%',
           backgroundColor: '#0c0c11',
           borderLeft: '1px solid rgba(212, 175, 55, 0.3)',

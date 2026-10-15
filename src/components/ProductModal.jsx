@@ -68,20 +68,13 @@ export default function ProductModal({ product, onClose, onQuickBuy, onAddToCart
           <X size={20} />
         </button>
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: '1.05fr 1fr',
-          gap: '35px',
-          padding: '35px'
-        }}
-        className="modal-content-grid"
-        >
+        <div className="modal-content-grid">
           {/* Left Column: Image Gallery */}
           <div>
             <div style={{
               borderRadius: '14px',
               overflow: 'hidden',
-              height: '430px',
+              height: 'clamp(250px, 42vw, 420px)',
               background: '#070709',
               marginBottom: '14px',
               border: '1px solid rgba(255,255,255,0.08)',

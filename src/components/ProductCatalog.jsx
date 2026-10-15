@@ -35,13 +35,13 @@ export default function ProductCatalog({ products, onSelectProduct, onQuickBuy }
 
   return (
     <section id="catalog" style={{
-      padding: '70px 24px',
+      padding: 'clamp(40px, 6vw, 75px) clamp(14px, 3vw, 24px)',
       maxWidth: '1280px',
       margin: '0 auto'
     }}>
       
       {/* Title & Tagline */}
-      <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+      <div style={{ textAlign: 'center', marginBottom: '35px' }}>
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '5px 14px', borderRadius: '20px', background: 'rgba(212, 175, 55, 0.1)', border: '1px solid rgba(212, 175, 55, 0.3)', marginBottom: '14px' }}>
           <Sparkles size={14} color="#D4AF37" />
           <span style={{ fontSize: '0.78rem', color: '#F3E5AB', fontWeight: 700, letterSpacing: '1.5px', textTransform: 'uppercase' }}>
@@ -49,10 +49,10 @@ export default function ProductCatalog({ products, onSelectProduct, onQuickBuy }
           </span>
         </div>
 
-        <h2 className="font-cinzel" style={{ fontSize: 'clamp(2rem, 3.5vw, 2.8rem)', color: '#fff', marginBottom: '8px' }}>
+        <h2 className="font-cinzel" style={{ fontSize: 'clamp(1.85rem, 3.5vw, 2.8rem)', color: '#fff', marginBottom: '8px' }}>
           CURATED <span className="gold-text">TIMEPIECES</span>
         </h2>
-        <p style={{ color: '#8E8E93', fontSize: '0.95rem' }}>
+        <p style={{ color: '#8E8E93', fontSize: 'clamp(0.85rem, 2vw, 0.95rem)', maxWidth: '620px', margin: '0 auto' }}>
           Every timepiece is backed by 100% Open Parcel Doorstep Inspection & 1-Year Movement Warranty.
         </p>
       </div>
@@ -64,13 +64,13 @@ export default function ProductCatalog({ products, onSelectProduct, onQuickBuy }
         justifyContent: 'space-between',
         flexWrap: 'wrap',
         gap: '16px',
-        marginBottom: '35px',
+        marginBottom: '30px',
         borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
-        paddingBottom: '20px'
+        paddingBottom: '18px'
       }}>
         
-        {/* Categories Bar */}
-        <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '4px', maxWidth: '100%' }}>
+        {/* Categories Bar with smooth touch scrolling */}
+        <div className="hide-scrollbar" style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '4px', maxWidth: '100%', WebkitOverflowScrolling: 'touch' }}>
           {CATEGORIES.map(cat => {
             const isSelected = selectedCategory === cat;
             const isHotDeal = cat.includes("Under Rs. 2,199");
@@ -87,12 +87,13 @@ export default function ProductCatalog({ products, onSelectProduct, onQuickBuy }
                   border: isSelected 
                     ? 'none' 
                     : isHotDeal ? '1px solid rgba(231, 76, 60, 0.4)' : '1px solid rgba(255, 255, 255, 0.08)',
-                  padding: '8px 18px',
+                  padding: '7px 16px',
                   borderRadius: '25px',
-                  fontSize: '0.82rem',
+                  fontSize: '0.8rem',
                   fontWeight: isSelected || isHotDeal ? 700 : 500,
                   cursor: 'pointer',
                   whiteSpace: 'nowrap',
+                  flexShrink: 0,
                   transition: 'all 0.2s ease',
                   display: 'flex',
                   alignItems: 'center',
@@ -107,7 +108,7 @@ export default function ProductCatalog({ products, onSelectProduct, onQuickBuy }
         </div>
 
         {/* Search & Sort Controls */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap', width: '100%', justifyContent: 'space-between', maxWidth: '520px' }}>
           
           {/* Search Box */}
           <div style={{
@@ -117,10 +118,11 @@ export default function ProductCatalog({ products, onSelectProduct, onQuickBuy }
             background: 'rgba(255, 255, 255, 0.04)',
             border: '1px solid rgba(255, 255, 255, 0.1)',
             borderRadius: '8px',
-            padding: '7px 14px',
-            width: '210px'
+            padding: '7px 12px',
+            flex: '1 1 180px',
+            minWidth: '160px'
           }}>
-            <Search size={15} color="#888" style={{ marginRight: '8px' }} />
+            <Search size={15} color="#888" style={{ marginRight: '8px', flexShrink: 0 }} />
             <input 
               type="text"
               placeholder="Search timepieces..."
@@ -145,11 +147,12 @@ export default function ProductCatalog({ products, onSelectProduct, onQuickBuy }
               background: '#0d0d12',
               color: '#F3E5AB',
               border: '1px solid rgba(212, 175, 55, 0.3)',
-              padding: '8px 14px',
+              padding: '8px 12px',
               borderRadius: '8px',
               fontSize: '0.8rem',
               cursor: 'pointer',
-              outline: 'none'
+              outline: 'none',
+              flexShrink: 0
             }}
           >
             <option value="popular">Most Popular</option>
@@ -168,11 +171,7 @@ export default function ProductCatalog({ products, onSelectProduct, onQuickBuy }
           No timepieces found matching "{searchQuery}".
         </div>
       ) : (
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(330px, 1fr))',
-          gap: '30px'
-        }}>
+        <div className="catalog-product-grid">
           {filteredProducts.map(p => (
             <ProductCard 
               key={p.id}

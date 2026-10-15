@@ -223,7 +223,7 @@ Founder Verification WhatsApp: +92 308 4453846`;
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '16px'
+        padding: 'clamp(8px, 2.5vw, 16px)'
       }}
       onClick={onClose}
     >
@@ -238,7 +238,7 @@ Founder Verification WhatsApp: +92 308 4453846`;
           overflowY: 'auto',
           boxShadow: '0 30px 70px rgba(0,0,0,0.95), 0 0 35px rgba(212, 175, 55, 0.2)',
           position: 'relative',
-          padding: '24px 20px'
+          padding: 'clamp(18px, 4vw, 24px) clamp(12px, 3.5vw, 20px)'
         }}
         onClick={e => e.stopPropagation()}
       >
@@ -389,7 +389,7 @@ Founder Verification WhatsApp: +92 308 4453846`;
               </div>
 
               {/* Customer Name & Phone */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+              <div className="quick-cod-row">
                 <div>
                   <label style={{ fontSize: '0.76rem', color: '#ccc', fontWeight: 600, display: 'block', marginBottom: '5px' }}>
                     Full Name *
@@ -438,7 +438,7 @@ Founder Verification WhatsApp: +92 308 4453846`;
               </div>
 
               {/* Province & City */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+              <div className="quick-cod-row">
                 <div>
                   <label style={{ fontSize: '0.76rem', color: '#ccc', fontWeight: 600, display: 'block', marginBottom: '5px' }}>
                     Province *
@@ -528,7 +528,7 @@ Founder Verification WhatsApp: +92 308 4453846`;
                 </div>
 
                 {/* Primary Payment Type Tabs (COD vs Online) */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '12px' }}>
+                <div className="quick-cod-row" style={{ marginBottom: '12px' }}>
                   {/* Option 1: Cash on Delivery */}
                   <button
                     type="button"

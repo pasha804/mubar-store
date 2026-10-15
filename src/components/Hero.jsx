@@ -29,20 +29,13 @@ export default function Hero({ onExploreClick, onUnboxingClick, onQuickBuyFlagsh
       onMouseLeave={handleMouseLeave}
       style={{
         position: 'relative',
-        padding: '60px 24px 75px',
+        padding: 'clamp(32px, 5vw, 65px) clamp(14px, 3vw, 24px) clamp(45px, 6vw, 75px)',
         overflow: 'hidden',
         background: 'radial-gradient(ellipse at 50% 15%, rgba(212, 175, 55, 0.12) 0%, rgba(7, 7, 9, 1) 75%)',
         borderBottom: '1px solid rgba(255, 255, 255, 0.06)'
       }}
     >
-      <div style={{
-        maxWidth: '1280px',
-        margin: '0 auto',
-        display: 'grid',
-        gridTemplateColumns: '1.15fr 1fr',
-        gap: '45px',
-        alignItems: 'center'
-      }}>
+      <div className="hero-grid" style={{ maxWidth: '1280px', margin: '0 auto' }}>
         
         {/* Left Column: High-Converting Pakistani Value Proposition */}
         <div>
@@ -55,20 +48,21 @@ export default function Hero({ onExploreClick, onUnboxingClick, onQuickBuyFlagsh
             borderRadius: '30px', 
             background: 'rgba(231, 76, 60, 0.12)', 
             border: '1px solid rgba(231, 76, 60, 0.35)', 
-            marginBottom: '18px' 
+            marginBottom: '18px',
+            maxWidth: '100%'
           }}>
-            <Flame size={15} color="#E74C3C" />
-            <span style={{ fontSize: '0.8rem', color: '#FFA07A', fontWeight: 700, letterSpacing: '0.8px', textTransform: 'uppercase' }}>
+            <Flame size={15} color="#E74C3C" style={{ flexShrink: 0 }} />
+            <span style={{ fontSize: 'clamp(0.72rem, 2.2vw, 0.8rem)', color: '#FFA07A', fontWeight: 700, letterSpacing: '0.8px', textTransform: 'uppercase' }}>
               PAKISTAN'S #1 VIRAL TIMEPIECES • UNDER RS. 2,500
             </span>
           </div>
 
-          <h1 className="font-cinzel" style={{ fontSize: 'clamp(2.3rem, 4.2vw, 3.7rem)', fontWeight: 800, lineHeight: 1.14, marginBottom: '18px', color: '#FFFFFF' }}>
+          <h1 className="font-cinzel" style={{ fontSize: 'clamp(1.9rem, 4.5vw, 3.6rem)', fontWeight: 800, lineHeight: 1.15, marginBottom: '18px', color: '#FFFFFF' }}>
             LOOK MILLION-DOLLAR. <br />
             <span className="gold-text">PAY ZERO REPUTATION TAX.</span>
           </h1>
 
-          <p style={{ fontSize: '1.02rem', color: '#A0A0A8', lineHeight: 1.7, marginBottom: '24px', maxWidth: '580px' }}>
+          <p style={{ fontSize: 'clamp(0.92rem, 2vw, 1.02rem)', color: '#A0A0A8', lineHeight: 1.7, marginBottom: '24px', maxWidth: '580px' }}>
             Heavy stainless steel presence, scratch-resistant hardlex crystal, and authentic kinetic motion. Backed by our signature <strong style={{ color: '#F3E5AB' }}>100% Open Parcel Doorstep Check</strong> — rider ke samne parcel khol kar ghari check karein, tassali honay par cash dein!
           </p>
 
@@ -77,30 +71,32 @@ export default function Hero({ onExploreClick, onUnboxingClick, onQuickBuyFlagsh
             display: 'inline-flex',
             alignItems: 'center',
             gap: '14px',
+            flexWrap: 'wrap',
             background: 'rgba(212, 175, 55, 0.08)',
             border: '1px solid rgba(212, 175, 55, 0.25)',
             borderRadius: '12px',
-            padding: '10px 18px',
-            marginBottom: '28px'
+            padding: '10px 16px',
+            marginBottom: '28px',
+            maxWidth: '100%'
           }}>
             <div>
               <span style={{ fontSize: '0.72rem', color: '#888', textTransform: 'uppercase' }}>Starting From</span>
-              <div className="font-cinzel" style={{ fontSize: '1.5rem', fontWeight: 800, color: '#F3E5AB', lineHeight: 1.1 }}>
+              <div className="font-cinzel" style={{ fontSize: '1.45rem', fontWeight: 800, color: '#F3E5AB', lineHeight: 1.1 }}>
                 Rs. 1,999 <span style={{ fontSize: '0.82rem', color: '#888', textDecoration: 'line-through' }}>Rs. 3,499</span>
               </div>
             </div>
             <div style={{ height: '32px', width: '1px', background: 'rgba(255,255,255,0.1)' }} />
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#2ECC71', fontSize: '0.82rem', fontWeight: 700 }}>
-              <CheckCircle2 size={16} /> Free Nationwide Delivery (COD & Online)
+              <CheckCircle2 size={16} style={{ flexShrink: 0 }} /> Free Nationwide Delivery (COD & Online)
             </div>
           </div>
 
           {/* Action CTAs */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap', marginBottom: '36px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap', marginBottom: '32px' }}>
             <button 
               className="btn-gold" 
               onClick={onExploreClick}
-              style={{ padding: '14px 30px', fontSize: '0.92rem', display: 'flex', alignItems: 'center', gap: '8px' }}
+              style={{ padding: '13px 26px', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '8px' }}
             >
               <span>Explore Collection (5 Watches)</span>
               <ArrowRight size={17} />
@@ -109,16 +105,16 @@ export default function Hero({ onExploreClick, onUnboxingClick, onQuickBuyFlagsh
             <button 
               className="btn-outline-gold" 
               onClick={onUnboxingClick}
-              style={{ padding: '14px 22px', fontSize: '0.9rem' }}
+              style={{ padding: '13px 20px', fontSize: '0.88rem' }}
             >
               <span>Open Parcel Guarantee</span>
             </button>
           </div>
 
           {/* Trust Guarantees */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '14px', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '22px' }}>
+          <div className="hero-trust-grid" style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '22px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <div style={{ background: 'rgba(212, 175, 55, 0.1)', padding: '8px', borderRadius: '8px' }}>
+              <div style={{ background: 'rgba(212, 175, 55, 0.1)', padding: '8px', borderRadius: '8px', flexShrink: 0 }}>
                 <ShieldCheck size={20} color="#D4AF37" />
               </div>
               <div>
@@ -128,7 +124,7 @@ export default function Hero({ onExploreClick, onUnboxingClick, onQuickBuyFlagsh
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <div style={{ background: 'rgba(46, 204, 113, 0.1)', padding: '8px', borderRadius: '8px' }}>
+              <div style={{ background: 'rgba(46, 204, 113, 0.1)', padding: '8px', borderRadius: '8px', flexShrink: 0 }}>
                 <Truck size={20} color="#2ECC71" />
               </div>
               <div>
@@ -138,7 +134,7 @@ export default function Hero({ onExploreClick, onUnboxingClick, onQuickBuyFlagsh
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <div style={{ background: 'rgba(243, 229, 171, 0.1)', padding: '8px', borderRadius: '8px' }}>
+              <div style={{ background: 'rgba(243, 229, 171, 0.1)', padding: '8px', borderRadius: '8px', flexShrink: 0 }}>
                 <Award size={20} color="#E5C378" />
               </div>
               <div>

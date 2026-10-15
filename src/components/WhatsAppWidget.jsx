@@ -11,8 +11,8 @@ export default function WhatsAppWidget() {
   return (
     <div style={{
       position: 'fixed',
-      bottom: '24px',
-      right: '24px',
+      bottom: 'clamp(16px, 3vw, 24px)',
+      right: 'clamp(14px, 3vw, 24px)',
       zIndex: 950,
       display: 'flex',
       alignItems: 'center',
@@ -20,19 +20,22 @@ export default function WhatsAppWidget() {
     }}>
       {/* Tooltip */}
       {showTooltip && (
-        <div style={{
-          background: 'rgba(12, 12, 18, 0.95)',
-          backdropFilter: 'blur(8px)',
-          border: '1px solid rgba(46, 204, 113, 0.4)',
-          borderRadius: '8px',
-          padding: '8px 14px',
-          color: '#fff',
-          fontSize: '0.8rem',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          boxShadow: '0 6px 20px rgba(0,0,0,0.5)'
-        }}>
+        <div 
+          className="whatsapp-tooltip"
+          style={{
+            background: 'rgba(12, 12, 18, 0.95)',
+            backdropFilter: 'blur(8px)',
+            border: '1px solid rgba(46, 204, 113, 0.4)',
+            borderRadius: '8px',
+            padding: '8px 14px',
+            color: '#fff',
+            fontSize: '0.8rem',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            boxShadow: '0 6px 20px rgba(0,0,0,0.5)'
+          }}
+        >
           <span className="pulse-dot" />
           <span>Chat with Founder on WhatsApp</span>
           <button 

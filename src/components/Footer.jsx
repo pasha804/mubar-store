@@ -6,22 +6,22 @@ export default function Footer({ onScrollTo, onOpenAdmin, onOpenPolicy }) {
     <footer id="founders" style={{
       backgroundColor: '#050507',
       borderTop: '1px solid rgba(212, 175, 55, 0.2)',
-      padding: '70px 24px 30px',
+      padding: 'clamp(40px, 6vw, 70px) clamp(14px, 3vw, 24px) 30px',
       color: '#A0A0A8'
     }}>
       <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
         
         {/* Top Pillars */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-          gap: '24px',
-          borderBottom: '1px solid rgba(255,255,255,0.08)',
-          paddingBottom: '50px',
-          marginBottom: '50px'
-        }}>
+        <div 
+          className="footer-pillars-grid"
+          style={{
+            borderBottom: '1px solid rgba(255,255,255,0.08)',
+            paddingBottom: '36px',
+            marginBottom: '40px'
+          }}
+        >
           <div style={{ display: 'flex', gap: '14px', alignItems: 'center' }}>
-            <div style={{ background: 'rgba(212, 175, 55, 0.1)', padding: '12px', borderRadius: '10px' }}>
+            <div style={{ background: 'rgba(212, 175, 55, 0.1)', padding: '12px', borderRadius: '10px', flexShrink: 0 }}>
               <ShieldCheck size={26} color="#D4AF37" />
             </div>
             <div>
@@ -31,7 +31,7 @@ export default function Footer({ onScrollTo, onOpenAdmin, onOpenPolicy }) {
           </div>
 
           <div style={{ display: 'flex', gap: '14px', alignItems: 'center' }}>
-            <div style={{ background: 'rgba(46, 204, 113, 0.1)', padding: '12px', borderRadius: '10px' }}>
+            <div style={{ background: 'rgba(46, 204, 113, 0.1)', padding: '12px', borderRadius: '10px', flexShrink: 0 }}>
               <Truck size={26} color="#2ECC71" />
             </div>
             <div>
@@ -41,7 +41,7 @@ export default function Footer({ onScrollTo, onOpenAdmin, onOpenPolicy }) {
           </div>
 
           <div style={{ display: 'flex', gap: '14px', alignItems: 'center' }}>
-            <div style={{ background: 'rgba(212, 175, 55, 0.1)', padding: '12px', borderRadius: '10px' }}>
+            <div style={{ background: 'rgba(212, 175, 55, 0.1)', padding: '12px', borderRadius: '10px', flexShrink: 0 }}>
               <Award size={26} color="#D4AF37" />
             </div>
             <div>
@@ -51,7 +51,7 @@ export default function Footer({ onScrollTo, onOpenAdmin, onOpenPolicy }) {
           </div>
 
           <div style={{ display: 'flex', gap: '14px', alignItems: 'center' }}>
-            <div style={{ background: 'rgba(243, 229, 171, 0.1)', padding: '12px', borderRadius: '10px' }}>
+            <div style={{ background: 'rgba(243, 229, 171, 0.1)', padding: '12px', borderRadius: '10px', flexShrink: 0 }}>
               <Clock size={26} color="#F3E5AB" />
             </div>
             <div>
@@ -62,13 +62,9 @@ export default function Footer({ onScrollTo, onOpenAdmin, onOpenPolicy }) {
         </div>
 
         {/* Main Footer Links */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: '1.4fr 1fr 1fr 1.2fr',
-          gap: '40px',
-          marginBottom: '50px'
-        }}
-        className="footer-main-grid"
+        <div 
+          className="footer-main-grid"
+          style={{ marginBottom: '40px' }}
         >
           {/* Brand Col */}
           <div>

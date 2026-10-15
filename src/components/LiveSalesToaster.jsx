@@ -5,9 +5,26 @@ import { LIVE_SALES_NOTIFICATIONS } from '../data/products';
 export default function LiveSalesToaster() {
   const [currentIdx, setCurrentIdx] = useState(0);
   const [visible, setVisible] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => {
+    return typeof window !== 'undefined' ? window.innerWidth < 768 : false;
+  });
 
   useEffect(() => {
-    // Show first after 4 seconds
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    // If mobile, never trigger or show toaster
+    if (isMobile) {
+      setVisible(false);
+      return;
+    }
+
+    // Show first after 4 seconds on Desktop
     const initialTimer = setTimeout(() => {
       setVisible(true);
     }, 4000);
@@ -24,18 +41,21 @@ export default function LiveSalesToaster() {
       clearTimeout(initialTimer);
       clearInterval(interval);
     };
-  }, []);
+  }, [isMobile]);
 
-  if (!visible) return null;
+  // NEVER render on mobile screens
+  if (!visible || isMobile) return null;
 
   const item = LIVE_SALES_NOTIFICATIONS[currentIdx];
 
   return (
-    <div style={{
-      position: 'fixed',
-      bottom: '24px',
-      left: '24px',
-      zIndex: 900,
+    <div 
+      className="live-sales-toaster"
+      style={{
+        position: 'fixed',
+        bottom: '24px',
+        left: '24px',
+        zIndex: 900,
       background: 'rgba(12, 12, 18, 0.95)',
       backdropFilter: 'blur(12px)',
       WebkitBackdropFilter: 'blur(12px)',

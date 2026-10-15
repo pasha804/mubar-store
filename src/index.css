@@ -158,3 +158,184 @@ body {
   display: inline-block;
   animation: pulseDot 1.8s infinite ease-in-out;
 }
+
+/* =========================================================
+   RESPONSIVE LAYOUT & MOBILE SYSTEM
+   ========================================================= */
+
+/* Hide Toaster on Mobile completely (User Request) */
+@media (max-width: 768px) {
+  .live-sales-toaster {
+    display: none !important;
+  }
+}
+
+/* Navbar Responsiveness */
+.desktop-nav {
+  display: flex;
+}
+.mobile-menu-btn {
+  display: none !important;
+}
+
+@media (max-width: 860px) {
+  .desktop-nav {
+    display: none !important;
+  }
+  .mobile-menu-btn {
+    display: flex !important;
+  }
+}
+
+/* Hero Section Grid */
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 45px;
+  align-items: center;
+}
+
+.hero-trust-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+@media (max-width: 960px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero-trust-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+/* Product Catalog Grid */
+.catalog-product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 28px;
+}
+
+@media (max-width: 540px) {
+  .catalog-product-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+/* Product Modal Grid */
+.modal-content-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 35px;
+  padding: 35px;
+}
+
+@media (max-width: 820px) {
+  .modal-content-grid {
+    grid-template-columns: 1fr;
+    gap: 22px;
+    padding: 20px 16px 24px;
+  }
+}
+
+/* Unboxing Tab Grids */
+.unboxing-comparison-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 36px;
+}
+
+.unboxing-box-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 30px;
+  align-items: center;
+  margin-bottom: 36px;
+}
+
+@media (max-width: 768px) {
+  .unboxing-comparison-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .unboxing-box-grid {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+}
+
+/* Quick COD Modal Rows */
+.quick-cod-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 520px) {
+  .quick-cod-row {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}
+
+/* Footer Grids */
+.footer-pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+}
+
+.footer-main-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
+  gap: 40px;
+}
+
+@media (max-width: 920px) {
+  .footer-main-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+}
+
+@media (max-width: 560px) {
+  .footer-pillars-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .footer-main-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+/* Smooth Horizontal Scroll without visible scrollbar */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Responsive Touch Optimizations */
+@media (max-width: 600px) {
+  .btn-gold, .btn-outline-gold {
+    padding: 12px 18px;
+    font-size: 0.82rem;
+  }
+  
+  .whatsapp-tooltip {
+    display: none !important;
+  }
+}
+
