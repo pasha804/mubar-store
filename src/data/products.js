@@ -49,36 +49,37 @@ export const PAYMENT_ACCOUNTS = {
 
 export const PRODUCTS = [
   {
-    id: "apex-wheel-rim",
-    title: "Apex 3D Wheel Rim Kinetic Watch",
-    subtitle: "Spinning Rotor & Brembo Caliper Edition",
+    id: "apex-wheel-rim-chain",
+    title: "Apex 3D Wheel Rim Kinetic Watch (Solid Steel Chain)",
+    subtitle: "Spinning Rotor & Solid Stainless Steel Link Edition",
     category: "Supercar Rim",
     priceTier: "viral",
-    originalPrice: 3499,
+    originalPrice: 3999,
     salePrice: 2499,
-    wholesaleCost: 950,
-    profitMargin: 1549,
-    stockCount: 45,
-    soldPercent: 91,
+    wholesaleCost: 2100,
+    profitMargin: 399,
+    stockCount: 32,
+    soldPercent: 93,
     rating: 4.9,
-    reviewCount: 168,
-    badge: "🔥 TIKTOK VIRAL #1",
+    reviewCount: 184,
+    badge: "🔥 BESTSELLER - STEEL CHAIN",
     isFlashSale: true,
     images: [
-      "/images/products/mubar-apex-wheel-rim/angle-01.jpeg",
       "/images/products/mubar-apex-wheel-rim/angle-02.jpeg",
-      "/images/products/mubar-apex-wheel-rim/angle-03.jpeg",
       "/images/products/mubar-apex-wheel-rim/angle-04.jpeg",
-      "/images/products/mubar-apex-wheel-rim/angle-07.jpeg",
-      "/images/products/mubar-apex-wheel-rim/angle-08.jpeg"
+      "/images/products/mubar-apex-wheel-rim/angle-06.jpeg",
+      "/images/products/mubar-apex-wheel-rim/angle-08.jpeg",
+      "/images/products/mubar-apex-wheel-rim/angle-09.jpeg",
+      "/images/products/mubar-apex-wheel-rim/angle-10.jpeg",
+      "/images/products/mubar-apex-wheel-rim/angle-12.jpeg"
     ],
     variants: [
-      "Red Performance Caliper (Matte Black Rim)",
-      "Yellow Sport Caliper (Matte Black Rim)",
-      "Lime Green Caliper (Gloss Black Rim)",
-      "Blue Turbo Caliper (Deep Black Rim)"
+      "Sport Red Brembo (Solid Black Steel Chain)",
+      "Nitro Blue Brembo (Solid Black Steel Chain)",
+      "Lime Green Turbo (Solid Black Steel Chain)",
+      "Speed Yellow Brembo (Solid Black Steel Chain)"
     ],
-    description: "The viral automotive timepiece sensation in Pakistan. Engineered with a realistic 3D multi-spoke alloy wheel rim that spins freely on the wrist, drilled ventilated racing brake disc, and a high-visibility performance brake caliper. Solid stainless steel link bracelet with butterfly deployant clasp.",
+    description: "The viral automotive timepiece in Pakistan with a heavy solid stainless steel bracelet. Features a realistic 3D hollow alloy wheel rim that spins freely on the wrist, drilled ventilated racing brake disc, and a high-visibility performance brake caliper. Solid PVD matte black link bracelet with butterfly deployant clasp.",
     specs: {
       movement: "High-Torque Japanese Quartz Kinetic Movement",
       caseDiameter: "43mm Supercar Wheel Profile",
@@ -86,7 +87,126 @@ export const PRODUCTS = [
       band: "PVD Matte Black Solid Stainless Steel Bracelet with Double Butterfly Clasp",
       glass: "Scratch-Resistant Hardlex Crystal Glass",
       waterResistance: "3 ATM Daily Life Splash Resistant",
-      features: "3D Hollow Alloy Wheel Rim, Drilled Brake Rotor, Racing Caliper Detail"
+      features: "3D Hollow Alloy Wheel Rim, Drilled Brake Rotor, Racing Caliper Detail, Solid Steel Links"
+    }
+  },
+  {
+    id: "apex-wheel-rim-strap",
+    title: "Apex 3D Wheel Rim Kinetic Watch (Silicone Sport Strap)",
+    subtitle: "Spinning Rotor & Carbon-Texture Sport Strap Edition",
+    category: "Supercar Rim",
+    priceTier: "viral",
+    originalPrice: 3499,
+    salePrice: 2199,
+    wholesaleCost: 1700,
+    profitMargin: 499,
+    stockCount: 45,
+    soldPercent: 88,
+    rating: 4.9,
+    reviewCount: 142,
+    badge: "⚡ VIRAL DEAL - SPORT STRAP",
+    isFlashSale: true,
+    images: [
+      "/images/products/mubar-apex-wheel-rim/angle-01.jpeg",
+      "/images/products/mubar-apex-wheel-rim/angle-03.jpeg",
+      "/images/products/mubar-apex-wheel-rim/angle-05.jpeg",
+      "/images/products/mubar-apex-wheel-rim/angle-07.jpeg",
+      "/images/products/mubar-apex-wheel-rim/angle-11.jpeg",
+      "/images/products/mubar-apex-wheel-rim/angle-13.jpeg"
+    ],
+    variants: [
+      "Sport Red Brembo (Silicone Sport Strap)",
+      "Lime Green Turbo (Silicone Sport Strap)",
+      "Nitro Blue Brembo (Silicone Sport Strap)",
+      "Speed Yellow Brembo (Silicone Sport Strap)"
+    ],
+    description: "The sporty, ultra-comfortable lightweight edition of our viral wheel rim watch. Features a freely spinning 3D alloy wheel rotor, ventilated brake rotor, racing caliper, and a durable carbon-textured flexible silicone sport strap that sits flush and light on the wrist.",
+    specs: {
+      movement: "High-Torque Japanese Quartz Kinetic Movement",
+      caseDiameter: "43mm Supercar Wheel Profile",
+      caseThickness: "12mm Ergonomic Depth",
+      band: "Flexible High-Grade Carbon-Textured Silicone Sport Strap with Stainless Steel Buckle",
+      glass: "Scratch-Resistant Hardlex Crystal Glass",
+      waterResistance: "3 ATM Daily Life Splash Resistant",
+      features: "3D Hollow Alloy Wheel Rim, Drilled Brake Rotor, Racing Caliper Detail, Lightweight Sport Strap"
+    }
+  },
+  {
+    id: "mubar-yachtmaster-oysterflex",
+    title: "MUBAR Yacht-Master Oysterflex Edition",
+    subtitle: "Bidirectional Matte Ceramic Bezel & High-Density Elastomer Strap",
+    category: "Luxury Prestige",
+    priceTier: "flagship",
+    originalPrice: 6499,
+    salePrice: 3999,
+    wholesaleCost: 3000,
+    profitMargin: 999,
+    stockCount: 18,
+    soldPercent: 92,
+    rating: 5.0,
+    reviewCount: 96,
+    badge: "👑 VIP FLAGSHIP",
+    isFlashSale: true,
+    images: [
+      "/images/all-watches/watch 5/01_gold_front_studio.jpg",
+      "/images/all-watches/watch 5/02_silver_front_studio.jpg",
+      "/images/all-watches/watch 5/03_duo_unboxing_studio.jpg",
+      "/images/all-watches/watch 5/WhatsApp Image 2026-10-15 at 9.07.19 AM.jpeg"
+    ],
+    variants: [
+      "18K Rose Gold Casing / Matte Black Dial",
+      "Platinum Steel Casing / Rhodium Dial"
+    ],
+    description: "The pinnacle of nautical luxury horology. Showcases a bidirectional 60-minute rotating matte ceramic bezel with polished raised numerals, iconic cyclops date magnifier window at 3 o'clock, Mercedes luminescent hands, and an ergonomic high-density Oysterflex-style black elastomer strap with folding safety clasp.",
+    specs: {
+      movement: "Precision Japanese Quartz Date Movement",
+      caseDiameter: "40mm Yacht-Master Profile",
+      caseThickness: "12mm",
+      band: "Flexible High-Performance Black Elastomer Oysterflex Strap with Safety Clasp",
+      glass: "Scratch-Resistant Sapphire Crystal with Cyclops Date Magnifier",
+      waterResistance: "3 ATM Daily Life Splash Proof",
+      features: "Bidirectional Matte Ceramic Bezel with Raised Numerals, Date Cyclops, Luminous Markers"
+    }
+  },
+  {
+    id: "heritage-diver",
+    title: "Heritage Ceramic Diver Watch",
+    subtitle: "Submariner Homage & Rotating Bezel Edition",
+    category: "Divers",
+    priceTier: "budget",
+    originalPrice: 3499,
+    salePrice: 2499,
+    wholesaleCost: 750,
+    profitMargin: 1749,
+    stockCount: 42,
+    soldPercent: 89,
+    rating: 4.9,
+    reviewCount: 154,
+    badge: "MOST POPULAR",
+    isFlashSale: true,
+    images: [
+      "/images/all-watches/watch 2/01_all_colors_hero_studio.jpg",
+      "/images/all-watches/watch 2/02_green_blue_unboxing_studio.jpg",
+      "/images/products/mubar-heritage-diver/angle-02.jpeg",
+      "/images/products/mubar-heritage-diver/angle-04.jpeg",
+      "/images/products/mubar-heritage-diver/angle-01.jpeg",
+      "/images/products/mubar-heritage-diver/angle-03.jpeg"
+    ],
+    variants: [
+      "Emerald Green (Hulk Bezel & Dial)",
+      "Deep Ocean Blue (Sunburst Blue Bezel & Dial)",
+      "Crimson Red (Burgundy Diver Edition)",
+      "Onyx Black (Classic Submariner Black)"
+    ],
+    description: "An iconic homage to legendary maritime diving horology. Showcases a unidirectional rotating fluted countdown bezel, luminescent geometric hour indices with classic Mercedes hands, date magnifying window, and a solid brushed stainless steel oyster bracelet.",
+    specs: {
+      movement: "High-Accuracy Japanese Quartz Timekeeping",
+      caseDiameter: "40mm Classic Diver Profile",
+      caseThickness: "12mm",
+      band: "Solid Stainless Steel Oyster Bracelet with Folding Safety Clasp",
+      glass: "Hardlex Crystal with Beveled Protective Edge",
+      waterResistance: "3 ATM / Splash & Rain Resistant",
+      features: "Rotating Diver Bezel, Luminous Mercedes Hands & Pip, Sunburst Dial"
     }
   },
   {
@@ -128,46 +248,6 @@ export const PRODUCTS = [
       glass: "Anti-Scratch Mineral Hardlex Crystal",
       waterResistance: "3 ATM Rain & Splash Proof",
       features: "Triple Multi-Dials (1/10 Sec, Min, Sec), Panoramic Date Calendar"
-    }
-  },
-  {
-    id: "heritage-diver",
-    title: "Heritage Ceramic Diver Watch",
-    subtitle: "Submariner Homage & Rotating Bezel Edition",
-    category: "Divers",
-    priceTier: "budget",
-    originalPrice: 3499,
-    salePrice: 2499,
-    wholesaleCost: 750,
-    profitMargin: 1749,
-    stockCount: 42,
-    soldPercent: 89,
-    rating: 4.9,
-    reviewCount: 154,
-    badge: "MOST POPULAR",
-    isFlashSale: true,
-    images: [
-      "/images/products/mubar-heritage-diver/angle-01.jpeg",
-      "/images/products/mubar-heritage-diver/angle-02.jpeg",
-      "/images/products/mubar-heritage-diver/angle-03.jpeg",
-      "/images/products/mubar-heritage-diver/angle-04.jpeg",
-      "/images/products/mubar-heritage-diver/angle-05.jpeg"
-    ],
-    variants: [
-      "Emerald Green (Hulk Bezel & Dial)",
-      "Crimson Red (Burgundy Diver Edition)",
-      "Deep Ocean Blue (Sunburst Blue Bezel & Dial)",
-      "Onyx Black (Classic Submariner Black)"
-    ],
-    description: "An iconic homage to legendary maritime diving horology. Showcases a unidirectional rotating fluted countdown bezel, luminescent geometric hour indices with classic Mercedes hands, date magnifying window, and a solid brushed stainless steel oyster bracelet.",
-    specs: {
-      movement: "High-Accuracy Japanese Quartz Timekeeping",
-      caseDiameter: "40mm Classic Diver Profile",
-      caseThickness: "12mm",
-      band: "Solid Stainless Steel Oyster Bracelet with Folding Safety Clasp",
-      glass: "Hardlex Crystal with Beveled Protective Edge",
-      waterResistance: "3 ATM / Splash & Rain Resistant",
-      features: "Rotating Diver Bezel, Luminous Mercedes Hands & Pip, Sunburst Dial"
     }
   },
   {
@@ -248,7 +328,7 @@ export const PRODUCTS = [
       band: "Integrated Solid Stainless Steel Bracelet with Hidden Clasp",
       glass: "Sapphire-Coated Scratch Resistant Crystal",
       waterResistance: "3 ATM Splash Proof",
-      features: "Faceted Octagonal Bezel, External Tachymeter Scale, Crown Protectors"
+      features: "Faceted Octagonal Bezel, External Tachymeter Scale, Crown Proteceptors"
     }
   }
 ];
@@ -256,8 +336,9 @@ export const PRODUCTS = [
 export const CATEGORIES = [
   "All Timepieces",
   "Supercar Rim",
-  "Chronographs",
+  "Luxury Prestige",
   "Divers",
+  "Chronographs",
   "Motorsport",
   "Geometric Sports",
   "Under Rs. 2,199 Deals"
