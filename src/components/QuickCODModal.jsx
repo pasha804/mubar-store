@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { PAYMENT_ACCOUNTS, FOUNDER_CONTACT } from '../data/products';
+import { persistNewOrder } from '../services/storeSync';
 
 const PROVINCES = [
   'Punjab',
@@ -125,14 +126,8 @@ export default function QuickCODModal({ product, onClose }) {
       estimatedDelivery: '2–3 Business Days'
     };
 
-    try {
-      const existing = JSON.parse(localStorage.getItem('mubar_orders') || '[]');
-      existing.unshift(newOrder);
-      localStorage.setItem('mubar_orders', JSON.stringify(existing));
-      window.dispatchEvent(new Event('mubar-orders-updated'));
-    } catch (err) {
-      console.error('Failed to store order:', err);
-    }
+    // Save order locally and sync to cloud store
+    persistNewOrder(newOrder);
 
     setIsSuccess(true);
 

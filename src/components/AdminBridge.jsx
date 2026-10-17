@@ -2,13 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { 
   Database, Calculator, MapPin, CheckCircle, ExternalLink, 
   Package, ShoppingBag, Phone, RefreshCw, Download, Trash2, 
-  PlusCircle, Filter, Search, Settings, DollarSign, MessageCircle, ArrowLeft, Shield 
+  PlusCircle, Filter, Search, Settings, DollarSign, MessageCircle, ArrowLeft, Shield, LogOut,
+  Users, Activity, Globe, Smartphone, Laptop, Clock, BarChart3, Radio
 } from 'lucide-react';
 import { PRODUCTS, PAYMENT_ACCOUNTS, FOUNDER_CONTACT } from '../data/products';
+import { fetchStoreAnalytics, computeVisitorMetrics, persistNewOrder } from '../services/storeSync';
 
-export default function AdminBridge({ onBackToStore }) {
-  const [activeTab, setActiveTab] = useState('orders'); // 'orders' | 'simulator' | 'sourcing' | 'settings'
+export default function AdminBridge({ onBackToStore, onLogout }) {
+  const [activeTab, setActiveTab] = useState('orders'); // 'orders' | 'visitors' | 'simulator' | 'sourcing' | 'settings'
   const [orders, setOrders] = useState([]);
+  const [visitors, setVisitors] = useState([]);
+  const [visitorStats, setVisitorStats] = useState(null);
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [lastSyncTime, setLastSyncTime] = useState(null);
   const [filterStatus, setFilterStatus] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [ordersPerDay, setOrdersPerDay] = useState(7);
@@ -17,25 +23,33 @@ export default function AdminBridge({ onBackToStore }) {
   );
   const [phoneSaved, setPhoneSaved] = useState(false);
 
-  // Load orders from localStorage
-  const loadOrders = () => {
+  // Load orders and real visitors from cloud + local
+  const loadData = async () => {
+    setIsSyncing(true);
     try {
-      const stored = JSON.parse(localStorage.getItem('mubar_orders') || '[]');
-      setOrders(stored);
+      const data = await fetchStoreAnalytics();
+      setOrders(data.orders || []);
+      setVisitors(data.visitors || []);
+      setVisitorStats(computeVisitorMetrics(data.visitors || []));
+      setLastSyncTime(new Date());
     } catch (err) {
-      console.error('Failed to load orders:', err);
-      setOrders([]);
+      console.error('Failed to load store data:', err);
+    } finally {
+      setIsSyncing(false);
     }
   };
 
   useEffect(() => {
-    loadOrders();
+    loadData();
+    // Auto sync live data every 25 seconds
+    const interval = setInterval(loadData, 25000);
+    return () => clearInterval(interval);
   }, []);
 
   // Listen for order updates in the window
   useEffect(() => {
     const handleOrderPlaced = () => {
-      loadOrders();
+      loadData();
     };
     window.addEventListener('mubar-orders-updated', handleOrderPlaced);
     return () => window.removeEventListener('mubar-orders-updated', handleOrderPlaced);
@@ -91,9 +105,8 @@ export default function AdminBridge({ onBackToStore }) {
       notes: 'Call before delivery. Rider must allow open parcel check.',
       status: 'Pending Verification'
     };
-    const updated = [demoOrder, ...orders];
-    setOrders(updated);
-    localStorage.setItem('mubar_orders', JSON.stringify(updated));
+    persistNewOrder(demoOrder);
+    setOrders(prev => [demoOrder, ...prev]);
   };
 
   // Export orders to CSV (Courier format)
@@ -217,7 +230,7 @@ export default function AdminBridge({ onBackToStore }) {
                   borderRadius: '4px',
                   letterSpacing: '0.5px'
                 }}>
-                  /ADMIN PORTAL
+                  /PASS PORTAL
                 </span>
               </div>
               <div style={{ fontSize: '0.78rem', color: '#888' }}>
@@ -255,6 +268,62 @@ export default function AdminBridge({ onBackToStore }) {
               <ArrowLeft size={16} />
               <span>View Client Storefront</span>
             </button>
+
+            <button
+              onClick={loadData}
+              disabled={isSyncing}
+              style={{
+                background: 'rgba(212, 175, 55, 0.1)',
+                border: '1px solid rgba(212, 175, 55, 0.35)',
+                color: '#F3E5AB',
+                padding: '9px 16px',
+                borderRadius: '8px',
+                fontSize: '0.84rem',
+                fontWeight: 600,
+                cursor: isSyncing ? 'wait' : 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                transition: 'all 0.2s'
+              }}
+              title="Sync latest live orders and real visitors from cloud"
+            >
+              <RefreshCw size={15} style={{ animation: isSyncing ? 'spin 1s linear infinite' : 'none' }} />
+              <span>{isSyncing ? 'Syncing...' : 'Sync Live'}</span>
+            </button>
+
+            {onLogout && (
+              <button
+                onClick={onLogout}
+                style={{
+                  background: 'rgba(239, 68, 68, 0.08)',
+                  border: '1px solid rgba(239, 68, 68, 0.35)',
+                  color: '#FCA5A5',
+                  padding: '9px 16px',
+                  borderRadius: '8px',
+                  fontSize: '0.84rem',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  transition: 'all 0.2s'
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.borderColor = '#EF4444';
+                  e.currentTarget.style.background = 'rgba(239, 68, 68, 0.18)';
+                  e.currentTarget.style.color = '#FFFFFF';
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.35)';
+                  e.currentTarget.style.background = 'rgba(239, 68, 68, 0.08)';
+                  e.currentTarget.style.color = '#FCA5A5';
+                }}
+              >
+                <LogOut size={16} />
+                <span>Logout</span>
+              </button>
+            )}
           </div>
         </div>
 
@@ -278,6 +347,37 @@ export default function AdminBridge({ onBackToStore }) {
           >
             <Package size={17} color={activeTab === 'orders' ? '#D4AF37' : '#aaa'} />
             <span>Customer Orders ({orders.length})</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('visitors')}
+            style={{
+              padding: '10px 20px',
+              borderRadius: '8px',
+              border: activeTab === 'visitors' ? '1.5px solid #D4AF37' : '1px solid rgba(255,255,255,0.08)',
+              background: activeTab === 'visitors' ? 'rgba(212, 175, 55, 0.15)' : 'rgba(255,255,255,0.03)',
+              color: activeTab === 'visitors' ? '#F3E5AB' : '#aaa',
+              cursor: 'pointer',
+              fontWeight: 700,
+              fontSize: '0.88rem',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px'
+            }}
+          >
+            <Users size={17} color={activeTab === 'visitors' ? '#D4AF37' : '#aaa'} />
+            <span>Store Visitors</span>
+            <span style={{
+              background: 'rgba(46, 204, 113, 0.18)',
+              border: '1px solid rgba(46, 204, 113, 0.4)',
+              color: '#2ECC71',
+              fontSize: '0.7rem',
+              padding: '2px 7px',
+              borderRadius: '10px',
+              fontWeight: 800
+            }}>
+              24h: {visitorStats?.last24Hours?.uniqueVisitors || 0}
+            </span>
           </button>
 
           <button
@@ -372,6 +472,29 @@ export default function AdminBridge({ onBackToStore }) {
                 <div className="font-cinzel" style={{ fontSize: '1.6rem', color: '#2ECC71', fontWeight: 800, marginTop: '4px' }}>
                   {confirmedCount}
                 </div>
+              </div>
+
+              <div 
+                onClick={() => setActiveTab('visitors')}
+                style={{ 
+                  background: 'rgba(212, 175, 55, 0.08)', 
+                  border: '1px solid rgba(212, 175, 55, 0.25)', 
+                  borderRadius: '12px', 
+                  padding: '16px',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s'
+                }}
+                onMouseEnter={e => e.currentTarget.style.borderColor = '#D4AF37'}
+                onMouseLeave={e => e.currentTarget.style.borderColor = 'rgba(212, 175, 55, 0.25)'}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div style={{ fontSize: '0.75rem', color: '#D4AF37', textTransform: 'uppercase', fontWeight: 700 }}>24h Visitors</div>
+                  <span style={{ fontSize: '0.68rem', color: '#2ECC71', fontWeight: 800 }}>● Live</span>
+                </div>
+                <div className="font-cinzel" style={{ fontSize: '1.6rem', color: '#F3E5AB', fontWeight: 800, marginTop: '4px' }}>
+                  {visitorStats?.last24Hours?.uniqueVisitors || 0}
+                </div>
+                <div style={{ fontSize: '0.72rem', color: '#888', marginTop: '2px' }}>View 4d & 7d traffic →</div>
               </div>
             </div>
 
@@ -645,6 +768,525 @@ export default function AdminBridge({ onBackToStore }) {
                 </table>
               </div>
             )}
+          </div>
+        )}
+
+        {/* TAB: AUTHENTIC VISITOR ANALYTICS (24h, 4-Day, 7-Day & Live Traffic) */}
+        {activeTab === 'visitors' && (
+          <div>
+            {/* Header Banner */}
+            <div style={{
+              background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, rgba(16, 16, 22, 0.95) 100%)',
+              border: '1px solid rgba(212, 175, 55, 0.25)',
+              borderRadius: '14px',
+              padding: '24px',
+              marginBottom: '22px',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              gap: '16px'
+            }}>
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
+                  <Users size={22} color="#D4AF37" />
+                  <h3 className="font-cinzel" style={{ fontSize: '1.35rem', color: '#fff', fontWeight: 800, margin: 0 }}>
+                    Store Visitor Intelligence
+                  </h3>
+                  <span style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '5px',
+                    background: 'rgba(46, 204, 113, 0.15)',
+                    border: '1px solid rgba(46, 204, 113, 0.35)',
+                    color: '#2ECC71',
+                    fontSize: '0.72rem',
+                    fontWeight: 800,
+                    padding: '2px 9px',
+                    borderRadius: '20px'
+                  }}>
+                    <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#2ECC71', display: 'inline-block' }} />
+                    Live Cloud Sync
+                  </span>
+                </div>
+                <p style={{ color: '#aaa', fontSize: '0.84rem', margin: 0 }}>
+                  100% Authentic customer traffic tracked across Pakistan. Accurate 24-Hour, 4-Day, and 7-Day windows.
+                </p>
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <button
+                  onClick={loadData}
+                  disabled={isSyncing}
+                  style={{
+                    background: 'rgba(212, 175, 55, 0.15)',
+                    border: '1px solid rgba(212, 175, 55, 0.4)',
+                    color: '#F3E5AB',
+                    padding: '9px 16px',
+                    borderRadius: '8px',
+                    fontSize: '0.82rem',
+                    fontWeight: 700,
+                    cursor: isSyncing ? 'wait' : 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    transition: 'all 0.2s'
+                  }}
+                >
+                  <RefreshCw size={15} style={{ animation: isSyncing ? 'spin 1s linear infinite' : 'none' }} />
+                  <span>{isSyncing ? 'Syncing...' : 'Refresh Cloud Data'}</span>
+                </button>
+              </div>
+            </div>
+
+            {/* 5 Master KPI Cards */}
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+              gap: '14px',
+              marginBottom: '24px'
+            }}>
+              {/* 24 Hours */}
+              <div style={{
+                background: 'rgba(212, 175, 55, 0.06)',
+                border: '1.5px solid rgba(212, 175, 55, 0.35)',
+                borderRadius: '12px',
+                padding: '18px',
+                boxShadow: '0 8px 24px rgba(0,0,0,0.4)'
+              }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                  <div style={{ fontSize: '0.74rem', color: '#D4AF37', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '0.5px' }}>
+                    Last 24 Hours
+                  </div>
+                  <Clock size={16} color="#D4AF37" />
+                </div>
+                <div className="font-cinzel" style={{ fontSize: '2rem', color: '#F3E5AB', fontWeight: 900, lineHeight: 1.1 }}>
+                  {visitorStats?.last24Hours?.uniqueVisitors || 0}
+                </div>
+                <div style={{ fontSize: '0.78rem', color: '#aaa', marginTop: '6px' }}>
+                  <strong>{visitorStats?.last24Hours?.pageviews || 0}</strong> pageviews
+                </div>
+                <div style={{
+                  marginTop: '10px',
+                  display: 'inline-block',
+                  background: 'rgba(212, 175, 55, 0.15)',
+                  color: '#F3E5AB',
+                  fontSize: '0.68rem',
+                  fontWeight: 700,
+                  padding: '2px 8px',
+                  borderRadius: '4px'
+                }}>
+                  Rolling 24 Hours
+                </div>
+              </div>
+
+              {/* 4 Days */}
+              <div style={{
+                background: 'rgba(0, 210, 211, 0.05)',
+                border: '1.5px solid rgba(0, 210, 211, 0.3)',
+                borderRadius: '12px',
+                padding: '18px',
+                boxShadow: '0 8px 24px rgba(0,0,0,0.4)'
+              }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                  <div style={{ fontSize: '0.74rem', color: '#00D2D3', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '0.5px' }}>
+                    Last 4 Days
+                  </div>
+                  <BarChart3 size={16} color="#00D2D3" />
+                </div>
+                <div className="font-cinzel" style={{ fontSize: '2rem', color: '#00D2D3', fontWeight: 900, lineHeight: 1.1 }}>
+                  {visitorStats?.last4Days?.uniqueVisitors || 0}
+                </div>
+                <div style={{ fontSize: '0.78rem', color: '#aaa', marginTop: '6px' }}>
+                  <strong>{visitorStats?.last4Days?.pageviews || 0}</strong> pageviews
+                </div>
+                <div style={{
+                  marginTop: '10px',
+                  display: 'inline-block',
+                  background: 'rgba(0, 210, 211, 0.12)',
+                  color: '#00D2D3',
+                  fontSize: '0.68rem',
+                  fontWeight: 700,
+                  padding: '2px 8px',
+                  borderRadius: '4px'
+                }}>
+                  Past 96 Hours
+                </div>
+              </div>
+
+              {/* 7 Days */}
+              <div style={{
+                background: 'rgba(155, 89, 182, 0.06)',
+                border: '1.5px solid rgba(155, 89, 182, 0.3)',
+                borderRadius: '12px',
+                padding: '18px',
+                boxShadow: '0 8px 24px rgba(0,0,0,0.4)'
+              }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                  <div style={{ fontSize: '0.74rem', color: '#BB6BD9', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '0.5px' }}>
+                    Last 7 Days
+                  </div>
+                  <Activity size={16} color="#BB6BD9" />
+                </div>
+                <div className="font-cinzel" style={{ fontSize: '2rem', color: '#BB6BD9', fontWeight: 900, lineHeight: 1.1 }}>
+                  {visitorStats?.last7Days?.uniqueVisitors || 0}
+                </div>
+                <div style={{ fontSize: '0.78rem', color: '#aaa', marginTop: '6px' }}>
+                  <strong>{visitorStats?.last7Days?.pageviews || 0}</strong> pageviews
+                </div>
+                <div style={{
+                  marginTop: '10px',
+                  display: 'inline-block',
+                  background: 'rgba(155, 89, 182, 0.15)',
+                  color: '#BB6BD9',
+                  fontSize: '0.68rem',
+                  fontWeight: 700,
+                  padding: '2px 8px',
+                  borderRadius: '4px'
+                }}>
+                  Full 1-Week Window
+                </div>
+              </div>
+
+              {/* All Time */}
+              <div style={{
+                background: 'rgba(255, 255, 255, 0.03)',
+                border: '1.5px solid rgba(255, 255, 255, 0.1)',
+                borderRadius: '12px',
+                padding: '18px',
+                boxShadow: '0 8px 24px rgba(0,0,0,0.4)'
+              }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                  <div style={{ fontSize: '0.74rem', color: '#aaa', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '0.5px' }}>
+                    Total All-Time
+                  </div>
+                  <Globe size={16} color="#aaa" />
+                </div>
+                <div className="font-cinzel" style={{ fontSize: '2rem', color: '#fff', fontWeight: 900, lineHeight: 1.1 }}>
+                  {visitorStats?.totalAllTime?.uniqueVisitors || 0}
+                </div>
+                <div style={{ fontSize: '0.78rem', color: '#aaa', marginTop: '6px' }}>
+                  <strong>{visitorStats?.totalAllTime?.pageviews || 0}</strong> total hits
+                </div>
+                <div style={{
+                  marginTop: '10px',
+                  display: 'inline-block',
+                  background: 'rgba(255, 255, 255, 0.08)',
+                  color: '#ccc',
+                  fontSize: '0.68rem',
+                  fontWeight: 700,
+                  padding: '2px 8px',
+                  borderRadius: '4px'
+                }}>
+                  Persistent Across Devices
+                </div>
+              </div>
+
+              {/* Active Now */}
+              <div style={{
+                background: 'rgba(46, 204, 113, 0.07)',
+                border: '1.5px solid rgba(46, 204, 113, 0.35)',
+                borderRadius: '12px',
+                padding: '18px',
+                boxShadow: '0 8px 24px rgba(0,0,0,0.4)'
+              }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                  <div style={{ fontSize: '0.74rem', color: '#2ECC71', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '0.5px' }}>
+                    Active Right Now
+                  </div>
+                  <Radio size={16} color="#2ECC71" />
+                </div>
+                <div className="font-cinzel" style={{ fontSize: '2rem', color: '#2ECC71', fontWeight: 900, lineHeight: 1.1 }}>
+                  {visitorStats?.activeNow || 0}
+                </div>
+                <div style={{ fontSize: '0.78rem', color: '#aaa', marginTop: '6px' }}>
+                  Within last 15 minutes
+                </div>
+                <div style={{
+                  marginTop: '10px',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '5px',
+                  background: 'rgba(46, 204, 113, 0.15)',
+                  color: '#2ECC71',
+                  fontSize: '0.68rem',
+                  fontWeight: 800,
+                  padding: '2px 8px',
+                  borderRadius: '4px'
+                }}>
+                  <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#2ECC71' }} />
+                  Live Presence
+                </div>
+              </div>
+            </div>
+
+            {/* Past 7 Days Daily Breakdown */}
+            <div style={{
+              background: 'rgba(255, 255, 255, 0.02)',
+              border: '1px solid rgba(255, 255, 255, 0.08)',
+              borderRadius: '14px',
+              padding: '22px',
+              marginBottom: '24px'
+            }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px', flexWrap: 'wrap', gap: '8px' }}>
+                <div>
+                  <h4 style={{ margin: 0, fontSize: '1rem', color: '#F5F5F7', fontWeight: 700 }}>
+                    7-Day Traffic Timeline
+                  </h4>
+                  <p style={{ margin: '3px 0 0 0', fontSize: '0.78rem', color: '#888' }}>
+                    Unique visitor reach and total pageviews for each day
+                  </p>
+                </div>
+                <span style={{ fontSize: '0.75rem', color: '#D4AF37', fontWeight: 700 }}>
+                  Sum of past 7 days: {visitorStats?.last7Days?.uniqueVisitors || 0} unique buyers
+                </span>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '10px' }}>
+                {visitorStats?.dailyStats?.map((day, idx) => {
+                  const isCurrentDay = idx === visitorStats.dailyStats.length - 1;
+                  return (
+                    <div
+                      key={day.label}
+                      style={{
+                        background: isCurrentDay ? 'rgba(212, 175, 55, 0.1)' : 'rgba(255, 255, 255, 0.03)',
+                        border: isCurrentDay ? '1.5px solid rgba(212, 175, 55, 0.35)' : '1px solid rgba(255, 255, 255, 0.06)',
+                        borderRadius: '10px',
+                        padding: '14px 12px',
+                        textAlign: 'center'
+                      }}
+                    >
+                      <div style={{ fontSize: '0.75rem', color: isCurrentDay ? '#D4AF37' : '#888', fontWeight: isCurrentDay ? 800 : 600 }}>
+                        {day.label}
+                      </div>
+                      <div className="font-cinzel" style={{ fontSize: '1.4rem', color: '#fff', fontWeight: 800, margin: '6px 0 2px 0' }}>
+                        {day.uniqueVisitors}
+                      </div>
+                      <div style={{ fontSize: '0.7rem', color: '#aaa' }}>
+                        {day.pageviews} views
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Device & Traffic Sources Row */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '16px', marginBottom: '24px' }}>
+              
+              {/* Device Types */}
+              <div style={{
+                background: 'rgba(255, 255, 255, 0.02)',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+                borderRadius: '14px',
+                padding: '22px'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                  <Smartphone size={18} color="#D4AF37" />
+                  <h4 style={{ margin: 0, fontSize: '0.98rem', color: '#F5F5F7', fontWeight: 700 }}>Device Distribution</h4>
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                  <div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.82rem', marginBottom: '6px' }}>
+                      <span style={{ color: '#ccc', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <Smartphone size={14} color="#D4AF37" /> Mobile Smartphones
+                      </span>
+                      <strong style={{ color: '#F3E5AB' }}>{visitorStats?.deviceBreakdown?.mobile || 0}%</strong>
+                    </div>
+                    <div style={{ height: '8px', borderRadius: '4px', background: 'rgba(255,255,255,0.06)', overflow: 'hidden' }}>
+                      <div style={{
+                        height: '100%',
+                        width: `${visitorStats?.deviceBreakdown?.mobile || 0}%`,
+                        background: 'linear-gradient(90deg, #D4AF37, #F3E5AB)',
+                        borderRadius: '4px'
+                      }} />
+                    </div>
+                  </div>
+
+                  <div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.82rem', marginBottom: '6px' }}>
+                      <span style={{ color: '#ccc', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <Laptop size={14} color="#00D2D3" /> Desktop / Laptop
+                      </span>
+                      <strong style={{ color: '#00D2D3' }}>{visitorStats?.deviceBreakdown?.desktop || 0}%</strong>
+                    </div>
+                    <div style={{ height: '8px', borderRadius: '4px', background: 'rgba(255,255,255,0.06)', overflow: 'hidden' }}>
+                      <div style={{
+                        height: '100%',
+                        width: `${visitorStats?.deviceBreakdown?.desktop || 0}%`,
+                        background: '#00D2D3',
+                        borderRadius: '4px'
+                      }} />
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{ marginTop: '18px', padding: '10px 12px', background: 'rgba(255,255,255,0.03)', borderRadius: '8px', fontSize: '0.74rem', color: '#888', lineHeight: 1.4 }}>
+                  💡 <strong>Pakistan Market Trend:</strong> In Pakistan, 80%+ of online watch sales originate on mobile devices through WhatsApp, Instagram, and TikTok links.
+                </div>
+              </div>
+
+              {/* Top Traffic Sources */}
+              <div style={{
+                background: 'rgba(255, 255, 255, 0.02)',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+                borderRadius: '14px',
+                padding: '22px'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                  <Globe size={18} color="#D4AF37" />
+                  <h4 style={{ margin: 0, fontSize: '0.98rem', color: '#F5F5F7', fontWeight: 700 }}>Top Traffic Sources</h4>
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  {visitorStats?.topReferrers?.length > 0 ? (
+                    visitorStats.topReferrers.map((ref, idx) => (
+                      <div
+                        key={idx}
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                          padding: '10px 12px',
+                          background: 'rgba(255, 255, 255, 0.03)',
+                          borderRadius: '8px',
+                          border: '1px solid rgba(255, 255, 255, 0.05)'
+                        }}
+                      >
+                        <span style={{ fontSize: '0.82rem', color: '#eee', fontWeight: 600 }}>{ref.source}</span>
+                        <span style={{
+                          background: 'rgba(212, 175, 55, 0.15)',
+                          color: '#F3E5AB',
+                          padding: '2px 8px',
+                          borderRadius: '12px',
+                          fontSize: '0.74rem',
+                          fontWeight: 700
+                        }}>
+                          {ref.count} visits
+                        </span>
+                      </div>
+                    ))
+                  ) : (
+                    <div style={{ color: '#777', fontSize: '0.82rem', padding: '16px 0', textAlign: 'center' }}>
+                      No external referrers logged yet. Direct visits active.
+                    </div>
+                  )}
+                </div>
+              </div>
+
+            </div>
+
+            {/* Live Visitor Hit Log Table */}
+            <div style={{
+              background: 'rgba(255, 255, 255, 0.02)',
+              border: '1px solid rgba(255, 255, 255, 0.08)',
+              borderRadius: '14px',
+              padding: '22px'
+            }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap', gap: '8px' }}>
+                <div>
+                  <h4 style={{ margin: 0, fontSize: '1rem', color: '#F5F5F7', fontWeight: 700 }}>
+                    Real-Time Visitor Log (Recent Hits)
+                  </h4>
+                  <p style={{ margin: '3px 0 0 0', fontSize: '0.78rem', color: '#888' }}>
+                    Authentic browser hits recorded live with device and timestamp
+                  </p>
+                </div>
+                <span style={{ fontSize: '0.75rem', color: '#aaa' }}>
+                  Showing latest {visitorStats?.recentLogs?.length || 0} hits
+                </span>
+              </div>
+
+              {visitorStats?.recentLogs?.length > 0 ? (
+                <div style={{ overflowX: 'auto' }}>
+                  <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.82rem' }}>
+                    <thead>
+                      <tr style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.1)', textAlign: 'left', color: '#888' }}>
+                        <th style={{ padding: '10px 12px', fontWeight: 700 }}>TIME (PKT)</th>
+                        <th style={{ padding: '10px 12px', fontWeight: 700 }}>DEVICE & OS</th>
+                        <th style={{ padding: '10px 12px', fontWeight: 700 }}>BROWSER</th>
+                        <th style={{ padding: '10px 12px', fontWeight: 700 }}>LANDING PAGE</th>
+                        <th style={{ padding: '10px 12px', fontWeight: 700 }}>SOURCE</th>
+                        <th style={{ padding: '10px 12px', fontWeight: 700 }}>VISITOR ID</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {visitorStats.recentLogs.map((log, idx) => {
+                        const dateObj = new Date(log.timestamp || 0);
+                        const timeStr = dateObj.toLocaleTimeString('en-PK', { hour: '2-digit', minute: '2-digit' });
+                        const dateStr = dateObj.toLocaleDateString('en-PK', { day: 'numeric', month: 'short' });
+                        return (
+                          <tr key={idx} style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.04)' }}>
+                            <td style={{ padding: '12px', color: '#F5F5F7', fontWeight: 600 }}>
+                              <div>{timeStr}</div>
+                              <div style={{ fontSize: '0.7rem', color: '#777' }}>{dateStr}</div>
+                            </td>
+                            <td style={{ padding: '12px' }}>
+                              <span style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '6px',
+                                background: log.deviceType === 'Mobile' ? 'rgba(212, 175, 55, 0.1)' : 'rgba(0, 210, 211, 0.1)',
+                                color: log.deviceType === 'Mobile' ? '#F3E5AB' : '#00D2D3',
+                                padding: '3px 8px',
+                                borderRadius: '4px',
+                                fontSize: '0.75rem',
+                                fontWeight: 700
+                              }}>
+                                {log.deviceType === 'Mobile' ? <Smartphone size={12} /> : <Laptop size={12} />}
+                                {log.deviceType || 'Device'} • {log.os || 'OS'}
+                              </span>
+                            </td>
+                            <td style={{ padding: '12px', color: '#ccc' }}>
+                              {log.browser || 'Browser'}
+                            </td>
+                            <td style={{ padding: '12px' }}>
+                              <code style={{ background: 'rgba(255,255,255,0.06)', padding: '2px 6px', borderRadius: '4px', color: '#D4AF37', fontSize: '0.76rem' }}>
+                                {log.page || '/'}
+                              </code>
+                            </td>
+                            <td style={{ padding: '12px', color: '#aaa', fontSize: '0.78rem' }}>
+                              {log.referrer || 'Direct'}
+                            </td>
+                            <td style={{ padding: '12px', color: '#666', fontFamily: 'monospace', fontSize: '0.72rem' }}>
+                              {(log.visitorId || 'v_anon').substring(0, 10)}...
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div style={{ textAlign: 'center', padding: '36px 16px', color: '#888' }}>
+                  <Users size={32} color="#D4AF37" style={{ marginBottom: '10px', opacity: 0.6 }} />
+                  <p style={{ margin: 0, fontSize: '0.9rem' }}>No visitor records yet.</p>
+                  <p style={{ margin: '4px 0 16px 0', fontSize: '0.78rem', color: '#666' }}>
+                    Open the website on any phone or browser to log real customer hits.
+                  </p>
+                  <button
+                    onClick={() => {
+                      if (onBackToStore) onBackToStore();
+                      else window.location.href = '/';
+                    }}
+                    style={{
+                      background: 'rgba(212, 175, 55, 0.15)',
+                      border: '1px solid rgba(212, 175, 55, 0.4)',
+                      color: '#F3E5AB',
+                      padding: '8px 18px',
+                      borderRadius: '8px',
+                      fontSize: '0.82rem',
+                      fontWeight: 700,
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Open Public Storefront
+                  </button>
+                </div>
+              )}
+            </div>
+
           </div>
         )}
 

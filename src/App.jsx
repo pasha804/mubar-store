@@ -9,17 +9,36 @@ import QuickCODModal from './components/QuickCODModal';
 import CartDrawer from './components/CartDrawer';
 import SocialProof from './components/SocialProof';
 import AdminBridge from './components/AdminBridge';
+import AdminLogin from './components/AdminLogin';
 import PolicyModal from './components/PolicyModal';
 import LiveSalesToaster from './components/LiveSalesToaster';
 import WhatsAppWidget from './components/WhatsAppWidget';
 import Footer from './components/Footer';
 import { PRODUCTS } from './data/products';
+import { recordVisitorHit } from './services/storeSync';
+
+const checkIsAdminPath = () => {
+  const path = window.location.pathname.toLowerCase().replace(/\/+$/, '');
+  const hash = window.location.hash.toLowerCase().replace(/\/+$/, '');
+  return (
+    path === '/pass' ||
+    path.startsWith('/pass/') ||
+    hash === '#/pass' ||
+    hash === '#pass' ||
+    path === '/admin' ||
+    path.startsWith('/admin/') ||
+    hash === '#/admin' ||
+    hash === '#admin'
+  );
+};
 
 export default function App() {
   const [currentRoute, setCurrentRoute] = useState(() => {
-    const path = window.location.pathname.toLowerCase();
-    const hash = window.location.hash.toLowerCase();
-    return (path === '/admin' || hash === '#/admin' || path.startsWith('/admin')) ? 'admin' : 'store';
+    return checkIsAdminPath() ? 'admin' : 'store';
+  });
+
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(() => {
+    return localStorage.getItem('mubar_admin_auth') === 'authenticated';
   });
 
   const [cartItems, setCartItems] = useState([]);
@@ -32,14 +51,20 @@ export default function App() {
   // Handle browser back/forward and URL changes
   useEffect(() => {
     const handleLocationChange = () => {
-      const path = window.location.pathname.toLowerCase();
-      const hash = window.location.hash.toLowerCase();
-      if (path === '/admin' || hash === '#/admin' || path.startsWith('/admin')) {
+      const isPass = checkIsAdminPath();
+      if (isPass) {
+        if (window.location.pathname.toLowerCase().startsWith('/admin')) {
+          window.history.replaceState({}, '', '/pass');
+        }
         setCurrentRoute('admin');
       } else {
         setCurrentRoute('store');
       }
     };
+
+    if (checkIsAdminPath() && window.location.pathname.toLowerCase().startsWith('/admin')) {
+      window.history.replaceState({}, '', '/pass');
+    }
 
     window.addEventListener('popstate', handleLocationChange);
     window.addEventListener('hashchange', handleLocationChange);
@@ -49,9 +74,16 @@ export default function App() {
     };
   }, []);
 
+  // Track authentic visitor hits on public storefront
+  useEffect(() => {
+    if (currentRoute === 'store') {
+      recordVisitorHit(window.location.pathname || '/');
+    }
+  }, [currentRoute]);
+
   const navigateTo = (newRoute) => {
-    if (newRoute === 'admin') {
-      window.history.pushState({}, '', '/admin');
+    if (newRoute === 'admin' || newRoute === 'pass') {
+      window.history.pushState({}, '', '/pass');
       setCurrentRoute('admin');
     } else {
       window.history.pushState({}, '', '/');
@@ -96,10 +128,25 @@ export default function App() {
 
   const cartTotalQty = cartItems.reduce((acc, item) => acc + item.qty, 0);
 
-  // If user navigates to /admin, render dedicated full-page Founder Dashboard
+  // If user navigates to /pass or /admin, render Login or Founder Dashboard
   if (currentRoute === 'admin') {
+    if (!isAdminAuthenticated) {
+      return (
+        <AdminLogin 
+          onLoginSuccess={() => setIsAdminAuthenticated(true)}
+          onBackToStore={() => navigateTo('store')}
+        />
+      );
+    }
+
     return (
-      <AdminBridge onBackToStore={() => navigateTo('store')} />
+      <AdminBridge 
+        onBackToStore={() => navigateTo('store')}
+        onLogout={() => {
+          localStorage.removeItem('mubar_admin_auth');
+          setIsAdminAuthenticated(false);
+        }}
+      />
     );
   }
 
