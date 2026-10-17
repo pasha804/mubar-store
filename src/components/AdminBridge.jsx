@@ -700,8 +700,26 @@ export default function AdminBridge({ onBackToStore, onLogout }) {
                           </td>
 
                           <td style={{ padding: '14px 16px' }}>
-                            <div style={{ color: '#fff', fontWeight: 600 }}>{order.productTitle}</div>
-                            <div style={{ fontSize: '0.74rem', color: '#D4AF37' }}>{order.variant || 'Standard'} (Qty: {order.quantity || 1})</div>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                              {order.productImage && (
+                                <img 
+                                  src={order.productImage} 
+                                  alt={order.variant || ''} 
+                                  style={{
+                                    width: '42px',
+                                    height: '42px',
+                                    borderRadius: '6px',
+                                    objectFit: 'cover',
+                                    border: '1px solid rgba(212, 175, 55, 0.4)',
+                                    flexShrink: 0
+                                  }} 
+                                />
+                              )}
+                              <div>
+                                <div style={{ color: '#fff', fontWeight: 600 }}>{order.productTitle}</div>
+                                <div style={{ fontSize: '0.74rem', color: '#D4AF37' }}>{order.variant || 'Standard'} (Qty: {order.quantity || 1})</div>
+                              </div>
+                            </div>
                           </td>
 
                           <td style={{ padding: '14px 16px' }}>

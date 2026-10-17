@@ -50,7 +50,7 @@ export const PAYMENT_ACCOUNTS = {
 export const PRODUCTS = [
   {
     id: "apex-wheel-rim-chain",
-    title: "Apex 3D Wheel Rim Kinetic Watch (Solid Steel Chain)",
+    title: "MEIBO 3D Wheel Rim Kinetic Watch (Solid Steel Chain)",
     subtitle: "Spinning Rotor & Solid Stainless Steel Link Edition",
     category: "Supercar Rim",
     priceTier: "viral",
@@ -62,14 +62,14 @@ export const PRODUCTS = [
     soldPercent: 93,
     rating: 4.9,
     reviewCount: 184,
-    badge: "🔥 BESTSELLER - STEEL CHAIN",
+    badge: "🔥 BESTSELLER - MEIBO CHAIN",
     isFlashSale: true,
     images: [
-      "/images/products/mubar-apex-wheel-rim/angle-02.jpeg",
-      "/images/products/mubar-apex-wheel-rim/angle-04.jpeg",
-      "/images/products/mubar-apex-wheel-rim/angle-06.jpeg",
+      "/images/products/mubar-apex-wheel-rim/angle-02.jpeg", // Sport Red Brembo (Chain) - poster hero
+      "/images/products/mubar-apex-wheel-rim/angle-04.jpeg", // Nitro Blue Brembo (Chain)
+      "/images/products/mubar-apex-wheel-rim/angle-06.jpeg", // Lime Green Turbo (Chain)
+      "/images/products/mubar-apex-wheel-rim/angle-09.jpeg", // Speed Yellow Brembo (Chain)
       "/images/products/mubar-apex-wheel-rim/angle-08.jpeg",
-      "/images/products/mubar-apex-wheel-rim/angle-09.jpeg",
       "/images/products/mubar-apex-wheel-rim/angle-10.jpeg",
       "/images/products/mubar-apex-wheel-rim/angle-12.jpeg"
     ],
@@ -79,7 +79,13 @@ export const PRODUCTS = [
       "Lime Green Turbo (Solid Black Steel Chain)",
       "Speed Yellow Brembo (Solid Black Steel Chain)"
     ],
-    description: "The viral automotive timepiece in Pakistan with a heavy solid stainless steel bracelet. Features a realistic 3D hollow alloy wheel rim that spins freely on the wrist, drilled ventilated racing brake disc, and a high-visibility performance brake caliper. Solid PVD matte black link bracelet with butterfly deployant clasp.",
+    variantImages: {
+      "Sport Red Brembo (Solid Black Steel Chain)": "/images/products/mubar-apex-wheel-rim/angle-02.jpeg",
+      "Nitro Blue Brembo (Solid Black Steel Chain)": "/images/products/mubar-apex-wheel-rim/angle-04.jpeg",
+      "Lime Green Turbo (Solid Black Steel Chain)": "/images/products/mubar-apex-wheel-rim/angle-06.jpeg",
+      "Speed Yellow Brembo (Solid Black Steel Chain)": "/images/products/mubar-apex-wheel-rim/angle-09.jpeg"
+    },
+    description: "The viral MEIBO automotive timepiece in Pakistan with a heavy solid stainless steel bracelet. Features a realistic 3D hollow alloy wheel rim that spins freely on the wrist, drilled ventilated racing brake disc, and a high-visibility performance brake caliper. Solid PVD matte black link bracelet with butterfly deployant clasp.",
     specs: {
       movement: "High-Torque Japanese Quartz Kinetic Movement",
       caseDiameter: "43mm Supercar Wheel Profile",
@@ -92,7 +98,7 @@ export const PRODUCTS = [
   },
   {
     id: "apex-wheel-rim-strap",
-    title: "Apex 3D Wheel Rim Kinetic Watch (Silicone Sport Strap)",
+    title: "MEIBO 3D Wheel Rim Kinetic Watch (Silicone Sport Strap)",
     subtitle: "Spinning Rotor & Carbon-Texture Sport Strap Edition",
     category: "Supercar Rim",
     priceTier: "viral",
@@ -104,23 +110,29 @@ export const PRODUCTS = [
     soldPercent: 88,
     rating: 4.9,
     reviewCount: 142,
-    badge: "⚡ VIRAL DEAL - SPORT STRAP",
+    badge: "⚡ VIRAL DEAL - MEIBO STRAP",
     isFlashSale: true,
     images: [
-      "/images/products/mubar-apex-wheel-rim/angle-01.jpeg",
-      "/images/products/mubar-apex-wheel-rim/angle-03.jpeg",
-      "/images/products/mubar-apex-wheel-rim/angle-05.jpeg",
-      "/images/products/mubar-apex-wheel-rim/angle-07.jpeg",
+      "/images/products/mubar-apex-wheel-rim/angle-01.jpeg", // Sport Red Brembo (Strap) - poster hero
+      "/images/products/mubar-apex-wheel-rim/angle-05.jpeg", // Nitro Blue Brembo (Strap)
+      "/images/products/mubar-apex-wheel-rim/angle-03.jpeg", // Lime Green Turbo (Strap)
+      "/images/products/mubar-apex-wheel-rim/angle-07.jpeg", // Speed Yellow Brembo (Strap)
       "/images/products/mubar-apex-wheel-rim/angle-11.jpeg",
       "/images/products/mubar-apex-wheel-rim/angle-13.jpeg"
     ],
     variants: [
       "Sport Red Brembo (Silicone Sport Strap)",
-      "Lime Green Turbo (Silicone Sport Strap)",
       "Nitro Blue Brembo (Silicone Sport Strap)",
+      "Lime Green Turbo (Silicone Sport Strap)",
       "Speed Yellow Brembo (Silicone Sport Strap)"
     ],
-    description: "The sporty, ultra-comfortable lightweight edition of our viral wheel rim watch. Features a freely spinning 3D alloy wheel rotor, ventilated brake rotor, racing caliper, and a durable carbon-textured flexible silicone sport strap that sits flush and light on the wrist.",
+    variantImages: {
+      "Sport Red Brembo (Silicone Sport Strap)": "/images/products/mubar-apex-wheel-rim/angle-01.jpeg",
+      "Nitro Blue Brembo (Silicone Sport Strap)": "/images/products/mubar-apex-wheel-rim/angle-05.jpeg",
+      "Lime Green Turbo (Silicone Sport Strap)": "/images/products/mubar-apex-wheel-rim/angle-03.jpeg",
+      "Speed Yellow Brembo (Silicone Sport Strap)": "/images/products/mubar-apex-wheel-rim/angle-07.jpeg"
+    },
+    description: "The sporty, ultra-comfortable lightweight MEIBO edition of our viral wheel rim watch. Features a freely spinning 3D alloy wheel rotor, ventilated brake rotor, racing caliper, and a durable carbon-textured flexible silicone sport strap that sits flush and light on the wrist.",
     specs: {
       movement: "High-Torque Japanese Quartz Kinetic Movement",
       caseDiameter: "43mm Supercar Wheel Profile",
@@ -133,7 +145,7 @@ export const PRODUCTS = [
   },
   {
     id: "mubar-yachtmaster-oysterflex",
-    title: "MUBAR Yacht-Master Oysterflex Edition",
+    title: "Yacht-Master Oysterflex Luxury Edition",
     subtitle: "Bidirectional Matte Ceramic Bezel & High-Density Elastomer Strap",
     category: "Luxury Prestige",
     priceTier: "flagship",
@@ -148,8 +160,8 @@ export const PRODUCTS = [
     badge: "👑 VIP FLAGSHIP",
     isFlashSale: true,
     images: [
-      "/images/all-watches/watch 5/01_gold_front_studio.jpg",
-      "/images/all-watches/watch 5/02_silver_front_studio.jpg",
+      "/images/all-watches/watch 5/01_gold_front_studio.jpg", // 18K Rose Gold - poster hero
+      "/images/all-watches/watch 5/02_silver_front_studio.jpg", // Platinum Steel Rhodium Dial
       "/images/all-watches/watch 5/03_duo_unboxing_studio.jpg",
       "/images/all-watches/watch 5/WhatsApp Image 2026-10-15 at 9.07.19 AM.jpeg"
     ],
@@ -157,6 +169,10 @@ export const PRODUCTS = [
       "18K Rose Gold Casing / Matte Black Dial",
       "Platinum Steel Casing / Rhodium Dial"
     ],
+    variantImages: {
+      "18K Rose Gold Casing / Matte Black Dial": "/images/all-watches/watch 5/01_gold_front_studio.jpg",
+      "Platinum Steel Casing / Rhodium Dial": "/images/all-watches/watch 5/02_silver_front_studio.jpg"
+    },
     description: "The pinnacle of nautical luxury horology. Showcases a bidirectional 60-minute rotating matte ceramic bezel with polished raised numerals, iconic cyclops date magnifier window at 3 o'clock, Mercedes luminescent hands, and an ergonomic high-density Oysterflex-style black elastomer strap with folding safety clasp.",
     specs: {
       movement: "Precision Japanese Quartz Date Movement",
@@ -170,8 +186,8 @@ export const PRODUCTS = [
   },
   {
     id: "heritage-diver",
-    title: "Heritage Ceramic Diver Watch",
-    subtitle: "Submariner Homage & Rotating Bezel Edition",
+    title: "YOLAKO Luxury Diving Submariner",
+    subtitle: "Ceramic Rotating Bezel & Mercedes Hands Edition",
     category: "Divers",
     priceTier: "budget",
     originalPrice: 3499,
@@ -182,13 +198,13 @@ export const PRODUCTS = [
     soldPercent: 89,
     rating: 4.9,
     reviewCount: 154,
-    badge: "MOST POPULAR",
+    badge: "MOST POPULAR - YOLAKO",
     isFlashSale: true,
     images: [
-      "/images/products/mubar-heritage-diver/angle-02.jpeg",
-      "/images/products/mubar-heritage-diver/angle-04.jpeg",
-      "/images/products/mubar-heritage-diver/angle-01.jpeg",
-      "/images/products/mubar-heritage-diver/angle-03.jpeg",
+      "/images/products/mubar-heritage-diver/angle-01.jpeg", // Emerald Green Hulk - poster hero
+      "/images/products/mubar-heritage-diver/angle-04.jpeg", // Deep Ocean Blue
+      "/images/products/mubar-heritage-diver/angle-02.jpeg", // Crimson Red
+      "/images/products/mubar-heritage-diver/angle-03.jpeg", // Onyx Black
       "/images/products/mubar-heritage-diver/angle-05.jpeg"
     ],
     variants: [
@@ -197,7 +213,13 @@ export const PRODUCTS = [
       "Crimson Red (Burgundy Diver Edition)",
       "Onyx Black (Classic Submariner Black)"
     ],
-    description: "An iconic homage to legendary maritime diving horology. Showcases a unidirectional rotating fluted countdown bezel, luminescent geometric hour indices with classic Mercedes hands, date magnifying window, and a solid brushed stainless steel oyster bracelet.",
+    variantImages: {
+      "Emerald Green (Hulk Bezel & Dial)": "/images/products/mubar-heritage-diver/angle-01.jpeg",
+      "Deep Ocean Blue (Sunburst Blue Bezel & Dial)": "/images/products/mubar-heritage-diver/angle-04.jpeg",
+      "Crimson Red (Burgundy Diver Edition)": "/images/products/mubar-heritage-diver/angle-02.jpeg",
+      "Onyx Black (Classic Submariner Black)": "/images/products/mubar-heritage-diver/angle-03.jpeg"
+    },
+    description: "An iconic YOLAKO homage to legendary maritime diving horology. Showcases a unidirectional rotating fluted countdown bezel, luminescent geometric hour indices with classic Mercedes hands, date magnifying window, and a solid brushed stainless steel oyster bracelet.",
     specs: {
       movement: "High-Accuracy Japanese Quartz Timekeeping",
       caseDiameter: "40mm Classic Diver Profile",
@@ -210,7 +232,7 @@ export const PRODUCTS = [
   },
   {
     id: "executive-chrono",
-    title: "Executive Multi-Dial Chronograph",
+    title: "GENEVA Executive Multi-Dial Chronograph",
     subtitle: "Panoramic Arc Calendar & Solid Steel Oyster Edition",
     category: "Chronographs",
     priceTier: "budget",
@@ -222,23 +244,30 @@ export const PRODUCTS = [
     soldPercent: 86,
     rating: 4.8,
     reviewCount: 142,
-    badge: "BEST FOR OFFICE",
+    badge: "GENEVA EXECUTIVE",
     isFlashSale: true,
     images: [
-      "/images/products/mubar-executive-chrono/angle-01.jpeg",
-      "/images/products/mubar-executive-chrono/angle-02.jpeg",
-      "/images/products/mubar-executive-chrono/angle-03.jpeg",
-      "/images/products/mubar-executive-chrono/angle-04.jpeg",
-      "/images/products/mubar-executive-chrono/angle-05.jpeg",
-      "/images/products/mubar-executive-chrono/angle-06.jpeg"
+      "/images/products/mubar-executive-chrono/angle-01.jpeg", // All-Black PVD - poster hero
+      "/images/products/mubar-executive-chrono/angle-02.jpeg", // Silver Steel Jet Black
+      "/images/products/mubar-executive-chrono/angle-03.jpeg", // Silver Steel Midnight Blue
+      "/images/products/mubar-executive-chrono/angle-06.jpeg", // Royal Gold Midnight Blue
+      "/images/products/mubar-executive-chrono/angle-04.jpeg"  // Royal Gold Jet Black
     ],
     variants: [
+      "All-Black PVD / Jet Black Dial",
       "Silver Steel / Jet Black Dial",
-      "Royal Gold / Jet Black Dial",
+      "Silver Steel / Midnight Royal Blue Dial",
       "Royal Gold / Midnight Royal Blue Dial",
-      "Silver Steel / Midnight Royal Blue Dial"
+      "Royal Gold / Jet Black Dial"
     ],
-    description: "The quintessential executive chronometer designed for business meetings, formal wear, and elevated daily style. Features triple auxiliary sub-dials, an open arc date calendar window with red directional indicator, dual ergonomic pushers, and a polished stainless steel oyster bracelet.",
+    variantImages: {
+      "All-Black PVD / Jet Black Dial": "/images/products/mubar-executive-chrono/angle-01.jpeg",
+      "Silver Steel / Jet Black Dial": "/images/products/mubar-executive-chrono/angle-02.jpeg",
+      "Silver Steel / Midnight Royal Blue Dial": "/images/products/mubar-executive-chrono/angle-03.jpeg",
+      "Royal Gold / Midnight Royal Blue Dial": "/images/products/mubar-executive-chrono/angle-06.jpeg",
+      "Royal Gold / Jet Black Dial": "/images/products/mubar-executive-chrono/angle-04.jpeg"
+    },
+    description: "The quintessential GENEVA executive chronometer designed for business meetings, formal wear, and elevated daily style. Features triple auxiliary sub-dials, an open arc date calendar window with red directional indicator, dual ergonomic pushers, and a polished stainless steel oyster bracelet.",
     specs: {
       movement: "Precision Japanese Quartz Chronograph Date Calibre",
       caseDiameter: "42mm Executive Profile",
@@ -251,7 +280,7 @@ export const PRODUCTS = [
   },
   {
     id: "motorsport-racing",
-    title: "Grand Prix Motorsport Racing Chronograph",
+    title: "GENEVA Grand Prix Motorsport Racing Chronograph",
     subtitle: "Asphalt Cockpit Speedometer Edition",
     category: "Motorsport",
     priceTier: "budget",
@@ -263,22 +292,27 @@ export const PRODUCTS = [
     soldPercent: 83,
     rating: 4.8,
     reviewCount: 119,
-    badge: "RACING CHRONO",
+    badge: "GENEVA RACING CHRONO",
     isFlashSale: true,
     images: [
-      "/images/products/mubar-motorsport-racing/angle-01.jpeg",
-      "/images/products/mubar-motorsport-racing/angle-02.jpeg",
-      "/images/products/mubar-motorsport-racing/angle-03.jpeg",
-      "/images/products/mubar-motorsport-racing/angle-04.jpeg",
-      "/images/products/mubar-motorsport-racing/angle-05.jpeg"
+      "/images/products/mubar-motorsport-racing/angle-01.jpeg", // Silver & Black Rally Red Gauges - poster hero
+      "/images/products/mubar-motorsport-racing/angle-02.jpeg", // Two-Tone Gold
+      "/images/products/mubar-motorsport-racing/angle-04.jpeg", // All-Black PVD
+      "/images/products/mubar-motorsport-racing/angle-05.jpeg"  // Silver / Royal Blue
     ],
     variants: [
       "Stealth Silver & Black (Rally Red Gauges)",
-      "All-Black PVD Racing Edition",
       "Two-Tone Gold Racing Edition",
+      "All-Black PVD Racing Edition",
       "Silver / Royal Blue Speedometer Edition"
     ],
-    description: "Inspired by Formula 1 dashboard instrumentation. Features a textured asphalt multi-layered dial, bold oversized '12' racing numeral, rally speedometer color tracks, dual chronograph pushers, and a rugged stainless steel chassis.",
+    variantImages: {
+      "Stealth Silver & Black (Rally Red Gauges)": "/images/products/mubar-motorsport-racing/angle-01.jpeg",
+      "Two-Tone Gold Racing Edition": "/images/products/mubar-motorsport-racing/angle-02.jpeg",
+      "All-Black PVD Racing Edition": "/images/products/mubar-motorsport-racing/angle-04.jpeg",
+      "Silver / Royal Blue Speedometer Edition": "/images/products/mubar-motorsport-racing/angle-05.jpeg"
+    },
+    description: "Inspired by Formula 1 dashboard instrumentation, crafted by GENEVA. Features a textured asphalt multi-layered dial, bold oversized '12' racing numeral, rally speedometer color tracks, dual chronograph pushers, and a rugged stainless steel chassis.",
     specs: {
       movement: "Multi-Gauge Japanese Quartz Racing Movement",
       caseDiameter: "44mm Bold Sports Profile",
@@ -291,7 +325,7 @@ export const PRODUCTS = [
   },
   {
     id: "octa-tachymeter",
-    title: "Octa Geometric Tachymeter Chronograph",
+    title: "YOLAKO Octa Geometric Tachymeter Chronograph",
     subtitle: "Royal Geometric Bezel & Tapisserie Dial Edition",
     category: "Geometric Sports",
     priceTier: "high-value",
@@ -303,23 +337,30 @@ export const PRODUCTS = [
     soldPercent: 94,
     rating: 4.9,
     reviewCount: 137,
-    badge: "ROYAL OAK HOMAGE",
+    badge: "ROYAL OAK HOMAGE - YOLAKO",
     isFlashSale: true,
     images: [
-      "/images/products/mubar-octa-tachymeter/angle-01.jpeg",
-      "/images/products/mubar-octa-tachymeter/angle-02.jpeg",
-      "/images/products/mubar-octa-tachymeter/angle-03.jpeg",
-      "/images/products/mubar-octa-tachymeter/angle-04.jpeg",
-      "/images/products/mubar-octa-tachymeter/angle-05.jpeg",
-      "/images/products/mubar-octa-tachymeter/angle-06.jpeg"
+      "/images/products/mubar-octa-tachymeter/angle-01.jpeg", // Silver Steel Black Dial - poster hero
+      "/images/products/mubar-octa-tachymeter/angle-02.jpeg", // Silver Steel Ocean Blue
+      "/images/products/mubar-octa-tachymeter/angle-03.jpeg", // Silver Steel Arctic White Guilloche
+      "/images/products/mubar-octa-tachymeter/angle-06.jpeg", // Stealth Black PVD
+      "/images/products/mubar-octa-tachymeter/angle-04.jpeg"  // Two-Tone Gold & Steel
     ],
     variants: [
-      "Silver Steel / Arctic White Guilloche Dial",
+      "Silver Steel / Black Tachymeter Dial",
       "Silver Steel / Deep Ocean Blue Dial",
+      "Silver Steel / Arctic White Guilloche Dial",
       "Stealth Black PVD Edition",
       "Two-Tone Gold & Steel Edition"
     ],
-    description: "Bold octagonal architectural geometry inspired by world-famous luxury sports horology. Fitted with a fixed black ceramic-styled tachymeter scale bezel, intricate textured tapisserie dial, curved date indicator, and integrated solid link steel bracelet.",
+    variantImages: {
+      "Silver Steel / Black Tachymeter Dial": "/images/products/mubar-octa-tachymeter/angle-01.jpeg",
+      "Silver Steel / Deep Ocean Blue Dial": "/images/products/mubar-octa-tachymeter/angle-02.jpeg",
+      "Silver Steel / Arctic White Guilloche Dial": "/images/products/mubar-octa-tachymeter/angle-03.jpeg",
+      "Stealth Black PVD Edition": "/images/products/mubar-octa-tachymeter/angle-06.jpeg",
+      "Two-Tone Gold & Steel Edition": "/images/products/mubar-octa-tachymeter/angle-04.jpeg"
+    },
+    description: "Bold octagonal architectural geometry by YOLAKO inspired by world-famous luxury sports horology. Fitted with a fixed black ceramic-styled tachymeter scale bezel, intricate textured tapisserie dial, curved date indicator, and integrated solid link steel bracelet.",
     specs: {
       movement: "High-Precision Japanese Quartz Date Movement",
       caseDiameter: "43mm Geometric Octagonal Profile",
@@ -350,8 +391,8 @@ export const REVIEWS = [
     city: "Lahore (DHA Phase 5)",
     rating: 5,
     date: "1 hour ago",
-    comment: "Bhai car rim watch mangwayi thi, wheel sach me bilkul smooth ghoomta hai aur red caliper ki finishing level hai! Sab se achi baat rider ne pehle parcel khol ke check karwaya, phir payment li. 100% satisfied!",
-    watchBought: "Apex 3D Wheel Rim Kinetic Watch"
+    comment: "Bhai MEIBO car rim watch mangwayi thi, wheel sach me bilkul smooth ghoomta hai aur red caliper ki finishing level hai! Sab se achi baat rider ne pehle parcel khol ke check karwaya, phir payment li. 100% satisfied!",
+    watchBought: "MEIBO 3D Wheel Rim Kinetic Watch"
   },
   {
     id: 2,
@@ -359,8 +400,8 @@ export const REVIEWS = [
     city: "Karachi (Clifton Block 2)",
     rating: 5,
     date: "3 hours ago",
-    comment: "Hulk green diver watch receive hui hai. Bezel ka clicking sound aur dial ka sunburst emerald color zabardast hai. Is price me aisi heavy stainless steel ghari milna impossible hai market me.",
-    watchBought: "Heritage Ceramic Diver Watch"
+    comment: "Hulk green YOLAKO diver watch receive hui hai. Bezel ka clicking sound aur dial ka sunburst emerald color zabardast hai. Is price me aisi heavy stainless steel ghari milna impossible hai market me.",
+    watchBought: "YOLAKO Luxury Diving Submariner"
   },
   {
     id: 3,
@@ -368,8 +409,8 @@ export const REVIEWS = [
     city: "Islamabad (Sector F-10)",
     rating: 5,
     date: "5 hours ago",
-    comment: "Octa tachymeter watch hath me pehn kar pura Royal Oak ka look deti hai! Weight bohat solid hai, cheap feel bilkul nahi ati. Delivery sirf 2 din me ho gayi.",
-    watchBought: "Octa Geometric Tachymeter Chronograph"
+    comment: "YOLAKO Octa tachymeter watch hath me pehn kar pura Royal Oak ka look deti hai! Weight bohat solid hai, cheap feel bilkul nahi ati. Delivery sirf 2 din me ho gayi.",
+    watchBought: "YOLAKO Octa Geometric Tachymeter Chronograph"
   },
   {
     id: 4,
@@ -377,8 +418,8 @@ export const REVIEWS = [
     city: "Faisalabad (D Ground)",
     rating: 5,
     date: "Yesterday",
-    comment: "Executive chrono gold-black liya office wear ke liye. Dial ke multi sub-dials aur date calendar real lagtay hain. Dost sab poch rahe hain kahan se li. Bhai Muhammad Mubashar ka service bohat quick hai!",
-    watchBought: "Executive Multi-Dial Chronograph"
+    comment: "GENEVA executive chrono gold-black liya office wear ke liye. Dial ke multi sub-dials aur date calendar real lagtay hain. Dost sab poch rahe hain kahan se li. Bhai Muhammad Mubashar ka service bohat quick hai!",
+    watchBought: "GENEVA Executive Multi-Dial Chronograph"
   },
   {
     id: 5,
@@ -386,8 +427,8 @@ export const REVIEWS = [
     city: "Multan Cantt",
     rating: 5,
     date: "Yesterday",
-    comment: "Motorsport racing chronograph mangwaya tha. Dial ka texture aur red speedometer needles bohot eye-catching hain. WhatsApp par confirmation bohot jaldi hui thi.",
-    watchBought: "Grand Prix Motorsport Racing Chronograph"
+    comment: "GENEVA Motorsport racing chronograph mangwaya tha. Dial ka texture aur red speedometer needles bohot eye-catching hain. WhatsApp par confirmation bohot jaldi hui thi.",
+    watchBought: "GENEVA Grand Prix Motorsport Racing Chronograph"
   },
   {
     id: 6,
@@ -396,7 +437,7 @@ export const REVIEWS = [
     rating: 5,
     date: "Yesterday",
     comment: "Pehle dar lag raha tha online fraud na ho, lekin jab rider ne bola 'sir pehle box khol k check karein' to dil khush ho gaya! Ghari 100% same nikli jesi video me thi.",
-    watchBought: "Apex 3D Wheel Rim Kinetic Watch"
+    watchBought: "MEIBO 3D Wheel Rim Kinetic Watch"
   },
   {
     id: 7,
@@ -404,8 +445,8 @@ export const REVIEWS = [
     city: "Peshawar (Hayatabad)",
     rating: 5,
     date: "2 days ago",
-    comment: "Submariner black edition li hai. Mercedes hands aur date cyclops bilkul clear hain. 1999 me aisi luxury ghari Pakistan me koi aur nahi de sakta.",
-    watchBought: "Heritage Ceramic Diver Watch"
+    comment: "YOLAKO Submariner black edition li hai. Mercedes hands aur date cyclops bilkul clear hain. 2499 me aisi luxury ghari Pakistan me koi aur nahi de sakta.",
+    watchBought: "YOLAKO Luxury Diving Submariner"
   },
   {
     id: 8,
@@ -413,8 +454,8 @@ export const REVIEWS = [
     city: "Sialkot (Cantt)",
     rating: 5,
     date: "2 days ago",
-    comment: "Apex rim watch ka yellow caliper wala variant liya tha. Bike chalaate waqt jab dhoop parti hai to rim shine karta hai. Solid build quality hai, strap bi easily adjust ho gaya.",
-    watchBought: "Apex 3D Wheel Rim Kinetic Watch"
+    comment: "MEIBO rim watch ka yellow caliper wala variant liya tha. Bike chalaate waqt jab dhoop parti hai to rim shine karta hai. Solid build quality hai, strap bi easily adjust ho gaya.",
+    watchBought: "MEIBO 3D Wheel Rim Kinetic Watch"
   },
   {
     id: 9,
@@ -422,8 +463,8 @@ export const REVIEWS = [
     city: "Gujranwala (Model Town)",
     rating: 5,
     date: "3 days ago",
-    comment: "Executive chronograph silver blue dial me order ki thi. Formal suits ke sath kamaal lagti hai. Packaging bohat safe thi bubble wrap k sath. Full paisa wasool!",
-    watchBought: "Executive Multi-Dial Chronograph"
+    comment: "GENEVA executive chronograph silver blue dial me order ki thi. Formal suits ke sath kamaal lagti hai. Packaging bohat safe thi bubble wrap k sath. Full paisa wasool!",
+    watchBought: "GENEVA Executive Multi-Dial Chronograph"
   },
   {
     id: 10,
@@ -432,7 +473,7 @@ export const REVIEWS = [
     rating: 5,
     date: "3 days ago",
     comment: "Quetta tak 3 din me parcel pohanch gaya Trax courier se. Ghari bilkul mint condition me thi. Seller bohot cooperative hai WhatsApp par.",
-    watchBought: "Octa Geometric Tachymeter Chronograph"
+    watchBought: "YOLAKO Octa Geometric Tachymeter Chronograph"
   },
   {
     id: 11,
@@ -440,8 +481,8 @@ export const REVIEWS = [
     city: "Abbottabad",
     rating: 5,
     date: "4 days ago",
-    comment: "Bhai ne gift ki thi mujhe Grand Prix chronograph. Looking wise 8 se 10 hazar ki lagti hai. Open parcel policy ki waja se zero tension rahi.",
-    watchBought: "Grand Prix Motorsport Racing Chronograph"
+    comment: "Bhai ne gift ki thi mujhe GENEVA Grand Prix chronograph. Looking wise 8 se 10 hazar ki lagti hai. Open parcel policy ki waja se zero tension rahi.",
+    watchBought: "GENEVA Grand Prix Motorsport Racing Chronograph"
   },
   {
     id: 12,
@@ -449,15 +490,15 @@ export const REVIEWS = [
     city: "Hyderabad (Latifabad)",
     rating: 5,
     date: "4 days ago",
-    comment: "Diver green edition is outstanding! Strap ka clasp bohat tight aur secure hai. Rs. 1,999 me aisi ghari market me 3500 ki milti hai. Mashallah zabardast kaam hai Mubashar bhai ka.",
-    watchBought: "Heritage Ceramic Diver Watch"
+    comment: "YOLAKO Diver green edition is outstanding! Strap ka clasp bohat tight aur secure hai. Rs. 2,499 me aisi ghari market me 4500 ki milti hai. Mashallah zabardast kaam hai Mubashar bhai ka.",
+    watchBought: "YOLAKO Luxury Diving Submariner"
   }
 ];
 
 export const LIVE_SALES_NOTIFICATIONS = [
-  { name: "Muhammad Huzaifa", city: "Lahore (Gulberg)", item: "Apex 3D Wheel Rim Watch", time: "2 minutes ago" },
-  { name: "Shahzaib Khan", city: "Karachi (DHA)", item: "Heritage Ceramic Diver Watch", time: "6 minutes ago" },
-  { name: "Ahmed Raza", city: "Islamabad (G-11)", item: "Octa Geometric Tachymeter", time: "12 minutes ago" },
-  { name: "Farhan Malik", city: "Rawalpindi (Bahria Town)", item: "Executive Multi-Dial Chronograph", time: "17 minutes ago" },
-  { name: "Taimoor Ali", city: "Multan Cantt", item: "Grand Prix Motorsport Racing", time: "25 minutes ago" }
+  { name: "Muhammad Huzaifa", city: "Lahore (Gulberg)", item: "MEIBO 3D Wheel Rim Watch", time: "2 minutes ago" },
+  { name: "Shahzaib Khan", city: "Karachi (DHA)", item: "YOLAKO Luxury Diving Submariner", time: "6 minutes ago" },
+  { name: "Ahmed Raza", city: "Islamabad (G-11)", item: "YOLAKO Octa Geometric Chronograph", time: "12 minutes ago" },
+  { name: "Farhan Malik", city: "Rawalpindi (Bahria Town)", item: "GENEVA Executive Multi-Dial", time: "17 minutes ago" },
+  { name: "Taimoor Ali", city: "Multan Cantt", item: "GENEVA Motorsport Racing Chrono", time: "25 minutes ago" }
 ];

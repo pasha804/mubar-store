@@ -3,15 +3,27 @@ import { X, ShieldCheck, Truck, Award, Star, CheckCircle, Zap, ShoppingBag, Mess
 
 export default function ProductModal({ product, onClose, onQuickBuy, onAddToCart }) {
   const [selectedImg, setSelectedImg] = useState(0);
+  const [selectedVariant, setSelectedVariant] = useState(product?.variants?.[0] || '');
 
   if (!product) return null;
+
+  const handleSelectVariant = (v) => {
+    setSelectedVariant(v);
+    const vImg = product?.variantImages?.[v];
+    if (vImg) {
+      const idx = product.images.indexOf(vImg);
+      if (idx !== -1) {
+        setSelectedImg(idx);
+      }
+    }
+  };
 
   const discountPercent = Math.round(
     ((product.originalPrice - product.salePrice) / product.originalPrice) * 100
   );
 
   const whatsappMessage = encodeURIComponent(
-    `Assalam-o-Alaikum Muhammad Mubashar bhai! I want to order "${product.title}" (${product.subtitle}) for Rs. ${product.salePrice.toLocaleString()} with 100% Free Nationwide Delivery.`
+    `Assalam-o-Alaikum Muhammad Mubashar bhai! I want to order "${product.title}" (${selectedVariant || product.subtitle}) for Rs. ${product.salePrice.toLocaleString()} with 100% Free Nationwide Delivery.`
   );
 
   return (
@@ -185,6 +197,80 @@ export default function ProductModal({ product, onClose, onQuickBuy, onAddToCart
                 {product.description}
               </p>
 
+              {/* Available Color Editions Selector */}
+              {product.variants && product.variants.length > 0 && (
+                <div style={{
+                  background: 'rgba(255,255,255,0.03)',
+                  border: '1px solid rgba(212, 175, 55, 0.25)',
+                  borderRadius: '10px',
+                  padding: '12px 14px',
+                  marginBottom: '20px'
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                    <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#F3E5AB', textTransform: 'uppercase', letterSpacing: '0.8px' }}>
+                      Available Color / Edition ({product.variants.length})
+                    </span>
+                    <span style={{ fontSize: '0.74rem', color: '#2ECC71', fontWeight: 600 }}>Click to switch photo</span>
+                  </div>
+                  <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))',
+                    gap: '8px'
+                  }}>
+                    {product.variants.map((v, i) => {
+                      const vImg = product.variantImages?.[v] || product.images?.[i] || product.images?.[0];
+                      const isSelected = selectedVariant === v;
+                      return (
+                        <button
+                          key={i}
+                          type="button"
+                          onClick={() => handleSelectVariant(v)}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            padding: '6px 8px',
+                            borderRadius: '8px',
+                            border: isSelected ? '1.5px solid #D4AF37' : '1px solid rgba(255,255,255,0.1)',
+                            background: isSelected ? 'rgba(212, 175, 55, 0.18)' : 'rgba(255,255,255,0.02)',
+                            color: isSelected ? '#F3E5AB' : '#bbb',
+                            cursor: 'pointer',
+                            textAlign: 'left',
+                            transition: 'all 0.18s ease',
+                            boxShadow: isSelected ? '0 0 10px rgba(212, 175, 55, 0.3)' : 'none'
+                          }}
+                        >
+                          <img 
+                            src={vImg} 
+                            alt={v}
+                            style={{
+                              width: '34px',
+                              height: '34px',
+                              borderRadius: '4px',
+                              objectFit: 'cover',
+                              border: isSelected ? '1px solid #D4AF37' : '1px solid rgba(255,255,255,0.1)',
+                              flexShrink: 0
+                            }}
+                          />
+                          <div style={{
+                            fontSize: '0.72rem',
+                            fontWeight: isSelected ? 700 : 500,
+                            lineHeight: 1.25,
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            display: '-webkit-box',
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: 'vertical'
+                          }}>
+                            {v}
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
               {/* Technical Specifications */}
               <div style={{
                 background: 'rgba(0,0,0,0.3)',
@@ -219,7 +305,7 @@ export default function ProductModal({ product, onClose, onQuickBuy, onAddToCart
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '4px' }}>
                     <span style={{ color: '#888' }}>Unboxing Packaging:</span>
-                    <strong style={{ color: '#F3E5AB' }}>{product.specs.packaging}</strong>
+                    <strong style={{ color: '#F3E5AB' }}>{product.specs.packaging || 'Protective Presentation Box Included'}</strong>
                   </div>
                 </div>
               </div>
@@ -232,7 +318,7 @@ export default function ProductModal({ product, onClose, onQuickBuy, onAddToCart
                   className="btn-gold" 
                   onClick={() => {
                     onClose();
-                    onQuickBuy(product);
+                    onQuickBuy({ ...product, preselectedVariant: selectedVariant });
                   }}
                   style={{ padding: '14px 20px', fontSize: '0.88rem' }}
                 >
@@ -243,10 +329,14 @@ export default function ProductModal({ product, onClose, onQuickBuy, onAddToCart
                 <button 
                   className="btn-outline-gold"
                   onClick={() => {
-                    onAddToCart(product);
+                    onAddToCart({
+                      ...product,
+                      selectedVariant: selectedVariant,
+                      selectedVariantImage: product.variantImages?.[selectedVariant] || product.images[0]
+                    });
                     onClose();
                   }}
-                  style={{ padding: '14px 16px', fontSize: '0.85rem' }}
+                  style={{ padding: '14px 20px', fontSize: '0.88rem' }}
                 >
                   <ShoppingBag size={16} />
                   <span>Add to Bag</span>

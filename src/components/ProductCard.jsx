@@ -3,6 +3,19 @@ import { Eye, Zap, Star, ShieldCheck } from 'lucide-react';
 
 export default function ProductCard({ product, onSelectProduct, onQuickBuy }) {
   const [activeImgIndex, setActiveImgIndex] = useState(0);
+  const [selectedVariant, setSelectedVariant] = useState(product?.variants?.[0] || '');
+
+  const handleVariantClick = (v, e) => {
+    e.stopPropagation();
+    setSelectedVariant(v);
+    const vImg = product?.variantImages?.[v];
+    if (vImg) {
+      const idx = product.images.indexOf(vImg);
+      if (idx !== -1) {
+        setActiveImgIndex(idx);
+      }
+    }
+  };
 
   const discountPercent = Math.round(
     ((product.originalPrice - product.salePrice) / product.originalPrice) * 100
@@ -157,9 +170,47 @@ export default function ProductCard({ product, onSelectProduct, onQuickBuy }) {
           >
             {product.title}
           </h3>
-          <p style={{ fontSize: '0.82rem', color: '#D4AF37', marginBottom: '14px', fontWeight: 500 }}>
+          <p style={{ fontSize: '0.82rem', color: '#D4AF37', marginBottom: '10px', fontWeight: 500 }}>
             {product.subtitle}
           </p>
+
+          {/* Color Edition Swatches */}
+          {product.variants && product.variants.length > 0 && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '12px', flexWrap: 'wrap' }}>
+              <span style={{ fontSize: '0.68rem', color: '#888' }}>Colors:</span>
+              {product.variants.slice(0, 4).map((v, i) => {
+                const isSelected = selectedVariant === v;
+                const vImg = product.variantImages?.[v] || product.images?.[i] || product.images?.[0];
+                return (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={(e) => handleVariantClick(v, e)}
+                    title={v}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      padding: '2px',
+                      borderRadius: '5px',
+                      border: isSelected ? '1.5px solid #D4AF37' : '1px solid rgba(255,255,255,0.12)',
+                      background: isSelected ? 'rgba(212, 175, 55, 0.25)' : 'rgba(0,0,0,0.5)',
+                      cursor: 'pointer',
+                      transition: 'all 0.15s ease'
+                    }}
+                  >
+                    <img 
+                      src={vImg} 
+                      alt={v} 
+                      style={{ width: '22px', height: '22px', borderRadius: '3px', objectFit: 'cover' }} 
+                    />
+                  </button>
+                );
+              })}
+              {product.variants.length > 4 && (
+                <span style={{ fontSize: '0.68rem', color: '#D4AF37' }}>+{product.variants.length - 4}</span>
+              )}
+            </div>
+          )}
 
           {/* Flash Sale Stock Claim Bar */}
           <div style={{ marginBottom: '16px' }}>
@@ -191,7 +242,7 @@ export default function ProductCard({ product, onSelectProduct, onQuickBuy }) {
           <div style={{ display: 'grid', gridTemplateColumns: '1.25fr 0.75fr', gap: '8px' }}>
             <button 
               className="btn-gold" 
-              onClick={() => onQuickBuy(product)}
+              onClick={() => onQuickBuy({ ...product, preselectedVariant: selectedVariant })}
               style={{ padding: '11px 14px', fontSize: '0.8rem', width: '100%' }}
             >
               <Zap size={14} />

@@ -35,11 +35,16 @@ const CITIES = [
   'Other City'
 ];
 
-export default function QuickCODModal({ product, onClose }) {
+export default function QuickCODModal({ product, initialVariant, onClose }) {
   const [quantity, setQuantity] = useState(1);
   const [selectedVariant, setSelectedVariant] = useState(
-    product?.variants?.[0] || 'Standard Edition'
+    initialVariant || product?.preselectedVariant || product?.variants?.[0] || 'Standard Edition'
   );
+
+  // Derive exact image corresponding to selected variant
+  const currentVariantImage = (product?.variantImages && product.variantImages[selectedVariant])
+    || product?.images?.[0]
+    || '';
 
   // Payment method selection
   const [paymentType, setPaymentType] = useState('cod'); // 'cod' | 'online'
@@ -109,7 +114,7 @@ export default function QuickCODModal({ product, onClose }) {
       address: formData.address.trim(),
       productTitle: product.title,
       productId: product.id,
-      productImage: product.images?.[0] || '',
+      productImage: currentVariantImage,
       variant: selectedVariant,
       quantity: quantity,
       unitPrice: unitPrice,
@@ -281,32 +286,77 @@ Founder Verification WhatsApp: +92 308 4453846`;
               </p>
             </div>
 
-            {/* Product Summary Box */}
+            {/* Product Summary Box with Live Dynamic Image */}
             <div style={{
-              background: 'rgba(0,0,0,0.45)',
-              border: '1px solid rgba(212, 175, 55, 0.25)',
-              borderRadius: '12px',
+              background: 'rgba(0,0,0,0.55)',
+              border: '1.5px solid rgba(212, 175, 55, 0.35)',
+              borderRadius: '14px',
               padding: '12px 14px',
               display: 'flex',
               alignItems: 'center',
-              gap: '12px',
-              marginBottom: '16px'
+              gap: '14px',
+              marginBottom: '16px',
+              boxShadow: '0 8px 24px rgba(0,0,0,0.5)'
             }}>
-              <img 
-                src={product.images?.[0]} 
-                alt={product.title} 
-                style={{ width: '64px', height: '64px', objectFit: 'cover', borderRadius: '8px', border: '1px solid rgba(212, 175, 55, 0.3)' }}
-              />
+              <div style={{
+                position: 'relative',
+                width: '74px',
+                height: '74px',
+                flexShrink: 0,
+                borderRadius: '10px',
+                overflow: 'hidden',
+                border: '1.5px solid #D4AF37',
+                background: '#070709'
+              }}>
+                <img 
+                  key={currentVariantImage}
+                  src={currentVariantImage} 
+                  alt={selectedVariant} 
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    animation: 'fadeIn 0.25s ease'
+                  }}
+                />
+                <div style={{
+                  position: 'absolute',
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  background: 'rgba(7, 7, 9, 0.85)',
+                  fontSize: '0.62rem',
+                  color: '#2ECC71',
+                  fontWeight: 700,
+                  textAlign: 'center',
+                  padding: '1px 0'
+                }}>
+                  Selected Color
+                </div>
+              </div>
+
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#fff', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                <div style={{ fontSize: '0.92rem', fontWeight: 700, color: '#fff', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                   {product.title}
                 </div>
-                <div style={{ fontSize: '0.76rem', color: '#D4AF37' }}>{selectedVariant}</div>
+                <div style={{
+                  fontSize: '0.78rem',
+                  color: '#F3E5AB',
+                  fontWeight: 600,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  marginTop: '2px'
+                }}>
+                  <span style={{ display: 'inline-block', width: '6px', height: '6px', borderRadius: '50%', background: '#2ECC71' }} />
+                  <span>{selectedVariant}</span>
+                </div>
                 <div style={{ fontSize: '0.72rem', color: '#2ECC71', marginTop: '3px', display: 'flex', alignItems: 'center', gap: '4px' }}>
                   <Truck size={12} /> 100% Free Nationwide Delivery (Rs. 0)
                 </div>
               </div>
-              <div style={{ textAlign: 'right' }}>
+
+              <div style={{ textAlign: 'right', flexShrink: 0 }}>
                 <div className="font-cinzel" style={{ fontSize: '1.3rem', fontWeight: 800, color: '#F3E5AB' }}>
                   Rs. {totalAmount.toLocaleString()}
                 </div>
@@ -319,69 +369,123 @@ Founder Verification WhatsApp: +92 308 4453846`;
             {/* Form */}
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
               
-              {/* Variant & Quantity Row */}
-              <div style={{ display: 'grid', gridTemplateColumns: product.variants?.length ? '1.5fr 1fr' : '1fr', gap: '12px' }}>
-                {product.variants && product.variants.length > 0 && (
-                  <div>
-                    <label style={{ fontSize: '0.76rem', color: '#ccc', fontWeight: 600, display: 'block', marginBottom: '5px' }}>
-                      Color / Edition *
+              {/* Interactive Visual Variant Selection */}
+              {product.variants && product.variants.length > 0 && (
+                <div style={{
+                  background: 'rgba(255,255,255,0.02)',
+                  border: '1px solid rgba(212, 175, 55, 0.2)',
+                  borderRadius: '12px',
+                  padding: '12px'
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                    <label style={{ fontSize: '0.78rem', color: '#F3E5AB', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <Sparkles size={13} color="#D4AF37" />
+                      <span>Select Watch Color / Edition:</span>
                     </label>
-                    <select
-                      value={selectedVariant}
-                      onChange={e => setSelectedVariant(e.target.value)}
-                      style={{
-                        width: '100%',
-                        padding: '9px 12px',
-                        borderRadius: '8px',
-                        background: '#121218',
-                        border: '1px solid rgba(212, 175, 55, 0.3)',
-                        color: '#F3E5AB',
-                        fontSize: '0.82rem',
-                        outline: 'none',
-                        cursor: 'pointer'
-                      }}
-                    >
-                      {product.variants.map((v, i) => (
-                        <option key={i} value={v}>{v}</option>
-                      ))}
-                    </select>
+                    <span style={{ fontSize: '0.72rem', color: '#888' }}>Click to view photo</span>
                   </div>
-                )}
 
-                <div>
-                  <label style={{ fontSize: '0.76rem', color: '#ccc', fontWeight: 600, display: 'block', marginBottom: '5px' }}>
-                    Quantity
-                  </label>
+                  {/* Grid of clickable color options with actual watch pictures */}
                   <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    background: 'rgba(255,255,255,0.04)',
-                    border: '1px solid rgba(255,255,255,0.12)',
-                    borderRadius: '8px',
-                    padding: '2px 4px',
-                    height: '38px',
-                    justifyContent: 'space-between'
+                    display: 'grid',
+                    gridTemplateColumns: product.variants.length <= 2 ? 'repeat(2, 1fr)' : 'repeat(auto-fit, minmax(135px, 1fr))',
+                    gap: '8px'
                   }}>
-                    <button
-                      type="button"
-                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                      style={{ background: 'none', border: 'none', color: '#fff', width: '30px', height: '30px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                    >
-                      <Minus size={13} />
-                    </button>
-                    <span style={{ fontWeight: 700, color: '#F3E5AB', fontSize: '0.9rem' }}>
-                      {quantity}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => setQuantity(Math.min(10, quantity + 1))}
-                      style={{ background: 'none', border: 'none', color: '#fff', width: '30px', height: '30px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                    >
-                      <Plus size={13} />
-                    </button>
+                    {product.variants.map((v, i) => {
+                      const vImg = product.variantImages?.[v] || product.images?.[i] || product.images?.[0];
+                      const isSelected = selectedVariant === v;
+                      return (
+                        <button
+                          key={i}
+                          type="button"
+                          onClick={() => setSelectedVariant(v)}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            padding: '6px 8px',
+                            borderRadius: '8px',
+                            border: isSelected ? '1.5px solid #D4AF37' : '1px solid rgba(255,255,255,0.1)',
+                            background: isSelected ? 'rgba(212, 175, 55, 0.16)' : 'rgba(255,255,255,0.03)',
+                            color: isSelected ? '#F3E5AB' : '#bbb',
+                            cursor: 'pointer',
+                            textAlign: 'left',
+                            transition: 'all 0.18s ease',
+                            boxShadow: isSelected ? '0 0 12px rgba(212, 175, 55, 0.3)' : 'none'
+                          }}
+                        >
+                          <img 
+                            src={vImg} 
+                            alt={v}
+                            style={{
+                              width: '38px',
+                              height: '38px',
+                              borderRadius: '6px',
+                              objectFit: 'cover',
+                              border: isSelected ? '1px solid #D4AF37' : '1px solid rgba(255,255,255,0.1)',
+                              flexShrink: 0
+                            }}
+                          />
+                          <div style={{ flex: 1, minWidth: 0 }}>
+                            <div style={{
+                              fontSize: '0.72rem',
+                              lineHeight: 1.25,
+                              fontWeight: isSelected ? 700 : 500,
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                              display: '-webkit-box',
+                              WebkitLineClamp: 2,
+                              WebkitBoxOrient: 'vertical'
+                            }}>
+                              {v}
+                            </div>
+                          </div>
+                          {isSelected && (
+                            <span style={{ color: '#2ECC71', fontSize: '0.75rem', fontWeight: 800 }}>✓</span>
+                          )}
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
+              )}
+
+              {/* Quantity Selector Row */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(255,255,255,0.02)', padding: '10px 14px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.08)' }}>
+                <div>
+                  <span style={{ fontSize: '0.8rem', color: '#ccc', fontWeight: 600 }}>Order Quantity:</span>
+                  <div style={{ fontSize: '0.7rem', color: '#888' }}>Select how many watches you want</div>
+                </div>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  background: 'rgba(255,255,255,0.06)',
+                  border: '1px solid rgba(212, 175, 55, 0.3)',
+                  borderRadius: '8px',
+                  padding: '2px 4px',
+                  height: '38px'
+                }}>
+                  <button
+                    type="button"
+                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                    style={{ background: 'none', border: 'none', color: '#fff', width: '32px', height: '32px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                  >
+                    <Minus size={13} />
+                  </button>
+                  <span style={{ fontWeight: 800, color: '#F3E5AB', fontSize: '0.95rem', minWidth: '28px', textAlign: 'center' }}>
+                    {quantity}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setQuantity(Math.min(10, quantity + 1))}
+                    style={{ background: 'none', border: 'none', color: '#fff', width: '32px', height: '32px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                  >
+                    <Plus size={13} />
+                  </button>
+                </div>
               </div>
+
+
 
               {/* Customer Name & Phone */}
               <div className="quick-cod-row">
@@ -938,13 +1042,22 @@ Founder Verification WhatsApp: +92 308 4453846`;
               color: '#ddd',
               marginBottom: '18px'
             }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
-                <span style={{ color: '#888' }}>Timepiece:</span>
-                <strong>{product.title}</strong>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px', paddingBottom: '12px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+                <img 
+                  src={currentVariantImage} 
+                  alt={selectedVariant} 
+                  style={{ width: '56px', height: '56px', borderRadius: '8px', objectFit: 'cover', border: '1.5px solid #D4AF37', flexShrink: 0 }} 
+                />
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontWeight: 700, color: '#fff', fontSize: '0.92rem' }}>{product.title}</div>
+                  <div style={{ color: '#F3E5AB', fontSize: '0.78rem', fontWeight: 600, marginTop: '2px' }}>
+                    Edition: {selectedVariant}
+                  </div>
+                </div>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
                 <span style={{ color: '#888' }}>Variant / Edition:</span>
-                <span style={{ color: '#F3E5AB' }}>{selectedVariant}</span>
+                <span style={{ color: '#F3E5AB', fontWeight: 600 }}>{selectedVariant}</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
                 <span style={{ color: '#888' }}>Quantity:</span>

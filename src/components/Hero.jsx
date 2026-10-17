@@ -182,7 +182,7 @@ export default function Hero({ onExploreClick, onUnboxingClick, onQuickBuyFlagsh
             <div style={{ position: 'relative' }}>
               <img 
                 src={flagshipImages[activeAngleIndex]} 
-                alt="Apex 3D Wheel Rim Kinetic Watch" 
+                alt="MEIBO 3D Wheel Rim Kinetic Watch" 
                 style={{
                   width: '100%',
                   height: '420px',
@@ -279,7 +279,7 @@ export default function Hero({ onExploreClick, onUnboxingClick, onQuickBuyFlagsh
             }}>
               <div>
                 <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#fff' }}>
-                  Apex 3D Wheel Rim Kinetic Watch
+                  MEIBO 3D Wheel Rim Kinetic Watch
                 </div>
                 <div style={{ fontSize: '0.74rem', color: '#D4AF37' }}>
                   Spinning Rotor • Brembo Caliper • PVD Steel

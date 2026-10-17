@@ -96,15 +96,17 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQty, on
                 }}
               >
                 <img 
-                  src={item.images[0]} 
+                  src={item.selectedVariantImage || item.productImage || item.images[0]} 
                   alt={item.title} 
-                  style={{ width: '70px', height: '70px', objectFit: 'cover', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)' }}
+                  style={{ width: '70px', height: '70px', objectFit: 'cover', borderRadius: '8px', border: '1px solid rgba(212, 175, 55, 0.3)' }}
                 />
                 
                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                   <div>
                     <h4 style={{ fontSize: '0.9rem', color: '#fff', fontWeight: 600 }}>{item.title}</h4>
-                    <div style={{ fontSize: '0.75rem', color: '#D4AF37' }}>{item.subtitle}</div>
+                    <div style={{ fontSize: '0.75rem', color: '#D4AF37' }}>
+                      {item.selectedVariant ? `Edition: ${item.selectedVariant}` : item.subtitle}
+                    </div>
                   </div>
 
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
