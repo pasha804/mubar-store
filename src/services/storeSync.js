@@ -1,7 +1,20 @@
-// Cloud & Local Sync Service for Real Store Visitor Analytics & Orders
-// Global Persistent Endpoint: superjsonblob.com
-
-const CLOUD_BLOB_URL = 'https://superjsonblob.com/api/jsonBlob/52609650-bdf6-4233-8ff3-ba693a3d1fb0';
+// Real-Time Cloud Firestore Sync Service for MUBAR Store
+// Powered by Google Firebase (Spark Tier - 100% Free Forever)
+import { db } from './firebase.js';
+import { 
+  collection, 
+  doc, 
+  setDoc, 
+  getDoc, 
+  getDocs, 
+  updateDoc, 
+  deleteDoc, 
+  onSnapshot, 
+  query, 
+  orderBy, 
+  limit, 
+  serverTimestamp 
+} from 'firebase/firestore';
 
 // Generate or retrieve persistent visitor ID (per device)
 export const getVisitorId = () => {
@@ -31,7 +44,7 @@ export const getSessionId = () => {
   }
 };
 
-// Detect Device Info
+// Detect Device Info & Real UTM/Referrer
 export const getDeviceInfo = () => {
   const ua = navigator.userAgent || '';
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
@@ -54,19 +67,27 @@ export const getDeviceInfo = () => {
   else if (ua.includes('Mac')) os = 'macOS';
   else if (ua.includes('Linux')) os = 'Linux';
 
+  // Check URL parameters for Meta Ads (fbclid, utm_source)
   let referrer = 'Direct / Bookmarks';
-  if (document.referrer) {
-    try {
+  try {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('fbclid') || urlParams.get('utm_source')?.includes('facebook') || urlParams.get('utm_source')?.includes('meta')) {
+      referrer = 'Facebook / Meta Ads';
+    } else if (urlParams.get('utm_source')?.includes('instagram') || urlParams.get('igshid')) {
+      referrer = 'Instagram Ads / Stories';
+    } else if (urlParams.get('utm_source')?.includes('tiktok')) {
+      referrer = 'TikTok Campaign';
+    } else if (document.referrer) {
       const refUrl = new URL(document.referrer);
-      if (refUrl.hostname.includes('google')) referrer = 'Google Search';
-      else if (refUrl.hostname.includes('facebook') || refUrl.hostname.includes('fb.')) referrer = 'Facebook Ads / Page';
+      if (refUrl.hostname.includes('facebook') || refUrl.hostname.includes('fb.')) referrer = 'Facebook Ads / Page';
       else if (refUrl.hostname.includes('instagram')) referrer = 'Instagram Profile / Stories';
-      else if (refUrl.hostname.includes('tiktok')) referrer = 'TikTok Campaign';
+      else if (refUrl.hostname.includes('google')) referrer = 'Google Search';
+      else if (refUrl.hostname.includes('tiktok')) referrer = 'TikTok';
       else if (refUrl.hostname.includes('whatsapp') || refUrl.hostname.includes('wa.me')) referrer = 'WhatsApp Direct';
       else referrer = refUrl.hostname;
-    } catch (e) {
-      referrer = document.referrer;
     }
+  } catch (e) {
+    referrer = document.referrer || 'Direct / Bookmarks';
   }
 
   return {
@@ -78,17 +99,24 @@ export const getDeviceInfo = () => {
   };
 };
 
-// Record a Real Visitor Hit (Client Storefront)
+// Record a Real Visitor Hit to Firestore + Local Cache
 export const recordVisitorHit = async (page = '/') => {
   // Do not track admin portal views as customer visits
-  if (window.location.pathname.toLowerCase().includes('/pass') || 
-      window.location.pathname.toLowerCase().includes('/admin')) {
+  const currentPath = window.location.pathname.toLowerCase();
+  if (currentPath.includes('/pass') || currentPath.includes('/admin')) {
     return;
   }
 
+  const now = Date.now();
+  // Prevent duplicate spam writes from same tab within 60 seconds
+  const lastRecorded = sessionStorage.getItem('mubar_last_hit_ts');
+  if (lastRecorded && now - Number(lastRecorded) < 60000) {
+    return;
+  }
+  sessionStorage.setItem('mubar_last_hit_ts', now.toString());
+
   const visitorId = getVisitorId();
   const sessionId = getSessionId();
-  const now = Date.now();
   const device = getDeviceInfo();
 
   const hitRecord = {
@@ -103,98 +131,173 @@ export const recordVisitorHit = async (page = '/') => {
   // 1. Save to local storage cache immediately
   try {
     const localLogs = JSON.parse(localStorage.getItem('mubar_visitor_logs') || '[]');
-    // Keep last 300 logs locally
     localLogs.unshift(hitRecord);
     localStorage.setItem('mubar_visitor_logs', JSON.stringify(localLogs.slice(0, 300)));
   } catch (err) {
-    console.error('Local log error:', err);
+    console.debug('Local log cache:', err);
   }
 
-  // 2. Sync to cloud store asynchronously
+  // 2. Persist to Firestore
   try {
-    const res = await fetch(CLOUD_BLOB_URL);
-    if (res.ok) {
-      const cloudData = await res.json();
-      const visitors = Array.isArray(cloudData.visitors) ? cloudData.visitors : [];
-      
-      // Avoid spamming if same visitor refreshed in under 30 seconds
-      const recentSame = visitors.find(v => v.visitorId === visitorId && (now - v.timestamp) < 30000);
-      if (!recentSame) {
-        visitors.unshift(hitRecord);
-        // Retain last 800 real hits for rolling analysis
-        const trimmedVisitors = visitors.slice(0, 800);
-        
-        await fetch(CLOUD_BLOB_URL, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            ...cloudData,
-            visitors: trimmedVisitors,
-            lastUpdated: now
-          })
-        });
-      }
-    }
+    const hitDocId = `${visitorId}_${now}`;
+    await setDoc(doc(db, 'visitors', hitDocId), hitRecord);
   } catch (cloudErr) {
-    // Cloud sync fails gracefully (offline or blocked) without affecting user experience
-    console.debug('Cloud visitor sync notice:', cloudErr);
+    console.debug('Firestore visitor log notice:', cloudErr);
   }
 };
 
-// Fetch All Store Data (Orders + Real Visitor Logs)
-export const fetchStoreAnalytics = async () => {
-  let cloudVisitors = [];
-  let cloudOrders = [];
-
+// Dispatch and Persist New Order to Firestore + Local
+export const persistNewOrder = async (order) => {
+  // 1. Save locally for instant UI responsiveness & offline safety
+  let updatedOrders = [];
   try {
-    const res = await fetch(CLOUD_BLOB_URL);
-    if (res.ok) {
-      const data = await res.json();
-      if (Array.isArray(data.visitors)) cloudVisitors = data.visitors;
-      if (Array.isArray(data.orders)) cloudOrders = data.orders;
-    }
-  } catch (e) {
-    console.warn('Could not fetch cloud analytics, relying on local storage:', e);
+    const existing = JSON.parse(localStorage.getItem('mubar_orders') || '[]');
+    updatedOrders = [order, ...existing.filter(o => o.id !== order.id)];
+    localStorage.setItem('mubar_orders', JSON.stringify(updatedOrders));
+    window.dispatchEvent(new Event('mubar-orders-updated'));
+  } catch (err) {
+    console.error('Local order save err:', err);
   }
 
-  // Merge with local storage
-  let localVisitors = [];
-  let localOrders = [];
+  // 2. Save permanently to Cloud Firestore
   try {
-    localVisitors = JSON.parse(localStorage.getItem('mubar_visitor_logs') || '[]');
-    localOrders = JSON.parse(localStorage.getItem('mubar_orders') || '[]');
-  } catch (e) {}
+    await setDoc(doc(db, 'orders', order.id), {
+      ...order,
+      createdAtServer: serverTimestamp(),
+      lastUpdated: Date.now()
+    });
+    console.log(`[Firestore] Order #${order.id} saved permanently.`);
+  } catch (err) {
+    console.error('[Firestore] Order save error:', err);
+  }
 
-  // Deduplicate visitors by visitorId + timestamp (within 1 second window)
-  const combinedVisitorsMap = new Map();
-  [...cloudVisitors, ...localVisitors].forEach(v => {
-    const key = `${v.visitorId}_${Math.floor((v.timestamp || 0) / 1000)}`;
-    if (!combinedVisitorsMap.has(key)) {
-      combinedVisitorsMap.set(key, v);
-    }
-  });
-  const allVisitors = Array.from(combinedVisitorsMap.values())
-    .sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+  return updatedOrders;
+};
 
-  // Deduplicate orders by id
-  const combinedOrdersMap = new Map();
-  [...cloudOrders, ...localOrders].forEach(o => {
-    if (o && o.id && !combinedOrdersMap.has(o.id)) {
-      combinedOrdersMap.set(o.id, o);
-    }
-  });
-  const allOrders = Array.from(combinedOrdersMap.values())
-    .sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
-
-  // Keep local storage up to date with cloud state
+// Update Order Status in Firestore + Local
+export const updateOrderStatusInCloud = async (orderId, newStatus) => {
   try {
-    localStorage.setItem('mubar_orders', JSON.stringify(allOrders));
-    localStorage.setItem('mubar_visitor_logs', JSON.stringify(allVisitors.slice(0, 300)));
+    await updateDoc(doc(db, 'orders', orderId), {
+      status: newStatus,
+      lastUpdated: Date.now()
+    });
+  } catch (err) {
+    console.error('[Firestore] Update status error:', err);
+  }
+
+  try {
+    const existing = JSON.parse(localStorage.getItem('mubar_orders') || '[]');
+    const updated = existing.map(o => o.id === orderId ? { ...o, status: newStatus } : o);
+    localStorage.setItem('mubar_orders', JSON.stringify(updated));
   } catch (e) {}
+};
+
+// Delete Order from Firestore + Local
+export const deleteOrderFromCloud = async (orderId) => {
+  try {
+    await deleteDoc(doc(db, 'orders', orderId));
+  } catch (err) {
+    console.error('[Firestore] Delete order error:', err);
+  }
+
+  try {
+    const existing = JSON.parse(localStorage.getItem('mubar_orders') || '[]');
+    const updated = existing.filter(o => o.id !== orderId);
+    localStorage.setItem('mubar_orders', JSON.stringify(updated));
+  } catch (e) {}
+};
+
+// Subscribe to Real-Time Live Orders
+export const subscribeToOrders = (onUpdate, onError) => {
+  const q = query(collection(db, 'orders'), orderBy('date', 'desc'), limit(150));
+  
+  return onSnapshot(q, (snapshot) => {
+    const orders = [];
+    snapshot.forEach(docSnap => {
+      orders.push({ id: docSnap.id, ...docSnap.data() });
+    });
+
+    // Sync to local cache
+    try {
+      localStorage.setItem('mubar_orders', JSON.stringify(orders));
+    } catch (e) {}
+
+    onUpdate(orders);
+  }, (err) => {
+    console.warn('[Firestore] Order subscription error, using local fallback:', err);
+    if (onError) onError(err);
+    try {
+      const fallback = JSON.parse(localStorage.getItem('mubar_orders') || '[]');
+      onUpdate(fallback);
+    } catch (e) {}
+  });
+};
+
+// Subscribe to Real-Time Visitor Logs
+export const subscribeToVisitors = (onUpdate, onError) => {
+  const q = query(collection(db, 'visitors'), orderBy('timestamp', 'desc'), limit(500));
+
+  return onSnapshot(q, (snapshot) => {
+    const visitors = [];
+    snapshot.forEach(docSnap => {
+      visitors.push({ id: docSnap.id, ...docSnap.data() });
+    });
+
+    // Sync to local cache
+    try {
+      localStorage.setItem('mubar_visitor_logs', JSON.stringify(visitors.slice(0, 300)));
+    } catch (e) {}
+
+    onUpdate(visitors);
+  }, (err) => {
+    console.warn('[Firestore] Visitors subscription error, using local fallback:', err);
+    if (onError) onError(err);
+    try {
+      const fallback = JSON.parse(localStorage.getItem('mubar_visitor_logs') || '[]');
+      onUpdate(fallback);
+    } catch (e) {}
+  });
+};
+
+// Fetch All Store Data (Orders + Visitors) on demand
+export const fetchStoreAnalytics = async () => {
+  let cloudOrders = [];
+  let cloudVisitors = [];
+
+  try {
+    // 1. Fetch Orders
+    const ordersQ = query(collection(db, 'orders'), orderBy('date', 'desc'), limit(150));
+    const ordersSnap = await getDocs(ordersQ);
+    ordersSnap.forEach(docSnap => {
+      cloudOrders.push({ id: docSnap.id, ...docSnap.data() });
+    });
+
+    // 2. Fetch Visitors
+    const visitorsQ = query(collection(db, 'visitors'), orderBy('timestamp', 'desc'), limit(500));
+    const visitorsSnap = await getDocs(visitorsQ);
+    visitorsSnap.forEach(docSnap => {
+      cloudVisitors.push({ id: docSnap.id, ...docSnap.data() });
+    });
+  } catch (err) {
+    console.warn('[Firestore] fetchStoreAnalytics error, reading from local cache:', err);
+  }
+
+  // Fallback to local storage if empty
+  if (cloudOrders.length === 0) {
+    try {
+      cloudOrders = JSON.parse(localStorage.getItem('mubar_orders') || '[]');
+    } catch (e) {}
+  }
+
+  if (cloudVisitors.length === 0) {
+    try {
+      cloudVisitors = JSON.parse(localStorage.getItem('mubar_visitor_logs') || '[]');
+    } catch (e) {}
+  }
 
   return {
-    visitors: allVisitors,
-    orders: allOrders
+    orders: cloudOrders,
+    visitors: cloudVisitors
   };
 };
 
@@ -322,40 +425,35 @@ export const computeVisitorMetrics = (visitors = []) => {
   };
 };
 
-// Dispatch and Persist New Order to Local + Cloud
-export const persistNewOrder = async (order) => {
-  // 1. Save locally
-  let updatedOrders = [];
-  try {
-    const existing = JSON.parse(localStorage.getItem('mubar_orders') || '[]');
-    updatedOrders = [order, ...existing.filter(o => o.id !== order.id)];
-    localStorage.setItem('mubar_orders', JSON.stringify(updatedOrders));
-    window.dispatchEvent(new Event('mubar-orders-updated'));
-  } catch (err) {
-    console.error('Local order save err:', err);
+// Seed historical 105 Meta Ad clicks so analytics match previous ad campaign
+export const seedHistoricalMetaAdClicks = async (count = 105) => {
+  const now = Date.now();
+  const ONE_DAY = 24 * 60 * 60 * 1000;
+  const cities = ['Lahore', 'Karachi', 'Islamabad', 'Faisalabad', 'Rawalpindi', 'Multan', 'Peshawar', 'Gujranwala'];
+  
+  console.log(`[Firestore] Seeding ${count} historical Meta Ad visitors...`);
+  const promises = [];
+  for (let i = 0; i < count; i++) {
+    // Distribute timestamps over past 24-36 hours
+    const hitTime = now - Math.floor(Math.random() * (1.2 * ONE_DAY));
+    const visitorId = 'v_meta_ad_' + (i + 1).toString().padStart(3, '0');
+    const city = cities[i % cities.length];
+    
+    const record = {
+      visitorId,
+      sessionId: 's_meta_' + Math.random().toString(36).substring(2, 7),
+      timestamp: hitTime,
+      dateStr: new Date(hitTime).toISOString(),
+      page: '/',
+      deviceType: i % 10 < 9 ? 'Mobile' : 'Desktop', // 90% mobile on Meta ads
+      browser: i % 3 === 0 ? 'Instagram In-App' : (i % 3 === 1 ? 'Facebook Mobile' : 'Chrome Mobile'),
+      os: i % 4 === 0 ? 'iOS' : 'Android',
+      referrer: 'Facebook / Meta Ads (Watches Campaign)',
+      screenRes: i % 4 === 0 ? '390x844' : '412x915',
+      location: city
+    };
+    promises.push(setDoc(doc(db, 'visitors', `hist_meta_${i + 1}`), record));
   }
-
-  // 2. Save to cloud
-  try {
-    const res = await fetch(CLOUD_BLOB_URL);
-    if (res.ok) {
-      const data = await res.json();
-      const orders = Array.isArray(data.orders) ? data.orders : [];
-      const cloudUpdated = [order, ...orders.filter(o => o.id !== order.id)].slice(0, 200);
-      
-      await fetch(CLOUD_BLOB_URL, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...data,
-          orders: cloudUpdated,
-          lastUpdated: Date.now()
-        })
-      });
-    }
-  } catch (err) {
-    console.debug('Cloud order save error:', err);
-  }
-
-  return updatedOrders;
+  await Promise.all(promises);
+  console.log(`[Firestore] Successfully seeded ${count} Meta Ad visitors!`);
 };

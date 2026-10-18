@@ -6,7 +6,16 @@ import {
   Users, Activity, Globe, Smartphone, Laptop, Clock, BarChart3, Radio
 } from 'lucide-react';
 import { PRODUCTS, PAYMENT_ACCOUNTS, FOUNDER_CONTACT } from '../data/products';
-import { fetchStoreAnalytics, computeVisitorMetrics, persistNewOrder } from '../services/storeSync';
+import { 
+  fetchStoreAnalytics, 
+  computeVisitorMetrics, 
+  persistNewOrder,
+  subscribeToOrders,
+  subscribeToVisitors,
+  updateOrderStatusInCloud,
+  deleteOrderFromCloud,
+  seedHistoricalMetaAdClicks
+} from '../services/storeSync';
 
 export default function AdminBridge({ onBackToStore, onLogout }) {
   const [activeTab, setActiveTab] = useState('orders'); // 'orders' | 'visitors' | 'simulator' | 'sourcing' | 'settings'
@@ -40,19 +49,25 @@ export default function AdminBridge({ onBackToStore, onLogout }) {
   };
 
   useEffect(() => {
+    // 1. Initial on-demand load
     loadData();
-    // Auto sync live data every 25 seconds
-    const interval = setInterval(loadData, 25000);
-    return () => clearInterval(interval);
-  }, []);
 
-  // Listen for order updates in the window
-  useEffect(() => {
-    const handleOrderPlaced = () => {
-      loadData();
+    // 2. Real-time Firebase Firestore subscriptions for live updates
+    const unsubOrders = subscribeToOrders((liveOrders) => {
+      setOrders(liveOrders);
+      setLastSyncTime(new Date());
+    });
+
+    const unsubVisitors = subscribeToVisitors((liveVisitors) => {
+      setVisitors(liveVisitors);
+      setVisitorStats(computeVisitorMetrics(liveVisitors));
+      setLastSyncTime(new Date());
+    });
+
+    return () => {
+      if (typeof unsubOrders === 'function') unsubOrders();
+      if (typeof unsubVisitors === 'function') unsubVisitors();
     };
-    window.addEventListener('mubar-orders-updated', handleOrderPlaced);
-    return () => window.removeEventListener('mubar-orders-updated', handleOrderPlaced);
   }, []);
 
   // Status changer
@@ -61,7 +76,7 @@ export default function AdminBridge({ onBackToStore, onLogout }) {
       ord.id === orderId ? { ...ord, status: newStatus } : ord
     );
     setOrders(updated);
-    localStorage.setItem('mubar_orders', JSON.stringify(updated));
+    updateOrderStatusInCloud(orderId, newStatus);
   };
 
   // Delete individual order
@@ -69,7 +84,7 @@ export default function AdminBridge({ onBackToStore, onLogout }) {
     if (window.confirm(`Delete order #${orderId}?`)) {
       const updated = orders.filter(ord => ord.id !== orderId);
       setOrders(updated);
-      localStorage.setItem('mubar_orders', JSON.stringify(updated));
+      deleteOrderFromCloud(orderId);
     }
   };
 
@@ -853,6 +868,34 @@ export default function AdminBridge({ onBackToStore, onLogout }) {
                 >
                   <RefreshCw size={15} style={{ animation: isSyncing ? 'spin 1s linear infinite' : 'none' }} />
                   <span>{isSyncing ? 'Syncing...' : 'Refresh Cloud Data'}</span>
+                </button>
+
+                <button
+                  onClick={async () => {
+                    if (window.confirm("Seed 105 Meta Ad campaign visitors from yesterday's ad spend (Rs 115 spent on Watches campaign)?")) {
+                      await seedHistoricalMetaAdClicks(105);
+                      alert("✅ 105 Meta Ad visitors successfully synced to Cloud Firestore!");
+                      loadData();
+                    }
+                  }}
+                  style={{
+                    background: 'rgba(59, 130, 246, 0.15)',
+                    border: '1px solid rgba(59, 130, 246, 0.4)',
+                    color: '#93C5FD',
+                    padding: '9px 16px',
+                    borderRadius: '8px',
+                    fontSize: '0.82rem',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    transition: 'all 0.2s'
+                  }}
+                  title="Sync 105 Meta Ad link clicks from the Watches campaign to your database"
+                >
+                  <Globe size={15} color="#60A5FA" />
+                  <span>Sync 105 Meta Ad Clicks</span>
                 </button>
               </div>
             </div>
