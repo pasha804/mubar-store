@@ -7,6 +7,7 @@ import {
 import confetti from 'canvas-confetti';
 import { PAYMENT_ACCOUNTS, FOUNDER_CONTACT } from '../data/products';
 import { persistNewOrder } from '../services/storeSync';
+import { getWatchWhatsAppUrl } from '../services/whatsappService';
 
 const PROVINCES = [
   'Punjab',
@@ -365,6 +366,34 @@ Founder Verification WhatsApp: +92 308 4453846`;
                 </div>
               </div>
             </div>
+
+            {/* 1-Tap WhatsApp Alternative Shortcut */}
+            <a 
+              href={getWatchWhatsAppUrl(product, selectedVariant)}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                background: 'linear-gradient(135deg, rgba(37, 211, 102, 0.15) 0%, rgba(18, 140, 126, 0.25) 100%)',
+                border: '1px solid rgba(37, 211, 102, 0.5)',
+                borderRadius: '10px',
+                padding: '9px 14px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                marginBottom: '16px',
+                textDecoration: 'none',
+                color: '#fff',
+                cursor: 'pointer'
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <MessageCircle size={17} color="#25D366" />
+                <span style={{ fontSize: '0.78rem', color: '#E0E0E0' }}>Form nahi bharna chahte? <strong>Direct WhatsApp par order dein</strong></span>
+              </div>
+              <span style={{ background: '#25D366', color: '#000', fontSize: '0.72rem', fontWeight: 800, padding: '4px 10px', borderRadius: '5px' }}>
+                WhatsApp →
+              </span>
+            </a>
 
             {/* Form */}
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>

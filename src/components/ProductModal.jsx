@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, ShieldCheck, Truck, Award, Star, CheckCircle, Zap, ShoppingBag, MessageCircle } from 'lucide-react';
+import { getWatchWhatsAppUrl } from '../services/whatsappService';
 
 export default function ProductModal({ product, onClose, onQuickBuy, onAddToCart }) {
   const [selectedImg, setSelectedImg] = useState(0);
@@ -313,6 +314,41 @@ export default function ProductModal({ product, onClose, onQuickBuy, onAddToCart
 
             {/* CTAs & Trust */}
             <div>
+              {/* High-Converting Direct WhatsApp Order Button */}
+              <a 
+                href={getWatchWhatsAppUrl(product, selectedVariant)}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)',
+                  color: '#fff',
+                  textDecoration: 'none',
+                  padding: '14px 20px',
+                  borderRadius: '10px',
+                  fontWeight: 700,
+                  fontSize: '0.94rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '10px',
+                  boxShadow: '0 6px 20px rgba(37, 211, 102, 0.4)',
+                  marginBottom: '12px',
+                  transition: 'all 0.2s ease',
+                  cursor: 'pointer'
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 8px 25px rgba(37, 211, 102, 0.6)';
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 6px 20px rgba(37, 211, 102, 0.4)';
+                }}
+              >
+                <MessageCircle size={20} />
+                <span>Order This Watch on WhatsApp (Instant Reply)</span>
+              </a>
+
               <div style={{ display: 'grid', gridTemplateColumns: '1.3fr 1fr', gap: '12px', marginBottom: '14px' }}>
                 <button 
                   className="btn-gold" 

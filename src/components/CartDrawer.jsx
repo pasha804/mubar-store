@@ -1,5 +1,6 @@
 import React from 'react';
-import { X, Trash2, ShoppingBag, ArrowRight, ShieldCheck, Plus, Minus } from 'lucide-react';
+import { X, Trash2, ShoppingBag, ArrowRight, ShieldCheck, Plus, Minus, MessageCircle } from 'lucide-react';
+import { getCartWhatsAppUrl } from '../services/whatsappService';
 
 export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQty, onRemoveItem, onCheckout }) {
   if (!isOpen) return null;
@@ -162,13 +163,40 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQty, on
               <span>FREE</span>
             </div>
 
+            <a 
+              href={getCartWhatsAppUrl(cartItems, subtotal)}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)',
+                color: '#fff',
+                textDecoration: 'none',
+                width: '100%',
+                padding: '13px',
+                borderRadius: '8px',
+                fontSize: '0.9rem',
+                fontWeight: 700,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                boxShadow: '0 4px 15px rgba(37, 211, 102, 0.4)',
+                marginBottom: '10px',
+                transition: 'all 0.2s ease',
+                cursor: 'pointer'
+              }}
+            >
+              <MessageCircle size={18} />
+              <span>Order via WhatsApp (Instant Reply)</span>
+            </a>
+
             <button 
               className="btn-gold" 
               onClick={onCheckout}
-              style={{ width: '100%', padding: '14px', fontSize: '0.9rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
+              style={{ width: '100%', padding: '12px', fontSize: '0.86rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
             >
-              <span>Proceed to Checkout (COD / Online)</span>
-              <ArrowRight size={16} />
+              <span>Or Fill Web Order Form</span>
+              <ArrowRight size={15} />
             </button>
           </div>
         )}

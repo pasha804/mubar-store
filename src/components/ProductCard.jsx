@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Eye, Zap, Star, ShieldCheck } from 'lucide-react';
+import { Eye, Zap, Star, ShieldCheck, MessageCircle } from 'lucide-react';
+import { getWatchWhatsAppUrl } from '../services/whatsappService';
 
 export default function ProductCard({ product, onSelectProduct, onQuickBuy }) {
   const [activeImgIndex, setActiveImgIndex] = useState(0);
@@ -239,23 +240,58 @@ export default function ProductCard({ product, onSelectProduct, onQuickBuy }) {
           </div>
 
           {/* Action Buttons */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1.25fr 0.75fr', gap: '8px' }}>
-            <button 
-              className="btn-gold" 
-              onClick={() => onQuickBuy({ ...product, preselectedVariant: selectedVariant })}
-              style={{ padding: '11px 14px', fontSize: '0.8rem', width: '100%' }}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <a 
+              href={getWatchWhatsAppUrl(product, selectedVariant)}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)',
+                color: '#fff',
+                textDecoration: 'none',
+                padding: '11px 14px',
+                borderRadius: '8px',
+                fontWeight: 700,
+                fontSize: '0.84rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                boxShadow: '0 4px 15px rgba(37, 211, 102, 0.35)',
+                transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+                cursor: 'pointer'
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = '0 6px 20px rgba(37, 211, 102, 0.55)';
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 4px 15px rgba(37, 211, 102, 0.35)';
+              }}
             >
-              <Zap size={14} />
-              <span>Quick COD</span>
-            </button>
+              <MessageCircle size={16} />
+              <span>Order on WhatsApp</span>
+            </a>
 
-            <button 
-              className="btn-outline-gold"
-              onClick={() => onSelectProduct(product)}
-              style={{ padding: '11px 10px', fontSize: '0.78rem', width: '100%' }}
-            >
-              Details
-            </button>
+            <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '8px' }}>
+              <button 
+                className="btn-gold" 
+                onClick={() => onQuickBuy({ ...product, preselectedVariant: selectedVariant })}
+                style={{ padding: '9px 12px', fontSize: '0.78rem', width: '100%' }}
+              >
+                <Zap size={13} />
+                <span>Quick COD</span>
+              </button>
+
+              <button 
+                className="btn-outline-gold"
+                onClick={() => onSelectProduct(product)}
+                style={{ padding: '9px 10px', fontSize: '0.78rem', width: '100%' }}
+              >
+                Details
+              </button>
+            </div>
           </div>
         </div>
 

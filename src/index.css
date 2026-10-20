@@ -339,3 +339,14 @@ body {
   }
 }
 
+/* Dedicated Product Page Mobile Sticky Bar */
+.mobile-sticky-bar {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .mobile-sticky-bar {
+    display: block !important;
+  }
+}
+

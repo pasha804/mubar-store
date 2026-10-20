@@ -4,7 +4,7 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import UnboxingFeature from './components/UnboxingFeature';
 import ProductCatalog from './components/ProductCatalog';
-import ProductModal from './components/ProductModal';
+import ProductPage from './components/ProductPage';
 import QuickCODModal from './components/QuickCODModal';
 import CartDrawer from './components/CartDrawer';
 import SocialProof from './components/SocialProof';
@@ -17,10 +17,13 @@ import Footer from './components/Footer';
 import { PRODUCTS } from './data/products';
 import { recordVisitorHit } from './services/storeSync';
 
-const checkIsAdminPath = () => {
+// Route Parser: detects store, dedicated product page, or founder admin portal
+const parseCurrentRoute = () => {
   const path = window.location.pathname.toLowerCase().replace(/\/+$/, '');
   const hash = window.location.hash.toLowerCase().replace(/\/+$/, '');
-  return (
+
+  // 1. Founder Admin Portal
+  if (
     path === '/pass' ||
     path.startsWith('/pass/') ||
     hash === '#/pass' ||
@@ -29,13 +32,37 @@ const checkIsAdminPath = () => {
     path.startsWith('/admin/') ||
     hash === '#/admin' ||
     hash === '#admin'
-  );
+  ) {
+    return { name: 'admin', productId: null };
+  }
+
+  // 2. Query param based product route: ?product=apex-wheel-rim-chain
+  try {
+    const urlParams = new URLSearchParams(window.location.search);
+    const queryProduct = urlParams.get('product') || urlParams.get('watch') || urlParams.get('p');
+    if (queryProduct) {
+      return { name: 'product', productId: queryProduct };
+    }
+  } catch (e) {}
+
+  // 3. Clean path based product route: /product/:id or /watch/:id
+  const pathMatch = path.match(/^\/(product|watch|p)\/([^\/]+)/i);
+  if (pathMatch && pathMatch[2]) {
+    return { name: 'product', productId: pathMatch[2] };
+  }
+
+  // 4. Hash based product route fallback: #/product/:id or #product/:id
+  const hashMatch = hash.match(/^#\/?(product|watch|p)\/([^\/]+)/i);
+  if (hashMatch && hashMatch[2]) {
+    return { name: 'product', productId: hashMatch[2] };
+  }
+
+  // Default: Storefront Homepage
+  return { name: 'store', productId: null };
 };
 
 export default function App() {
-  const [currentRoute, setCurrentRoute] = useState(() => {
-    return checkIsAdminPath() ? 'admin' : 'store';
-  });
+  const [routeState, setRouteState] = useState(parseCurrentRoute);
 
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(() => {
     return localStorage.getItem('mubar_admin_auth') === 'authenticated';
@@ -43,26 +70,21 @@ export default function App() {
 
   const [cartItems, setCartItems] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
   const [quickBuyProduct, setQuickBuyProduct] = useState(null);
   const [activePolicy, setActivePolicy] = useState(null);
   const [toastMessage, setToastMessage] = useState('');
 
-  // Handle browser back/forward and URL changes
+  // Handle browser back / forward navigation and hash changes
   useEffect(() => {
     const handleLocationChange = () => {
-      const isPass = checkIsAdminPath();
-      if (isPass) {
-        if (window.location.pathname.toLowerCase().startsWith('/admin')) {
-          window.history.replaceState({}, '', '/pass');
-        }
-        setCurrentRoute('admin');
-      } else {
-        setCurrentRoute('store');
+      const route = parseCurrentRoute();
+      if (route.name === 'admin' && window.location.pathname.toLowerCase().startsWith('/admin')) {
+        window.history.replaceState({}, '', '/pass');
       }
+      setRouteState(route);
     };
 
-    if (checkIsAdminPath() && window.location.pathname.toLowerCase().startsWith('/admin')) {
+    if (parseCurrentRoute().name === 'admin' && window.location.pathname.toLowerCase().startsWith('/admin')) {
       window.history.replaceState({}, '', '/pass');
     }
 
@@ -74,21 +96,54 @@ export default function App() {
     };
   }, []);
 
-  // Track authentic visitor hits on public storefront
+  // Track authentic visitor hits in Firestore & local cache per page visit
   useEffect(() => {
-    if (currentRoute === 'store') {
-      recordVisitorHit(window.location.pathname || '/');
+    if (routeState.name === 'store') {
+      document.title = 'MUBAR Chronos | Luxury Timepieces & Automotive Watches Pakistan';
+      recordVisitorHit('/');
+    } else if (routeState.name === 'product' && routeState.productId) {
+      const prod = PRODUCTS.find(p => p.id === routeState.productId);
+      if (prod) {
+        document.title = `${prod.title} | MUBAR Chronos`;
+        recordVisitorHit(`/product/${prod.id}`);
+      } else {
+        recordVisitorHit(`/product/${routeState.productId}`);
+      }
     }
-  }, [currentRoute]);
+  }, [routeState]);
 
-  const navigateTo = (newRoute) => {
-    if (newRoute === 'admin' || newRoute === 'pass') {
-      window.history.pushState({}, '', '/pass');
-      setCurrentRoute('admin');
+  // Navigate to Dedicated Product Page
+  const navigateToProduct = (prodOrId) => {
+    const id = typeof prodOrId === 'string' ? prodOrId : prodOrId?.id;
+    if (!id) return;
+    window.history.pushState({}, '', `/product/${id}`);
+    setRouteState({ name: 'product', productId: id });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Navigate to Storefront (or specific section)
+  const navigateToStore = (sectionId = null) => {
+    window.history.pushState({}, '', '/');
+    setRouteState({ name: 'store', productId: null });
+    if (sectionId) {
+      setTimeout(() => {
+        const el = document.getElementById(sectionId);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' });
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      }, 80);
     } else {
-      window.history.pushState({}, '', '/');
-      setCurrentRoute('store');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+  };
+
+  // Navigate to Admin Portal
+  const navigateToAdmin = () => {
+    window.history.pushState({}, '', '/pass');
+    setRouteState({ name: 'admin', productId: null });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const showToast = (msg) => {
@@ -100,11 +155,20 @@ export default function App() {
 
   const handleAddToCart = (product) => {
     setCartItems(prev => {
-      const existing = prev.find(item => item.id === product.id);
+      const matchKey = product.selectedVariant 
+        ? `${product.id}__${product.selectedVariant}`
+        : product.id;
+
+      const existing = prev.find(item => {
+        const itemKey = item.selectedVariant ? `${item.id}__${item.selectedVariant}` : item.id;
+        return itemKey === matchKey;
+      });
+
       if (existing) {
-        return prev.map(item => 
-          item.id === product.id ? { ...item, qty: item.qty + 1 } : item
-        );
+        return prev.map(item => {
+          const itemKey = item.selectedVariant ? `${item.id}__${item.selectedVariant}` : item.id;
+          return itemKey === matchKey ? { ...item, qty: item.qty + 1 } : item;
+        });
       }
       return [...prev, { ...product, qty: 1 }];
     });
@@ -120,6 +184,10 @@ export default function App() {
   };
 
   const handleScrollTo = (sectionId) => {
+    if (routeState.name !== 'store') {
+      navigateToStore(sectionId);
+      return;
+    }
     const el = document.getElementById(sectionId);
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
@@ -128,20 +196,20 @@ export default function App() {
 
   const cartTotalQty = cartItems.reduce((acc, item) => acc + item.qty, 0);
 
-  // If user navigates to /pass or /admin, render Login or Founder Dashboard
-  if (currentRoute === 'admin') {
+  // 1. Founder Admin Portal
+  if (routeState.name === 'admin') {
     if (!isAdminAuthenticated) {
       return (
         <AdminLogin 
           onLoginSuccess={() => setIsAdminAuthenticated(true)}
-          onBackToStore={() => navigateTo('store')}
+          onBackToStore={() => navigateToStore()}
         />
       );
     }
 
     return (
       <AdminBridge 
-        onBackToStore={() => navigateTo('store')}
+        onBackToStore={() => navigateToStore()}
         onLogout={() => {
           localStorage.removeItem('mubar_admin_auth');
           setIsAdminAuthenticated(false);
@@ -150,7 +218,107 @@ export default function App() {
     );
   }
 
-  // Client Storefront
+  // 2. Dedicated Product Details Page
+  if (routeState.name === 'product' && routeState.productId) {
+    return (
+      <div style={{ minHeight: '100vh', backgroundColor: '#070709', color: '#F5F5F7', position: 'relative' }}>
+        
+        {/* Toast Notification */}
+        {toastMessage && (
+          <div style={{
+            position: 'fixed',
+            bottom: '24px',
+            right: '90px',
+            zIndex: 2000,
+            background: 'rgba(7, 7, 9, 0.95)',
+            border: '1.5px solid #D4AF37',
+            color: '#F3E5AB',
+            padding: '12px 22px',
+            borderRadius: '10px',
+            boxShadow: '0 10px 30px rgba(0,0,0,0.8), 0 0 20px rgba(212, 175, 55, 0.3)',
+            fontSize: '0.88rem',
+            fontWeight: 600,
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px'
+          }}>
+            <span>✨</span>
+            <span>{toastMessage}</span>
+          </div>
+        )}
+
+        {/* Top Announcement Bar with Live Timer */}
+        <AnnouncementBar />
+
+        {/* Main Brand Navbar */}
+        <Navbar 
+          cartCount={cartTotalQty}
+          onOpenCart={() => setIsCartOpen(true)}
+          onScrollTo={(secId) => navigateToStore(secId)}
+          onLogoClick={() => navigateToStore()}
+        />
+
+        {/* Dedicated Product Page for this specific watch */}
+        <ProductPage 
+          productId={routeState.productId}
+          onBackToStore={(secId) => navigateToStore(secId)}
+          onNavigateToProduct={(id) => navigateToProduct(id)}
+          onQuickBuy={(p) => setQuickBuyProduct(p)}
+          onAddToCart={handleAddToCart}
+          onOpenCart={() => setIsCartOpen(true)}
+        />
+
+        {/* Verified Pakistani Social Proof Carousel */}
+        <SocialProof />
+
+        {/* Luxury Footer with Policy Links */}
+        <Footer 
+          onScrollTo={(secId) => navigateToStore(secId)}
+          onOpenPolicy={(key) => setActivePolicy(key)}
+        />
+
+        {/* Live Sales Notification Toaster */}
+        <LiveSalesToaster />
+
+        {/* Floating WhatsApp Concierge Widget */}
+        <WhatsAppWidget />
+
+        {/* 1-Click Fast Cash on Delivery Checkout Modal */}
+        {quickBuyProduct && (
+          <QuickCODModal 
+            product={quickBuyProduct}
+            onClose={() => setQuickBuyProduct(null)}
+          />
+        )}
+
+        {/* Slide-out Cart Drawer */}
+        <CartDrawer 
+          isOpen={isCartOpen}
+          onClose={() => setIsCartOpen(false)}
+          cartItems={cartItems}
+          onUpdateQty={handleUpdateQty}
+          onRemoveItem={handleRemoveItem}
+          onCheckout={() => {
+            setIsCartOpen(false);
+            if (cartItems.length > 0) {
+              setQuickBuyProduct(cartItems[0]);
+            }
+          }}
+        />
+
+        {/* Policy Modal */}
+        {activePolicy && (
+          <PolicyModal 
+            policyKey={activePolicy}
+            onClose={() => setActivePolicy(null)}
+          />
+        )}
+
+      </div>
+    );
+  }
+
+  // 3. Client Storefront Home
   return (
     <div style={{ minHeight: '100vh', backgroundColor: '#070709', color: '#F5F5F7', position: 'relative' }}>
       
@@ -181,11 +349,12 @@ export default function App() {
       {/* Top Announcement Bar with Live Timer */}
       <AnnouncementBar />
 
-      {/* Main Brand Navbar (No admin console button visible to buyers) */}
+      {/* Main Brand Navbar */}
       <Navbar 
         cartCount={cartTotalQty}
         onOpenCart={() => setIsCartOpen(true)}
         onScrollTo={handleScrollTo}
+        onLogoClick={() => navigateToStore()}
       />
 
       {/* High-Impact Hero Section */}
@@ -193,6 +362,7 @@ export default function App() {
         onExploreClick={() => handleScrollTo('catalog')}
         onUnboxingClick={() => handleScrollTo('trust-standard')}
         onQuickBuyFlagship={() => setQuickBuyProduct(PRODUCTS[0])}
+        onSelectFlagship={() => navigateToProduct(PRODUCTS[0].id)}
       />
 
       {/* Interactive Section 2: Buyer Confidence & Open Parcel Standard */}
@@ -203,7 +373,7 @@ export default function App() {
       {/* Product Catalog with Budget Filters & 4-Angle Selectors */}
       <ProductCatalog 
         products={PRODUCTS}
-        onSelectProduct={(p) => setSelectedProduct(p)}
+        onSelectProduct={(p) => navigateToProduct(p)}
         onQuickBuy={(p) => setQuickBuyProduct(p)}
       />
 
@@ -221,16 +391,6 @@ export default function App() {
 
       {/* Floating WhatsApp Concierge Widget */}
       <WhatsAppWidget />
-
-      {/* Full Watch Modal */}
-      {selectedProduct && (
-        <ProductModal 
-          product={selectedProduct}
-          onClose={() => setSelectedProduct(null)}
-          onQuickBuy={(p) => setQuickBuyProduct(p)}
-          onAddToCart={handleAddToCart}
-        />
-      )}
 
       {/* 1-Click Fast Cash on Delivery Checkout Modal */}
       {quickBuyProduct && (

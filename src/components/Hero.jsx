@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { ArrowRight, ShieldCheck, Truck, Award, Sparkles, Zap, Flame, Eye, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, ShieldCheck, Truck, Award, Sparkles, Zap, Flame, Eye, CheckCircle2, MessageCircle } from 'lucide-react';
+import { getWatchWhatsAppUrl } from '../services/whatsappService';
+import { PRODUCTS } from '../data/products';
 
-export default function Hero({ onExploreClick, onUnboxingClick, onQuickBuyFlagship }) {
+export default function Hero({ onExploreClick, onUnboxingClick, onQuickBuyFlagship, onSelectFlagship }) {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [activeAngleIndex, setActiveAngleIndex] = useState(0);
 
@@ -93,19 +95,42 @@ export default function Hero({ onExploreClick, onUnboxingClick, onQuickBuyFlagsh
 
           {/* Action CTAs */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap', marginBottom: '32px' }}>
+            <a 
+              href={getWatchWhatsAppUrl(PRODUCTS[0])}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)',
+                color: '#fff',
+                textDecoration: 'none',
+                padding: '13px 24px',
+                borderRadius: '8px',
+                fontWeight: 700,
+                fontSize: '0.9rem',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                boxShadow: '0 4px 18px rgba(37, 211, 102, 0.4)',
+                cursor: 'pointer'
+              }}
+            >
+              <MessageCircle size={18} />
+              <span>Order on WhatsApp</span>
+            </a>
+
             <button 
               className="btn-gold" 
               onClick={onExploreClick}
-              style={{ padding: '13px 26px', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '8px' }}
+              style={{ padding: '13px 22px', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '8px' }}
             >
-              <span>Explore Collection (5 Watches)</span>
+              <span>Explore Collection</span>
               <ArrowRight size={17} />
             </button>
 
             <button 
               className="btn-outline-gold" 
               onClick={onUnboxingClick}
-              style={{ padding: '13px 20px', fontSize: '0.88rem' }}
+              style={{ padding: '13px 18px', fontSize: '0.86rem' }}
             >
               <span>Open Parcel Guarantee</span>
             </button>
@@ -179,7 +204,11 @@ export default function Hero({ onExploreClick, onUnboxingClick, onQuickBuyFlagsh
             }}
           >
             {/* Main Interactive Watch Image */}
-            <div style={{ position: 'relative' }}>
+            <div 
+              style={{ position: 'relative', cursor: onSelectFlagship ? 'pointer' : 'default' }}
+              onClick={onSelectFlagship}
+              title="Click to view full dedicated watch details"
+            >
               <img 
                 src={flagshipImages[activeAngleIndex]} 
                 alt="MEIBO 3D Wheel Rim Kinetic Watch" 
@@ -277,7 +306,11 @@ export default function Hero({ onExploreClick, onUnboxingClick, onQuickBuyFlagsh
               justifyContent: 'space-between', 
               alignItems: 'center' 
             }}>
-              <div>
+              <div 
+                onClick={onSelectFlagship}
+                style={{ cursor: onSelectFlagship ? 'pointer' : 'default' }}
+                title="Click to view full dedicated watch details"
+              >
                 <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#fff' }}>
                   MEIBO 3D Wheel Rim Kinetic Watch
                 </div>
@@ -286,13 +319,37 @@ export default function Hero({ onExploreClick, onUnboxingClick, onQuickBuyFlagsh
                 </div>
               </div>
 
-              <button
-                onClick={onQuickBuyFlagship}
-                className="btn-gold"
-                style={{ padding: '8px 14px', fontSize: '0.78rem', whiteSpace: 'nowrap' }}
-              >
-                Instant Order
-              </button>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <a
+                  href={getWatchWhatsAppUrl(PRODUCTS[0])}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)',
+                    color: '#fff',
+                    textDecoration: 'none',
+                    padding: '8px 12px',
+                    borderRadius: '6px',
+                    fontSize: '0.78rem',
+                    fontWeight: 700,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '5px',
+                    whiteSpace: 'nowrap'
+                  }}
+                >
+                  <MessageCircle size={14} />
+                  <span>WhatsApp</span>
+                </a>
+
+                <button
+                  onClick={onQuickBuyFlagship}
+                  className="btn-gold"
+                  style={{ padding: '8px 12px', fontSize: '0.78rem', whiteSpace: 'nowrap' }}
+                >
+                  Instant COD
+                </button>
+              </div>
             </div>
           </div>
         </div>

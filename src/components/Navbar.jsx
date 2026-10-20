@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ShoppingBag, Search, Database, Shield, Menu, X } from 'lucide-react';
 
-export default function Navbar({ cartCount, onOpenCart, onOpenAdmin, onScrollTo }) {
+export default function Navbar({ cartCount, onOpenCart, onOpenAdmin, onScrollTo, onLogoClick }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -25,7 +25,10 @@ export default function Navbar({ cartCount, onOpenCart, onOpenAdmin, onScrollTo 
         
         {/* Brand Logo & Title */}
         <div 
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          onClick={() => {
+            if (onLogoClick) onLogoClick();
+            else window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
           style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}
         >
           <img 

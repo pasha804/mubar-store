@@ -100,20 +100,25 @@ export const getDeviceInfo = () => {
 };
 
 // Record a Real Visitor Hit to Firestore + Local Cache
-export const recordVisitorHit = async (page = '/') => {
+export const recordVisitorHit = async (page = null) => {
+  const targetPage = page || window.location.pathname || '/';
+
   // Do not track admin portal views as customer visits
-  const currentPath = window.location.pathname.toLowerCase();
+  const currentPath = targetPage.toLowerCase();
   if (currentPath.includes('/pass') || currentPath.includes('/admin')) {
     return;
   }
 
   const now = Date.now();
-  // Prevent duplicate spam writes from same tab within 60 seconds
-  const lastRecorded = sessionStorage.getItem('mubar_last_hit_ts');
-  if (lastRecorded && now - Number(lastRecorded) < 60000) {
+  // Prevent duplicate spam writes from same tab for the EXACT same page within 30 seconds
+  const lastRecordedTs = sessionStorage.getItem('mubar_last_hit_ts');
+  const lastRecordedPage = sessionStorage.getItem('mubar_last_hit_page');
+
+  if (lastRecordedPage === targetPage && lastRecordedTs && (now - Number(lastRecordedTs) < 30000)) {
     return;
   }
   sessionStorage.setItem('mubar_last_hit_ts', now.toString());
+  sessionStorage.setItem('mubar_last_hit_page', targetPage);
 
   const visitorId = getVisitorId();
   const sessionId = getSessionId();
@@ -124,7 +129,7 @@ export const recordVisitorHit = async (page = '/') => {
     sessionId,
     timestamp: now,
     dateStr: new Date(now).toISOString(),
-    page: page || window.location.pathname || '/',
+    page: targetPage,
     ...device
   };
 
@@ -324,6 +329,7 @@ export const computeVisitorMetrics = (visitors = []) => {
 
   const deviceCounts = { Mobile: 0, Desktop: 0, Tablet: 0 };
   const referrerCounts = {};
+  const pageCounts = {};
 
   // Group by day for the last 7 days chart
   const dailyBuckets = [];
@@ -372,6 +378,9 @@ export const computeVisitorMetrics = (visitors = []) => {
     const ref = v.referrer || 'Direct / Bookmarks';
     referrerCounts[ref] = (referrerCounts[ref] || 0) + 1;
 
+    const pg = v.page || '/';
+    pageCounts[pg] = (pageCounts[pg] || 0) + 1;
+
     // Daily bucket match
     dailyBuckets.forEach(b => {
       if (ts >= b.dayStart && ts < b.dayEnd) {
@@ -395,6 +404,11 @@ export const computeVisitorMetrics = (visitors = []) => {
     .sort((a, b) => b[1] - a[1])
     .slice(0, 5)
     .map(([source, count]) => ({ source, count }));
+
+  const topPages = Object.entries(pageCounts)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 8)
+    .map(([page, count]) => ({ page, count }));
 
   return {
     last24Hours: {
@@ -421,6 +435,7 @@ export const computeVisitorMetrics = (visitors = []) => {
     },
     dailyStats,
     topReferrers,
+    topPages,
     recentLogs: visitors.slice(0, 25)
   };
 };

@@ -1,5 +1,7 @@
 {
-  "projects": {},
+  "projects": {
+    "default": "mubar-store-39298"
+  },
   "targets": {},
   "etags": {}
 }

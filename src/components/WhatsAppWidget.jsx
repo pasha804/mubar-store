@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { MessageCircle, X } from 'lucide-react';
+import { getWhatsAppNumber } from '../services/whatsappService';
 
 export default function WhatsAppWidget() {
   const [showTooltip, setShowTooltip] = useState(true);
 
-  const whatsappNumber = localStorage.getItem('mubar_founder_phone') || "923084453846";
-  const defaultText = encodeURIComponent("Assalam-o-Alaikum Muhammad Mubashar bhai! I want to inquire about ordering a MUBAR timepiece (Cash on Delivery or Online Payment).");
+  const whatsappNumber = getWhatsAppNumber();
+  const defaultText = encodeURIComponent("Assalam-o-Alaikum Muhammad Mubashar bhai! 🌟\nMain MUBAR store se watches check kar raha tha. Kindly mujhse connect karein aur real unboxing videos share karein. Shukriya!");
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${defaultText}`;
 
   return (

@@ -138,3 +138,76 @@ A fully configured CSV file has been written to:
    - Sticky Quick-COD modal
    - Smooth Lenis scrolling
 3. **Push to GitHub** & connect with Shopify Storefront API.
+
+
+
+
+
+1:10 AM
+Bro zabardast! Ab aapka ad seedha WhatsApp par connect ho chuka hai.
+
+Ab aapko 2 cheezein set karni hain:
+
+Conversations (Chat Template): Customer WhatsApp par aate hi kya message dekhega.
+Carousel Cards (Har ghari ka Headline & Description): Taki log carousel swipe karke foran click karein.
+Neeche ready-made copy-paste content de raha hoon, direct daal dein:
+
+1️⃣ Conversations (Message Template) Setup
+Aapki screen par jahan Conversations likha hai, wahan Edit par click karein aur yeh daalein:
+
+Welcome message (Greeting):
+(Isko copy karke Welcome message box mein paste karein)
+
+text
+Assalam-o-Alaikum! Welcome to MUBAR STORE 🌟
+Humari tamam luxury watches par 100% Open Parcel Doorstep Check (pehle parcel khol kar check karein) aur Free Delivery available hai.
+Aapko kis watch ki real unboxing video dekhni hai ya order confirm karna hai? Neeche diye gaye sawal par tap karein:
+Pre-filled Questions / Suggested Prompts (Jo customer 1-tap se bhej sake):
+(Meta mein Question 1, 2, 3 add karne ka option hota hai)
+
+Question 1: Bhai MEIBO 3D Car Rim watch ki real video aur details dekhni hain.
+Question 2: YOLAKO Hulk Green Diver watch order karni hai (Cash on Delivery).
+Question 3: Yacht-Master Oysterflex Flagship watch available hai?
+Question 4: Delivery kitne din mein hogi aur rider ke samne khol kar dekh sakte hain?
+2️⃣ Har Carousel Card Ka Setup (Image, Headline & Description)
+Carousel mein aap 5 ya 6 cards add karein. Har card ke andar yeh details paste karein:
+
+🎴 Card 1 (Aapka Main Bestseller — Car Rim Chain)
+Image: Red Brembo Wheel Rim Chain wali HD picture
+Headline: MEIBO 3D Car Rim Watch (Rs. 2,499)
+Description: 🔥 Spinning Rotor • Free Delivery • Open Parcel
+🎴 Card 2 (Silicone Sport Strap Edition)
+Image: Silicone Sport Strap wali picture
+Headline: MEIBO Rim Silicone Strap (Rs. 2,199)
+Description: ⚡ Supercar Rotor • Cash On Delivery
+🎴 Card 3 (VIP Luxury Flagship)
+Image: 18K Rose Gold Yacht-Master picture
+Headline: Yacht-Master Oysterflex (Rs. 3,999)
+Description: 👑 Ceramic Bezel • Mercedes Hands • VIP Box
+🎴 Card 4 (Hulk Green Diver)
+Image: Emerald Green Hulk Diver picture
+Headline: YOLAKO Hulk Diver (Rs. 2,499)
+Description: 🟢 Sunburst Emerald Dial • Solid Steel Oyster
+🎴 Card 5 (Executive Chronograph)
+Image: All-Black ya Gold GENEVA Chrono picture
+Headline: GENEVA Executive Chrono (Rs. 2,199)
+Description: 💼 Triple Multi-Dial • Panoramic Date Calendar
+🎴 Card 6 (Geometric Sports / Royal Look)
+Image: YOLAKO Octa Geometric picture
+Headline: YOLAKO Octa Chronograph (Rs. 2,999)
+Description: ⭐ Tapisserie Dial • Heavy Solid Steel Weight
+3️⃣ Primary Text (Ad Ka Main Caption)
+Upar "Primary Text" ki field mein yeh caption paste karein:
+
+text
+LOOK MILLION-DOLLAR. PAY ZERO REPUTATION TAX. 👑
+Heavy stainless steel presence, scratch-resistant crystal glass, aur authentic kinetic motion. 
+🛡️ MUBAR SIGNATURE 100% OPEN PARCEL GUARANTEE:
+Rider ke samne parcel khol kar ghari check karein, tassali honay par cash dein! Agar pasand na aaye toh foran parcel wapis kar dein.
+⚡ Limited Stock Flash Sale:
+✅ Free Express Delivery (2–3 Days)
+✅ 100% Open Parcel Doorstep Inspection
+✅ 1-Year Machine Warranty
+Neeche "Send WhatsApp Message" par click karein aur apni pasandeeda ghari ki live unboxing video dekhein! 👇
+✅ Last Step:
+Yeh sab paste karne ke baad bottom-right par green "Publish" button daba dein. Aapka WhatsApp-led campaign live ho jayega aur leads direct aapke WhatsApp Business par aana shuru ho jayengi!

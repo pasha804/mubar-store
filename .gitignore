@@ -20,6 +20,8 @@ build/
 
 # Vercel
 .vercel
+__pycache__/
+*.pyc
 
 # Editor & OS files
 .vscode/

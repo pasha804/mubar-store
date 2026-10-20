@@ -3,7 +3,7 @@ import {
   Database, Calculator, MapPin, CheckCircle, ExternalLink, 
   Package, ShoppingBag, Phone, RefreshCw, Download, Trash2, 
   PlusCircle, Filter, Search, Settings, DollarSign, MessageCircle, ArrowLeft, Shield, LogOut,
-  Users, Activity, Globe, Smartphone, Laptop, Clock, BarChart3, Radio
+  Users, Activity, Globe, Smartphone, Laptop, Clock, BarChart3, Radio, Eye
 } from 'lucide-react';
 import { PRODUCTS, PAYMENT_ACCOUNTS, FOUNDER_CONTACT } from '../data/products';
 import { 
@@ -1231,6 +1231,65 @@ export default function AdminBridge({ onBackToStore, onLogout }) {
                   ) : (
                     <div style={{ color: '#777', fontSize: '0.82rem', padding: '16px 0', textAlign: 'center' }}>
                       No external referrers logged yet. Direct visits active.
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Most Visited Watches & Landing Pages */}
+              <div style={{
+                background: 'rgba(255, 255, 255, 0.02)',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+                borderRadius: '14px',
+                padding: '22px'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                  <Eye size={18} color="#D4AF37" />
+                  <h4 style={{ margin: 0, fontSize: '0.98rem', color: '#F5F5F7', fontWeight: 700 }}>Most Viewed Watches & Pages</h4>
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  {visitorStats?.topPages?.length > 0 ? (
+                    visitorStats.topPages.map((item, idx) => {
+                      const matchedProd = PRODUCTS.find(p => item.page.includes(p.id));
+                      const label = matchedProd ? matchedProd.title : (item.page === '/' ? 'Home Page (Catalog)' : item.page);
+
+                      return (
+                        <div
+                          key={idx}
+                          style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            padding: '10px 12px',
+                            background: 'rgba(255, 255, 255, 0.03)',
+                            borderRadius: '8px',
+                            border: '1px solid rgba(255, 255, 255, 0.05)'
+                          }}
+                        >
+                          <div style={{ minWidth: 0, flex: 1, marginRight: '10px' }}>
+                            <div style={{ fontSize: '0.82rem', color: '#F5F5F7', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                              {label}
+                            </div>
+                            <code style={{ fontSize: '0.72rem', color: '#D4AF37' }}>{item.page}</code>
+                          </div>
+                          <span style={{
+                            background: 'rgba(212, 175, 55, 0.15)',
+                            color: '#F3E5AB',
+                            padding: '3px 10px',
+                            borderRadius: '12px',
+                            fontSize: '0.74rem',
+                            fontWeight: 700,
+                            whiteSpace: 'nowrap'
+                          }}>
+                            {item.count} views
+                          </span>
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <div style={{ color: '#777', fontSize: '0.82rem', padding: '16px 0', textAlign: 'center' }}>
+                      No page visit breakdown logged yet.
                     </div>
                   )}
                 </div>
