@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import ProductCard from './ProductCard';
 import { CATEGORIES } from '../data/products';
-import { Search, Flame, Sparkles } from 'lucide-react';
+import { Search, Sparkles, Filter } from 'lucide-react';
 
 export default function ProductCatalog({ products, onSelectProduct, onQuickBuy }) {
   const [selectedCategory, setSelectedCategory] = useState("All Timepieces");
@@ -34,141 +34,222 @@ export default function ProductCatalog({ products, onSelectProduct, onQuickBuy }
   }, [products, selectedCategory, searchQuery, sortBy]);
 
   return (
-    <section id="catalog" style={{
-      padding: 'clamp(40px, 6vw, 75px) clamp(14px, 3vw, 24px)',
-      maxWidth: '1280px',
-      margin: '0 auto'
-    }}>
-      
-      {/* Title & Tagline */}
-      <div style={{ textAlign: 'center', marginBottom: '35px' }}>
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '5px 14px', borderRadius: '20px', background: 'rgba(212, 175, 55, 0.1)', border: '1px solid rgba(212, 175, 55, 0.3)', marginBottom: '14px' }}>
-          <Sparkles size={14} color="#D4AF37" />
-          <span style={{ fontSize: '0.78rem', color: '#F3E5AB', fontWeight: 700, letterSpacing: '1.5px', textTransform: 'uppercase' }}>
-            {products.length} ICONIC MASTERPIECES IN STOCK
+    <section 
+      id="catalog" 
+      style={{
+        padding: 'clamp(36px, 6vw, 72px) clamp(16px, 3.5vw, 32px)',
+        maxWidth: '1280px',
+        margin: '0 auto'
+      }}
+    >
+      {/* Editorial Section Heading */}
+      <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+        <div style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '8px',
+          padding: '4px 14px',
+          borderRadius: '20px',
+          backgroundColor: 'var(--bg-gold-subtle, #F3EBDD)',
+          border: '1px solid rgba(182, 154, 99, 0.3)',
+          marginBottom: '12px'
+        }}>
+          <Sparkles size={13} color="var(--accent-gold, #B69A63)" />
+          <span style={{
+            fontSize: '0.74rem',
+            color: 'var(--brand-navy, #172A3A)',
+            fontWeight: 700,
+            letterSpacing: '1.2px',
+            textTransform: 'uppercase'
+          }}>
+            {products.length} VERIFIED TIMEPIECES IN STOCK
           </span>
         </div>
 
-        <h2 className="font-cinzel" style={{ fontSize: 'clamp(1.85rem, 3.5vw, 2.8rem)', color: '#fff', marginBottom: '8px' }}>
-          CURATED <span className="gold-text">TIMEPIECES</span>
+        <h2 
+          className="font-playfair"
+          style={{
+            fontSize: 'clamp(1.8rem, 3.6vw, 2.75rem)',
+            color: 'var(--brand-navy, #172A3A)',
+            margin: '0 0 10px 0',
+            fontWeight: 700,
+            letterSpacing: '-0.3px'
+          }}
+        >
+          Curated Horology Collection
         </h2>
-        <p style={{ color: '#8E8E93', fontSize: 'clamp(0.85rem, 2vw, 0.95rem)', maxWidth: '620px', margin: '0 auto' }}>
-          Every timepiece is backed by 100% Open Parcel Doorstep Inspection & 1-Year Movement Warranty.
+        
+        <p style={{
+          color: 'var(--text-secondary, #737B84)',
+          fontSize: 'clamp(0.88rem, 1.8vw, 1rem)',
+          maxWidth: '560px',
+          margin: '0 auto',
+          lineHeight: 1.6
+        }}>
+          Handpicked for weight, finish, and durability. Backed by our signature 100% open parcel inspection before paying courier.
         </p>
       </div>
 
-      {/* Category Pills & Filters */}
+      {/* Filter and Search Controls */}
       <div style={{
+        marginBottom: '28px',
+        paddingBottom: '16px',
+        borderBottom: '1px solid var(--border-warm, #E6E2DA)',
         display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        flexWrap: 'wrap',
-        gap: '16px',
-        marginBottom: '30px',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
-        paddingBottom: '18px'
+        flexDirection: 'column',
+        gap: '16px'
       }}>
         
-        {/* Categories Bar with smooth touch scrolling */}
-        <div className="hide-scrollbar" style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '4px', maxWidth: '100%', WebkitOverflowScrolling: 'touch' }}>
+        {/* Horizontal Category Pill Bar */}
+        <div 
+          className="hide-scrollbar" 
+          style={{
+            display: 'flex',
+            gap: '8px',
+            overflowX: 'auto',
+            paddingBottom: '4px',
+            WebkitOverflowScrolling: 'touch'
+          }}
+        >
           {CATEGORIES.map(cat => {
             const isSelected = selectedCategory === cat;
-            const isHotDeal = cat.includes("Under Rs. 2,199");
+            const isDeal = cat.includes("Under Rs. 2,199");
 
             return (
               <button
                 key={cat}
+                type="button"
                 onClick={() => setSelectedCategory(cat)}
                 style={{
-                  background: isSelected 
-                    ? 'var(--gold-gradient)' 
-                    : isHotDeal ? 'rgba(231, 76, 60, 0.15)' : 'rgba(255, 255, 255, 0.03)',
-                  color: isSelected ? '#070709' : isHotDeal ? '#FF7675' : '#aaa',
+                  backgroundColor: isSelected 
+                    ? 'var(--brand-navy, #172A3A)' 
+                    : isDeal ? 'rgba(158, 52, 56, 0.08)' : 'var(--bg-card, #FFFFFF)',
+                  color: isSelected 
+                    ? '#FFFFFF' 
+                    : isDeal ? 'var(--badge-burgundy, #9E3438)' : 'var(--text-primary, #252A30)',
                   border: isSelected 
-                    ? 'none' 
-                    : isHotDeal ? '1px solid rgba(231, 76, 60, 0.4)' : '1px solid rgba(255, 255, 255, 0.08)',
+                    ? '1px solid var(--brand-navy, #172A3A)' 
+                    : isDeal ? '1px solid rgba(158, 52, 56, 0.3)' : '1px solid var(--border-card, #E6E2DA)',
                   padding: '7px 16px',
-                  borderRadius: '25px',
+                  borderRadius: '30px',
                   fontSize: '0.8rem',
-                  fontWeight: isSelected || isHotDeal ? 700 : 500,
+                  fontWeight: isSelected || isDeal ? 700 : 500,
                   cursor: 'pointer',
                   whiteSpace: 'nowrap',
                   flexShrink: 0,
-                  transition: 'all 0.2s ease',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px'
+                  transition: 'all 0.18s ease',
+                  boxShadow: isSelected ? '0 2px 8px rgba(23, 42, 58, 0.15)' : 'none'
                 }}
               >
-                {isHotDeal && <Flame size={14} color="#E74C3C" />}
-                <span>{cat}</span>
+                {cat}
               </button>
             );
           })}
         </div>
 
-        {/* Search & Sort Controls */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap', width: '100%', justifyContent: 'space-between', maxWidth: '520px' }}>
-          
+        {/* Search Input & Sort Dropdown Row */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: '12px'
+        }}>
           {/* Search Box */}
           <div style={{
             position: 'relative',
             display: 'flex',
             alignItems: 'center',
-            background: 'rgba(255, 255, 255, 0.04)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-            borderRadius: '8px',
-            padding: '7px 12px',
-            flex: '1 1 180px',
-            minWidth: '160px'
+            backgroundColor: 'var(--bg-card, #FFFFFF)',
+            border: '1px solid var(--border-card, #E6E2DA)',
+            borderRadius: 'var(--radius-sm, 8px)',
+            padding: '8px 14px',
+            flex: '1 1 240px',
+            maxWidth: '380px',
+            boxShadow: '0 1px 3px rgba(0,0,0,0.03)'
           }}>
-            <Search size={15} color="#888" style={{ marginRight: '8px', flexShrink: 0 }} />
+            <Search size={16} color="var(--text-secondary, #737B84)" style={{ marginRight: '8px', flexShrink: 0 }} />
             <input 
               type="text"
-              placeholder="Search timepieces..."
+              placeholder="Search watch name, dial, or style..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              aria-label="Search watches"
               style={{
-                background: 'transparent',
+                backgroundColor: 'transparent',
                 border: 'none',
                 outline: 'none',
-                color: '#fff',
-                fontSize: '0.82rem',
+                color: 'var(--text-primary, #252A30)',
+                fontSize: '0.85rem',
                 width: '100%'
               }}
             />
+            {searchQuery && (
+              <button 
+                type="button" 
+                onClick={() => setSearchQuery('')}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: 'var(--text-secondary, #737B84)',
+                  fontSize: '0.8rem',
+                  cursor: 'pointer',
+                  padding: '0 4px'
+                }}
+              >
+                ✕
+              </button>
+            )}
           </div>
 
-          {/* Sort Dropdown */}
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
-            style={{
-              background: '#0d0d12',
-              color: '#F3E5AB',
-              border: '1px solid rgba(212, 175, 55, 0.3)',
-              padding: '8px 12px',
-              borderRadius: '8px',
-              fontSize: '0.8rem',
-              cursor: 'pointer',
-              outline: 'none',
-              flexShrink: 0
-            }}
-          >
-            <option value="popular">Most Popular</option>
-            <option value="price-low">Price: Low to High</option>
-            <option value="price-high">Price: High to Low</option>
-            <option value="rating">Highest Rated</option>
-          </select>
+          {/* Sort Selector */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary, #737B84)', fontWeight: 600 }}>
+              Sort:
+            </span>
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              aria-label="Sort watches"
+              style={{
+                backgroundColor: 'var(--bg-card, #FFFFFF)',
+                color: 'var(--text-primary, #252A30)',
+                border: '1px solid var(--border-card, #E6E2DA)',
+                padding: '8px 14px',
+                borderRadius: 'var(--radius-sm, 8px)',
+                fontSize: '0.82rem',
+                cursor: 'pointer',
+                outline: 'none',
+                fontWeight: 600
+              }}
+            >
+              <option value="popular">Most Popular</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+              <option value="rating">Highest Rated</option>
+            </select>
+          </div>
 
         </div>
 
       </div>
 
-      {/* Product Grid */}
+      {/* Catalog Grid: Renders strictly in 2-columns on mobile screens via CSS */}
       {filteredProducts.length === 0 ? (
-        <div style={{ textAlign: 'center', padding: '60px 20px', color: '#888' }}>
-          No timepieces found matching "{searchQuery}".
+        <div style={{
+          textAlign: 'center',
+          padding: '60px 20px',
+          backgroundColor: 'var(--bg-card, #FFFFFF)',
+          borderRadius: 'var(--radius-card, 12px)',
+          border: '1px solid var(--border-card, #E6E2DA)',
+          color: 'var(--text-secondary, #737B84)'
+        }}>
+          <p style={{ fontSize: '1rem', fontWeight: 600, margin: '0 0 8px 0', color: 'var(--text-primary, #252A30)' }}>
+            No timepieces found
+          </p>
+          <p style={{ fontSize: '0.86rem', margin: 0 }}>
+            Try clearing your search query or choosing another category.
+          </p>
         </div>
       ) : (
         <div className="catalog-product-grid">

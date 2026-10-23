@@ -9,77 +9,100 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQty, on
   const subtotal = cartItems.reduce((acc, item) => acc + item.salePrice * item.qty, 0);
 
   return (
-    <div style={{
-      position: 'fixed',
-      inset: 0,
-      zIndex: 1200,
-      backgroundColor: 'rgba(0, 0, 0, 0.75)',
-      backdropFilter: 'blur(8px)',
-      display: 'flex',
-      justifyContent: 'flex-end'
-    }}
-    onClick={onClose}
+    <div 
+      style={{
+        position: 'fixed',
+        inset: 0,
+        zIndex: 1200,
+        backgroundColor: 'rgba(17, 25, 35, 0.65)',
+        backdropFilter: 'blur(4px)',
+        display: 'flex',
+        justifyContent: 'flex-end'
+      }}
+      onClick={onClose}
     >
       <div 
         style={{
           width: 'min(440px, 100vw)',
           maxWidth: '100vw',
           height: '100%',
-          backgroundColor: '#0c0c11',
-          borderLeft: '1px solid rgba(212, 175, 55, 0.3)',
+          backgroundColor: '#FFFFFF',
+          borderLeft: '1px solid var(--border-warm, #E6E2DA)',
           display: 'flex',
           flexDirection: 'column',
-          boxShadow: '-15px 0 40px rgba(0,0,0,0.8)'
+          boxShadow: '-10px 0 30px rgba(0,0,0,0.15)'
         }}
         onClick={e => e.stopPropagation()}
       >
         {/* Drawer Header */}
         <div style={{
           padding: '20px',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+          borderBottom: '1px solid var(--border-warm, #E6E2DA)',
           display: 'flex',
           justifyContent: 'space-between',
-          alignItems: 'center'
+          alignItems: 'center',
+          backgroundColor: 'var(--brand-navy, #172A3A)',
+          color: '#FFFFFF'
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <ShoppingBag size={20} color="#D4AF37" />
-            <h3 className="font-cinzel" style={{ fontSize: '1.25rem', color: '#fff' }}>Your Shopping Bag</h3>
-            <span style={{ fontSize: '0.8rem', color: '#888' }}>({cartItems.reduce((a, c) => a + c.qty, 0)})</span>
+            <ShoppingBag size={20} color="var(--accent-gold, #B69A63)" />
+            <h3 className="font-playfair" style={{ fontSize: '1.25rem', color: '#FFFFFF', margin: 0, fontWeight: 700 }}>
+              Shopping Bag
+            </h3>
+            <span style={{ fontSize: '0.8rem', color: 'var(--hero-text-secondary, #D4D9DF)' }}>
+              ({cartItems.reduce((a, c) => a + c.qty, 0)})
+            </span>
           </div>
 
           <button 
             onClick={onClose}
-            style={{ background: 'none', border: 'none', color: '#888', cursor: 'pointer' }}
+            aria-label="Close cart"
+            style={{ 
+              background: 'none', 
+              border: 'none', 
+              color: '#FFFFFF', 
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '4px'
+            }}
           >
             <X size={20} />
           </button>
         </div>
 
-        {/* Free Shipping Bar */}
+        {/* Free Shipping Trust Banner */}
         <div style={{
-          background: 'rgba(212, 175, 55, 0.08)',
+          backgroundColor: 'var(--indicator-green-bg, #E8F5EE)',
           padding: '10px 20px',
-          borderBottom: '1px solid rgba(212, 175, 55, 0.2)',
+          borderBottom: '1px solid rgba(35, 118, 83, 0.2)',
           fontSize: '0.78rem',
-          color: '#F3E5AB',
+          color: 'var(--indicator-green, #237653)',
           display: 'flex',
           alignItems: 'center',
-          gap: '8px'
+          gap: '8px',
+          fontWeight: 600
         }}>
-          <ShieldCheck size={16} color="#2ECC71" />
-          <span><strong>100% Free Express Shipping Unlocked!</strong> (COD & Online Transfer)</span>
+          <ShieldCheck size={16} />
+          <span>Free Express Shipping Across Pakistan (COD & Online)</span>
         </div>
 
-        {/* Item List */}
-        <div style={{ flex: 1, overflowY: 'auto', padding: '20px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        {/* Cart Item List */}
+        <div style={{ flex: 1, overflowY: 'auto', padding: '16px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
           {cartItems.length === 0 ? (
-            <div style={{ textAlign: 'center', margin: 'auto', color: '#888' }}>
-              <ShoppingBag size={48} color="#333" style={{ marginBottom: '12px' }} />
-              <p style={{ fontSize: '1rem', color: '#aaa', marginBottom: '8px' }}>Your bag is currently empty.</p>
+            <div style={{ textAlign: 'center', margin: 'auto', padding: '40px 20px', color: 'var(--text-secondary, #737B84)' }}>
+              <ShoppingBag size={48} color="var(--border-warm, #E6E2DA)" style={{ marginBottom: '12px' }} />
+              <p style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--text-primary, #252A30)', marginBottom: '4px' }}>
+                Your shopping bag is empty.
+              </p>
+              <p style={{ fontSize: '0.84rem', margin: '0 0 16px 0' }}>
+                Discover our curated watches with 100% open parcel check.
+              </p>
               <button 
-                className="btn-outline-gold"
+                className="btn-primary"
                 onClick={onClose}
-                style={{ fontSize: '0.8rem', padding: '8px 16px', marginTop: '10px' }}
+                style={{ fontSize: '0.82rem', padding: '10px 20px' }}
               >
                 Browse Timepieces
               </button>
@@ -90,51 +113,58 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQty, on
                 key={item.id}
                 style={{
                   display: 'flex',
-                  gap: '14px',
+                  gap: '12px',
                   padding: '12px',
-                  background: 'rgba(255, 255, 255, 0.02)',
-                  border: '1px solid rgba(255, 255, 255, 0.06)',
-                  borderRadius: '10px'
+                  backgroundColor: 'var(--bg-subtle, #F0EEE8)',
+                  border: '1px solid var(--border-card, #E6E2DA)',
+                  borderRadius: 'var(--radius-card, 12px)'
                 }}
               >
                 <img 
                   src={item.selectedVariantImage || item.productImage || item.images[0]} 
                   alt={item.title} 
-                  style={{ width: '70px', height: '70px', objectFit: 'cover', borderRadius: '8px', border: '1px solid rgba(212, 175, 55, 0.3)' }}
+                  style={{ width: '68px', height: '68px', objectFit: 'cover', borderRadius: '8px', backgroundColor: '#FFFFFF', border: '1px solid var(--border-card, #E6E2DA)' }}
                 />
                 
                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                   <div>
-                    <h4 style={{ fontSize: '0.9rem', color: '#fff', fontWeight: 600 }}>{item.title}</h4>
-                    <div style={{ fontSize: '0.75rem', color: '#D4AF37' }}>
+                    <h4 style={{ fontSize: '0.88rem', color: 'var(--text-primary, #252A30)', fontWeight: 700, margin: '0 0 2px 0', lineHeight: 1.3 }}>
+                      {item.title}
+                    </h4>
+                    <div style={{ fontSize: '0.74rem', color: 'var(--accent-gold, #B69A63)', fontWeight: 600 }}>
                       {item.selectedVariant ? `Edition: ${item.selectedVariant}` : item.subtitle}
                     </div>
                   </div>
 
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'rgba(0,0,0,0.4)', borderRadius: '4px', padding: '2px 6px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '8px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', backgroundColor: '#FFFFFF', border: '1px solid var(--border-card, #E6E2DA)', borderRadius: '4px', padding: '2px 6px' }}>
                       <button 
                         onClick={() => onUpdateQty(item.id, Math.max(1, item.qty - 1))}
-                        style={{ background: 'none', border: 'none', color: '#aaa', cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+                        aria-label="Decrease quantity"
+                        style={{ background: 'none', border: 'none', color: 'var(--text-primary, #252A30)', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '2px' }}
                       >
                         <Minus size={12} />
                       </button>
-                      <span style={{ fontSize: '0.82rem', fontWeight: 600, color: '#fff' }}>{item.qty}</span>
+                      <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-primary, #252A30)', minWidth: '16px', textAlign: 'center' }}>
+                        {item.qty}
+                      </span>
                       <button 
                         onClick={() => onUpdateQty(item.id, item.qty + 1)}
-                        style={{ background: 'none', border: 'none', color: '#aaa', cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+                        aria-label="Increase quantity"
+                        style={{ background: 'none', border: 'none', color: 'var(--text-primary, #252A30)', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '2px' }}
                       >
                         <Plus size={12} />
                       </button>
                     </div>
 
-                    <div className="font-cinzel" style={{ fontSize: '1rem', fontWeight: 700, color: '#F3E5AB' }}>
+                    <div style={{ fontSize: '0.94rem', fontWeight: 800, color: 'var(--brand-navy, #172A3A)' }}>
                       Rs. {(item.salePrice * item.qty).toLocaleString()}
                     </div>
 
                     <button 
                       onClick={() => onRemoveItem(item.id)}
-                      style={{ background: 'none', border: 'none', color: '#777', cursor: 'pointer' }}
+                      aria-label="Remove item"
+                      style={{ background: 'none', border: 'none', color: 'var(--text-secondary, #737B84)', cursor: 'pointer', padding: '4px' }}
                     >
                       <Trash2 size={15} />
                     </button>
@@ -149,62 +179,49 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQty, on
         {cartItems.length > 0 && (
           <div style={{
             padding: '20px',
-            borderTop: '1px solid rgba(255, 255, 255, 0.08)',
-            background: 'rgba(0,0,0,0.5)'
+            borderTop: '1px solid var(--border-warm, #E6E2DA)',
+            backgroundColor: 'var(--bg-primary, #F7F5F0)'
           }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '0.9rem', color: '#aaa' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px', fontSize: '0.88rem', color: 'var(--text-secondary, #737B84)' }}>
               <span>Subtotal:</span>
-              <span className="font-cinzel" style={{ fontSize: '1.25rem', fontWeight: 800, color: '#F3E5AB' }}>
+              <span style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--brand-navy, #172A3A)' }}>
                 Rs. {subtotal.toLocaleString()}
               </span>
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px', fontSize: '0.78rem', color: '#2ECC71' }}>
-              <span>Nationwide Shipping:</span>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px', fontSize: '0.78rem', color: 'var(--indicator-green, #237653)', fontWeight: 600 }}>
+              <span>Nationwide Express Delivery:</span>
               <span>FREE</span>
             </div>
 
-            <a 
-              href={getCartWhatsAppUrl(cartItems, subtotal)}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => trackWhatsAppContact('Cart Bag Order', subtotal)}
-              style={{
-                background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)',
-                color: '#fff',
-                textDecoration: 'none',
-                width: '100%',
-                padding: '13px',
-                borderRadius: '8px',
-                fontSize: '0.9rem',
-                fontWeight: 700,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '8px',
-                boxShadow: '0 4px 15px rgba(37, 211, 102, 0.4)',
-                marginBottom: '10px',
-                transition: 'all 0.2s ease',
-                cursor: 'pointer'
-              }}
-            >
-              <MessageCircle size={18} />
-              <span>Order via WhatsApp (Instant Reply)</span>
-            </a>
-
+            {/* Instant Web Order Checkout Form Button */}
             <button 
-              className="btn-gold" 
+              className="btn-primary" 
               onClick={() => {
                 if (cartItems.length > 0) {
                   trackInitiateCheckout(cartItems[0], subtotal);
                 }
                 onCheckout();
               }}
-              style={{ width: '100%', padding: '12px', fontSize: '0.86rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
+              style={{ width: '100%', padding: '13px', fontSize: '0.9rem', marginBottom: '10px' }}
             >
-              <span>Or Fill Web Order Form</span>
-              <ArrowRight size={15} />
+              <span>Proceed to Checkout</span>
+              <ArrowRight size={16} />
             </button>
+
+            {/* WhatsApp Order Button */}
+            <a 
+              href={getCartWhatsAppUrl(cartItems, subtotal)}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => trackWhatsAppContact('Cart Bag Order', subtotal)}
+              className="btn-whatsapp"
+              style={{ width: '100%', padding: '12px', fontSize: '0.88rem' }}
+            >
+              <MessageCircle size={17} />
+              <span>Order via WhatsApp (Instant Reply)</span>
+            </a>
+
           </div>
         )}
 

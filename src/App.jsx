@@ -11,7 +11,6 @@ import SocialProof from './components/SocialProof';
 import AdminBridge from './components/AdminBridge';
 import AdminLogin from './components/AdminLogin';
 import PolicyModal from './components/PolicyModal';
-import LiveSalesToaster from './components/LiveSalesToaster';
 import WhatsAppWidget from './components/WhatsAppWidget';
 import Footer from './components/Footer';
 import { PRODUCTS } from './data/products';
@@ -101,12 +100,12 @@ export default function App() {
   useEffect(() => {
     trackPageView();
     if (routeState.name === 'store') {
-      document.title = 'MUBAR Chronos | Luxury Timepieces & Automotive Watches Pakistan';
+      document.title = 'MUBAR | Premium Watches Pakistan';
       recordVisitorHit('/');
     } else if (routeState.name === 'product' && routeState.productId) {
       const prod = PRODUCTS.find(p => p.id === routeState.productId);
       if (prod) {
-        document.title = `${prod.title} | MUBAR Chronos`;
+        document.title = `${prod.title} | MUBAR`;
         recordVisitorHit(`/product/${prod.id}`);
         trackViewContent(prod);
       } else {
@@ -232,7 +231,7 @@ export default function App() {
   // 2. Dedicated Product Details Page
   if (routeState.name === 'product' && routeState.productId) {
     return (
-      <div style={{ minHeight: '100vh', backgroundColor: '#070709', color: '#F5F5F7', position: 'relative' }}>
+      <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-primary, #F7F5F0)', color: 'var(--text-primary, #252A30)', position: 'relative' }}>
         
         {/* Toast Notification */}
         {toastMessage && (
@@ -241,24 +240,24 @@ export default function App() {
             bottom: '24px',
             right: '90px',
             zIndex: 2000,
-            background: 'rgba(7, 7, 9, 0.95)',
-            border: '1.5px solid #D4AF37',
-            color: '#F3E5AB',
-            padding: '12px 22px',
-            borderRadius: '10px',
-            boxShadow: '0 10px 30px rgba(0,0,0,0.8), 0 0 20px rgba(212, 175, 55, 0.3)',
-            fontSize: '0.88rem',
+            backgroundColor: 'var(--brand-navy, #172A3A)',
+            border: '1px solid var(--accent-gold, #B69A63)',
+            color: '#FFFFFF',
+            padding: '12px 20px',
+            borderRadius: 'var(--radius-sm, 8px)',
+            boxShadow: '0 8px 24px rgba(0,0,0,0.2)',
+            fontSize: '0.86rem',
             fontWeight: 600,
             display: 'flex',
             alignItems: 'center',
             gap: '10px'
           }}>
-            <span>✨</span>
+            <span>✓</span>
             <span>{toastMessage}</span>
           </div>
         )}
 
-        {/* Top Announcement Bar with Live Timer */}
+        {/* Top Announcement Bar */}
         <AnnouncementBar />
 
         {/* Main Brand Navbar */}
@@ -282,19 +281,16 @@ export default function App() {
         {/* Verified Pakistani Social Proof Carousel */}
         <SocialProof />
 
-        {/* Luxury Footer with Policy Links */}
+        {/* Footer with Policy Links */}
         <Footer 
           onScrollTo={(secId) => navigateToStore(secId)}
           onOpenPolicy={(key) => setActivePolicy(key)}
         />
 
-        {/* Live Sales Notification Toaster */}
-        <LiveSalesToaster />
-
         {/* Floating WhatsApp Concierge Widget */}
         <WhatsAppWidget />
 
-        {/* 1-Click Fast Cash on Delivery Checkout Modal */}
+        {/* Fast Cash on Delivery Checkout Modal */}
         {quickBuyProduct && (
           <QuickCODModal 
             product={quickBuyProduct}
@@ -331,7 +327,7 @@ export default function App() {
 
   // 3. Client Storefront Home
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#070709', color: '#F5F5F7', position: 'relative' }}>
+    <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-primary, #F7F5F0)', color: 'var(--text-primary, #252A30)', position: 'relative' }}>
       
       {/* Toast Notification */}
       {toastMessage && (
@@ -340,24 +336,24 @@ export default function App() {
           bottom: '24px',
           right: '90px',
           zIndex: 2000,
-          background: 'rgba(7, 7, 9, 0.95)',
-          border: '1.5px solid #D4AF37',
-          color: '#F3E5AB',
-          padding: '12px 22px',
-          borderRadius: '10px',
-          boxShadow: '0 10px 30px rgba(0,0,0,0.8), 0 0 20px rgba(212, 175, 55, 0.3)',
-          fontSize: '0.88rem',
+          backgroundColor: 'var(--brand-navy, #172A3A)',
+          border: '1px solid var(--accent-gold, #B69A63)',
+          color: '#FFFFFF',
+          padding: '12px 20px',
+          borderRadius: 'var(--radius-sm, 8px)',
+          boxShadow: '0 8px 24px rgba(0,0,0,0.2)',
+          fontSize: '0.86rem',
           fontWeight: 600,
           display: 'flex',
           alignItems: 'center',
           gap: '10px'
         }}>
-          <span>✨</span>
+          <span>✓</span>
           <span>{toastMessage}</span>
         </div>
       )}
 
-      {/* Top Announcement Bar with Live Timer */}
+      {/* Top Announcement Bar */}
       <AnnouncementBar />
 
       {/* Main Brand Navbar */}
@@ -368,7 +364,7 @@ export default function App() {
         onLogoClick={() => navigateToStore()}
       />
 
-      {/* High-Impact Hero Section */}
+      {/* Editorial Hero Section */}
       <Hero 
         onExploreClick={() => handleScrollTo('catalog')}
         onUnboxingClick={() => handleScrollTo('trust-standard')}
@@ -376,34 +372,31 @@ export default function App() {
         onSelectFlagship={() => navigateToProduct(PRODUCTS[0].id)}
       />
 
-      {/* Interactive Section 2: Buyer Confidence & Open Parcel Standard */}
+      {/* Open Parcel Confidence & Trust Section */}
       <UnboxingFeature 
         onOrderAnyClick={() => handleScrollTo('catalog')}
       />
 
-      {/* Product Catalog with Budget Filters & 4-Angle Selectors */}
+      {/* Product Catalog with Category Filters & Strict 2-Column Mobile Grid */}
       <ProductCatalog 
         products={PRODUCTS}
         onSelectProduct={(p) => navigateToProduct(p)}
         onQuickBuy={(p) => handleQuickBuy(p)}
       />
 
-      {/* Verified Pakistani Social Proof with 2-Second Auto-Rotating Roman Urdu Carousel */}
+      {/* Verified Pakistani Social Proof & FAQ Accordion */}
       <SocialProof />
 
-      {/* Luxury Footer with Policy Links */}
+      {/* Footer with Policy Links & Official Payment Methods */}
       <Footer 
         onScrollTo={handleScrollTo}
         onOpenPolicy={(key) => setActivePolicy(key)}
       />
 
-      {/* Live Sales Notification Toaster */}
-      <LiveSalesToaster />
-
       {/* Floating WhatsApp Concierge Widget */}
       <WhatsAppWidget />
 
-      {/* 1-Click Fast Cash on Delivery Checkout Modal */}
+      {/* Fast Cash on Delivery Checkout Modal */}
       {quickBuyProduct && (
         <QuickCODModal 
           product={quickBuyProduct}

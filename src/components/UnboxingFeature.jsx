@@ -1,51 +1,71 @@
 import React, { useState } from 'react';
 import { 
   ShieldCheck, Truck, Clock, Sparkles, CheckCircle2, ArrowRight, 
-  Package, AlertTriangle, Eye, ThumbsUp, RefreshCw, Star 
+  Package, AlertCircle, Eye, RefreshCw, Award 
 } from 'lucide-react';
 
 export default function UnboxingFeature({ onOrderAnyClick }) {
   const [activeTab, setActiveTab] = useState('process'); // 'process' | 'comparison' | 'box'
 
   return (
-    <section id="trust-standard" style={{
-      padding: 'clamp(40px, 6vw, 75px) clamp(14px, 3vw, 24px)',
-      background: 'linear-gradient(180deg, #070709 0%, #0c0c11 50%, #070709 100%)',
-      borderBottom: '1px solid rgba(255, 255, 255, 0.06)'
-    }}>
+    <section 
+      id="trust-standard" 
+      style={{
+        padding: 'clamp(40px, 6vw, 76px) clamp(16px, 3.5vw, 32px)',
+        backgroundColor: 'var(--bg-subtle, #F0EEE8)',
+        borderTop: '1px solid var(--border-warm, #E6E2DA)',
+        borderBottom: '1px solid var(--border-warm, #E6E2DA)'
+      }}
+    >
       <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
         
         {/* Section Header */}
-        <div style={{ textAlign: 'center', marginBottom: '38px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '36px' }}>
           <div style={{ 
             display: 'inline-flex', 
             alignItems: 'center', 
             gap: '8px', 
             padding: '5px 14px', 
             borderRadius: '20px', 
-            background: 'rgba(46, 204, 113, 0.1)', 
-            border: '1px solid rgba(46, 204, 113, 0.3)', 
-            marginBottom: '14px' 
+            backgroundColor: 'var(--indicator-green-bg, #E8F5EE)', 
+            border: '1px solid rgba(35, 118, 83, 0.25)', 
+            marginBottom: '12px' 
           }}>
-            <ShieldCheck size={14} color="#2ECC71" />
-            <span style={{ fontSize: '0.78rem', color: '#2ECC71', fontWeight: 700, letterSpacing: '1px', textTransform: 'uppercase' }}>
-              ZERO ONLINE SHOPPING RISK IN PAKISTAN
+            <ShieldCheck size={14} color="var(--indicator-green, #237653)" />
+            <span style={{ fontSize: '0.74rem', color: 'var(--indicator-green, #237653)', fontWeight: 700, letterSpacing: '1px', textTransform: 'uppercase' }}>
+              TRANSPARENT SHOPPING STANDARD IN PAKISTAN
             </span>
           </div>
-          <h2 className="font-cinzel" style={{ fontSize: 'clamp(2rem, 3.5vw, 2.8rem)', color: '#fff', marginBottom: '10px' }}>
-            WHY PAKISTANI BUYERS <span className="gold-text">TRUST MUBAR</span>
+
+          <h2 
+            className="font-playfair"
+            style={{ 
+              fontSize: 'clamp(1.85rem, 3.6vw, 2.75rem)', 
+              color: 'var(--brand-navy, #172A3A)', 
+              marginBottom: '10px',
+              fontWeight: 700,
+              letterSpacing: '-0.3px'
+            }}
+          >
+            Why Pakistani Watch Enthusiasts Trust MUBAR
           </h2>
-          <p style={{ color: '#8E8E93', maxWidth: '680px', margin: '0 auto', fontSize: '0.96rem', lineHeight: 1.6 }}>
-            Online shopping me sab se bara dar hota hai: "Pata nahi parcel me kya niklay ga." <br />
-            Humne ye dar 100% khatam kar diya hai.
+
+          <p style={{ 
+            color: 'var(--text-secondary, #737B84)', 
+            maxWidth: '640px', 
+            margin: '0 auto', 
+            fontSize: '0.94rem', 
+            lineHeight: 1.6 
+          }}>
+            Online watch shopping often comes with the fear of receiving damaged or incorrect items. We eliminate this uncertainty with verified doorstep inspection before payment.
           </p>
         </div>
 
-        {/* Interactive Tab Switcher */}
+        {/* Tab Controls */}
         <div style={{ 
           display: 'flex', 
           justifyContent: 'center', 
-          gap: '12px', 
+          gap: '10px', 
           marginBottom: '32px',
           flexWrap: 'wrap'
         }}>
@@ -53,312 +73,334 @@ export default function UnboxingFeature({ onOrderAnyClick }) {
             type="button"
             onClick={() => setActiveTab('process')}
             style={{
-              padding: '10px 20px',
+              padding: '9px 20px',
               borderRadius: '30px',
-              border: activeTab === 'process' ? '1.5px solid #D4AF37' : '1px solid rgba(255,255,255,0.1)',
-              background: activeTab === 'process' ? 'rgba(212, 175, 55, 0.15)' : 'rgba(255,255,255,0.03)',
-              color: activeTab === 'process' ? '#F3E5AB' : '#aaa',
+              border: activeTab === 'process' ? '1px solid var(--brand-navy, #172A3A)' : '1px solid var(--border-card, #E6E2DA)',
+              backgroundColor: activeTab === 'process' ? 'var(--brand-navy, #172A3A)' : 'var(--bg-card, #FFFFFF)',
+              color: activeTab === 'process' ? '#FFFFFF' : 'var(--text-primary, #252A30)',
               cursor: 'pointer',
-              fontWeight: 700,
-              fontSize: '0.86rem',
+              fontWeight: 600,
+              fontSize: '0.84rem',
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
-              transition: 'all 0.2s'
+              transition: 'all 0.18s ease'
             }}
           >
-            <Eye size={16} color={activeTab === 'process' ? '#D4AF37' : '#aaa'} />
-            <span>Doorstep Open Parcel Process (3 Steps)</span>
+            <Eye size={15} />
+            <span>Open Parcel 3-Step Process</span>
           </button>
 
           <button
             type="button"
             onClick={() => setActiveTab('comparison')}
             style={{
-              padding: '10px 20px',
+              padding: '9px 20px',
               borderRadius: '30px',
-              border: activeTab === 'comparison' ? '1.5px solid #D4AF37' : '1px solid rgba(255,255,255,0.1)',
-              background: activeTab === 'comparison' ? 'rgba(212, 175, 55, 0.15)' : 'rgba(255,255,255,0.03)',
-              color: activeTab === 'comparison' ? '#F3E5AB' : '#aaa',
+              border: activeTab === 'comparison' ? '1px solid var(--brand-navy, #172A3A)' : '1px solid var(--border-card, #E6E2DA)',
+              backgroundColor: activeTab === 'comparison' ? 'var(--brand-navy, #172A3A)' : 'var(--bg-card, #FFFFFF)',
+              color: activeTab === 'comparison' ? '#FFFFFF' : 'var(--text-primary, #252A30)',
               cursor: 'pointer',
-              fontWeight: 700,
-              fontSize: '0.86rem',
+              fontWeight: 600,
+              fontSize: '0.84rem',
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
-              transition: 'all 0.2s'
+              transition: 'all 0.18s ease'
             }}
           >
-            <RefreshCw size={16} color={activeTab === 'comparison' ? '#D4AF37' : '#aaa'} />
-            <span>MUBAR vs Other Online Sellers</span>
+            <RefreshCw size={15} />
+            <span>MUBAR vs Unknown Sellers</span>
           </button>
 
           <button
             type="button"
             onClick={() => setActiveTab('box')}
             style={{
-              padding: '10px 20px',
+              padding: '9px 20px',
               borderRadius: '30px',
-              border: activeTab === 'box' ? '1.5px solid #D4AF37' : '1px solid rgba(255,255,255,0.1)',
-              background: activeTab === 'box' ? 'rgba(212, 175, 55, 0.15)' : 'rgba(255,255,255,0.03)',
-              color: activeTab === 'box' ? '#F3E5AB' : '#aaa',
+              border: activeTab === 'box' ? '1px solid var(--brand-navy, #172A3A)' : '1px solid var(--border-card, #E6E2DA)',
+              backgroundColor: activeTab === 'box' ? 'var(--brand-navy, #172A3A)' : 'var(--bg-card, #FFFFFF)',
+              color: activeTab === 'box' ? '#FFFFFF' : 'var(--text-primary, #252A30)',
               cursor: 'pointer',
-              fontWeight: 700,
-              fontSize: '0.86rem',
+              fontWeight: 600,
+              fontSize: '0.84rem',
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
-              transition: 'all 0.2s'
+              transition: 'all 0.18s ease'
             }}
           >
-            <Package size={16} color={activeTab === 'box' ? '#D4AF37' : '#aaa'} />
-            <span>Free Packaging & Safe Delivery</span>
+            <Package size={15} />
+            <span>Protective Watch Packaging</span>
           </button>
         </div>
 
-        {/* TAB 1: 3-STEP DOORSTEP PROCESS */}
+        {/* TAB 1: 3-Step Doorstep Process */}
         {activeTab === 'process' && (
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: '24px',
-            marginBottom: '36px'
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: '20px',
+            marginBottom: '32px'
           }}>
             {/* Step 1 */}
             <div style={{
-              background: 'rgba(255,255,255,0.025)',
-              border: '1px solid rgba(212, 175, 55, 0.2)',
-              borderRadius: '16px',
-              padding: '28px',
-              position: 'relative'
+              backgroundColor: 'var(--bg-card, #FFFFFF)',
+              border: '1px solid var(--border-card, #E6E2DA)',
+              borderRadius: 'var(--radius-card, 12px)',
+              padding: '24px',
+              position: 'relative',
+              boxShadow: 'var(--shadow-card)'
             }}>
               <div style={{
                 position: 'absolute',
-                top: '20px',
-                right: '20px',
-                width: '32px',
-                height: '32px',
+                top: '18px',
+                right: '18px',
+                width: '28px',
+                height: '28px',
                 borderRadius: '50%',
-                background: 'rgba(212, 175, 55, 0.15)',
-                color: '#F3E5AB',
+                backgroundColor: 'var(--bg-gold-subtle, #F3EBDD)',
+                color: 'var(--brand-navy, #172A3A)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontWeight: 800,
-                fontSize: '0.9rem'
+                fontWeight: 700,
+                fontSize: '0.82rem'
               }}>
                 1
               </div>
-              <div style={{ background: 'rgba(46, 204, 113, 0.1)', width: '48px', height: '48px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '18px' }}>
-                <Truck size={24} color="#2ECC71" />
+              <div style={{
+                backgroundColor: 'var(--indicator-green-bg, #E8F5EE)',
+                width: '44px',
+                height: '44px',
+                borderRadius: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginBottom: '16px'
+              }}>
+                <Truck size={22} color="var(--indicator-green, #237653)" />
               </div>
-              <h4 style={{ color: '#fff', fontSize: '1.15rem', fontWeight: 700, marginBottom: '8px' }}>
-                Rider Apke Darwaze Par Aata Hai
+              <h4 style={{ color: 'var(--text-primary, #252A30)', fontSize: '1.05rem', fontWeight: 700, margin: '0 0 6px 0' }}>
+                Express Courier Arrival
               </h4>
-              <p style={{ color: '#999', fontSize: '0.88rem', lineHeight: 1.6 }}>
-                Trax / Leopards courier rider parcel lekar aapke diye huway address par deliver karta hai. Koi hidden ya extra delivery charges nahi.
+              <p style={{ color: 'var(--text-secondary, #737B84)', fontSize: '0.86rem', lineHeight: 1.6, margin: 0 }}>
+                Rider arrives at your home or office within 2–3 business days. Delivery across Pakistan is 100% Free with zero hidden charges.
               </p>
             </div>
 
             {/* Step 2 */}
             <div style={{
-              background: 'rgba(212, 175, 55, 0.05)',
-              border: '1.5px solid rgba(212, 175, 55, 0.4)',
-              borderRadius: '16px',
-              padding: '28px',
+              backgroundColor: 'var(--bg-card, #FFFFFF)',
+              border: '1px solid var(--border-card, #E6E2DA)',
+              borderRadius: 'var(--radius-card, 12px)',
+              padding: '24px',
               position: 'relative',
-              boxShadow: '0 10px 30px rgba(0,0,0,0.5), 0 0 20px rgba(212, 175, 55, 0.1)'
+              boxShadow: 'var(--shadow-card)'
             }}>
               <div style={{
                 position: 'absolute',
-                top: '20px',
-                right: '20px',
-                width: '32px',
-                height: '32px',
+                top: '18px',
+                right: '18px',
+                width: '28px',
+                height: '28px',
                 borderRadius: '50%',
-                background: '#D4AF37',
-                color: '#000',
+                backgroundColor: 'var(--bg-gold-subtle, #F3EBDD)',
+                color: 'var(--brand-navy, #172A3A)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontWeight: 900,
-                fontSize: '0.9rem'
+                fontWeight: 700,
+                fontSize: '0.82rem'
               }}>
                 2
               </div>
-              <div style={{ background: 'rgba(212, 175, 55, 0.15)', width: '48px', height: '48px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '18px' }}>
-                <Eye size={24} color="#D4AF37" />
+              <div style={{
+                backgroundColor: 'var(--bg-gold-subtle, #F3EBDD)',
+                width: '44px',
+                height: '44px',
+                borderRadius: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginBottom: '16px'
+              }}>
+                <Eye size={22} color="var(--accent-gold, #B69A63)" />
               </div>
-              <h4 style={{ color: '#F3E5AB', fontSize: '1.15rem', fontWeight: 700, marginBottom: '8px' }}>
-                Pehle Parcel Kholo & Check Karo
+              <h4 style={{ color: 'var(--text-primary, #252A30)', fontSize: '1.05rem', fontWeight: 700, margin: '0 0 6px 0' }}>
+                Open Parcel Before Payment
               </h4>
-              <p style={{ color: '#ccc', fontSize: '0.88rem', lineHeight: 1.6 }}>
-                Aap rider ke samne flyer open karke ghari ka dial, weight, glass aur finishing tasalli se check karte hain. 100% Open Parcel allowed!
+              <p style={{ color: 'var(--text-secondary, #737B84)', fontSize: '0.86rem', lineHeight: 1.6, margin: 0 }}>
+                Unbox the watch right in front of the courier rider. Inspect dial, steel bracelet, weight, and movement before handing over any cash.
               </p>
             </div>
 
             {/* Step 3 */}
             <div style={{
-              background: 'rgba(255,255,255,0.025)',
-              border: '1px solid rgba(212, 175, 55, 0.2)',
-              borderRadius: '16px',
-              padding: '28px',
-              position: 'relative'
+              backgroundColor: 'var(--bg-card, #FFFFFF)',
+              border: '1px solid var(--border-card, #E6E2DA)',
+              borderRadius: 'var(--radius-card, 12px)',
+              padding: '24px',
+              position: 'relative',
+              boxShadow: 'var(--shadow-card)'
             }}>
               <div style={{
                 position: 'absolute',
-                top: '20px',
-                right: '20px',
-                width: '32px',
-                height: '32px',
+                top: '18px',
+                right: '18px',
+                width: '28px',
+                height: '28px',
                 borderRadius: '50%',
-                background: 'rgba(212, 175, 55, 0.15)',
-                color: '#F3E5AB',
+                backgroundColor: 'var(--bg-gold-subtle, #F3EBDD)',
+                color: 'var(--brand-navy, #172A3A)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontWeight: 800,
-                fontSize: '0.9rem'
+                fontWeight: 700,
+                fontSize: '0.82rem'
               }}>
                 3
               </div>
-              <div style={{ background: 'rgba(46, 204, 113, 0.1)', width: '48px', height: '48px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '18px' }}>
-                <ThumbsUp size={24} color="#2ECC71" />
+              <div style={{
+                backgroundColor: 'rgba(23, 42, 58, 0.08)',
+                width: '44px',
+                height: '44px',
+                borderRadius: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginBottom: '16px'
+              }}>
+                <CheckCircle2 size={22} color="var(--brand-navy, #172A3A)" />
               </div>
-              <h4 style={{ color: '#fff', fontSize: '1.15rem', fontWeight: 700, marginBottom: '8px' }}>
-                Tassali Hone Par Cash Do!
+              <h4 style={{ color: 'var(--text-primary, #252A30)', fontSize: '1.05rem', fontWeight: 700, margin: '0 0 6px 0' }}>
+                Pay Only When 100% Satisfied
               </h4>
-              <p style={{ color: '#999', fontSize: '0.88rem', lineHeight: 1.6 }}>
-                Jab aap 100% mutma'in ho jayein, tab rider ko cash payment dein. Agar cheez pasand na aaye to baghair kisi payment ke rider ko parcel wapas kardein!
+              <p style={{ color: 'var(--text-secondary, #737B84)', fontSize: '0.86rem', lineHeight: 1.6, margin: 0 }}>
+                Hand over the cash only when you are completely satisfied with the watch. If there is any issue, return it immediately on the spot.
               </p>
             </div>
           </div>
         )}
 
-        {/* TAB 2: MUBAR VS OTHER SELLERS */}
+        {/* TAB 2: Comparison Table */}
         {activeTab === 'comparison' && (
-          <div className="unboxing-comparison-grid">
-            {/* Other Sellers */}
-            <div style={{
-              background: 'rgba(231, 76, 60, 0.05)',
-              border: '1px solid rgba(231, 76, 60, 0.25)',
-              borderRadius: '16px',
-              padding: '28px'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#E74C3C', fontWeight: 700, fontSize: '1.1rem', marginBottom: '18px' }}>
-                <AlertTriangle size={20} />
-                <span>Ordinary Social Media Sellers</span>
-              </div>
-              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '14px', padding: 0, margin: 0, fontSize: '0.88rem', color: '#bbb' }}>
-                <li style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-                  <span style={{ color: '#E74C3C', fontWeight: 700 }}>✕</span>
-                  <span><strong>Band Parcel Policy:</strong> Rider bolta hai 'pehle paise do, parcel baad me kholna'.</span>
-                </li>
-                <li style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-                  <span style={{ color: '#E74C3C', fontWeight: 700 }}>✕</span>
-                  <span><strong>Plastic & Cheap Build:</strong> Pictures me original aur deliver hotay waqt halki plastic ki ghari.</span>
-                </li>
-                <li style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-                  <span style={{ color: '#E74C3C', fontWeight: 700 }}>✕</span>
-                  <span><strong>No WhatsApp Reply:</strong> Kharabi nikalne par WhatsApp par block ya ghost kar detay hain.</span>
-                </li>
-                <li style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-                  <span style={{ color: '#E74C3C', fontWeight: 700 }}>✕</span>
-                  <span><strong>Extra Charges:</strong> Checkout ke baad Rs. 300–400 courier charges alag se mangtay hain.</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* MUBAR Standard */}
-            <div style={{
-              background: 'rgba(46, 204, 113, 0.05)',
-              border: '1.5px solid rgba(46, 204, 113, 0.35)',
-              borderRadius: '16px',
-              padding: '28px',
-              boxShadow: '0 10px 30px rgba(0,0,0,0.4)'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#2ECC71', fontWeight: 700, fontSize: '1.1rem', marginBottom: '18px' }}>
-                <CheckCircle2 size={20} />
-                <span>MUBAR Guarantee Standard</span>
-              </div>
-              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '14px', padding: 0, margin: 0, fontSize: '0.88rem', color: '#ddd' }}>
-                <li style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-                  <span style={{ color: '#2ECC71', fontWeight: 700 }}>✓</span>
-                  <span><strong>100% Open Parcel:</strong> Rider ke samne check karein, tassali honay par payment dein.</span>
-                </li>
-                <li style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-                  <span style={{ color: '#2ECC71', fontWeight: 700 }}>✓</span>
-                  <span><strong>Solid Steel & Real Pictures:</strong> Heavy steel wrist weight aur exact real pictures wali cheez.</span>
-                </li>
-                <li style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-                  <span style={{ color: '#2ECC71', fontWeight: 700 }}>✓</span>
-                  <span><strong>7-Day Easy Exchange:</strong> Koi bhi masla aye to Muhammad Mubashar direct replace karega.</span>
-                </li>
-                <li style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-                  <span style={{ color: '#2ECC71', fontWeight: 700 }}>✓</span>
-                  <span><strong>100% Free Nationwide Delivery:</strong> Jo price screen par hai, wohi final amount rider ko deni hai.</span>
-                </li>
-              </ul>
+          <div style={{
+            backgroundColor: 'var(--bg-card, #FFFFFF)',
+            border: '1px solid var(--border-card, #E6E2DA)',
+            borderRadius: 'var(--radius-card, 12px)',
+            overflow: 'hidden',
+            marginBottom: '32px',
+            boxShadow: 'var(--shadow-card)'
+          }}>
+            <div style={{ overflowX: 'auto' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', minWidth: '480px' }}>
+                <thead>
+                  <tr style={{ backgroundColor: 'var(--brand-navy, #172A3A)', color: '#FFFFFF', fontSize: '0.82rem' }}>
+                    <th style={{ padding: '14px 18px', fontWeight: 600 }}>Shopping Factor</th>
+                    <th style={{ padding: '14px 18px', fontWeight: 700, color: 'var(--accent-gold, #B69A63)' }}>MUBAR Store</th>
+                    <th style={{ padding: '14px 18px', fontWeight: 500, opacity: 0.75 }}>Other Online Sellers</th>
+                  </tr>
+                </thead>
+                <tbody style={{ fontSize: '0.84rem' }}>
+                  <tr style={{ borderBottom: '1px solid var(--border-warm, #E6E2DA)' }}>
+                    <td style={{ padding: '14px 18px', fontWeight: 600 }}>Parcel Inspection</td>
+                    <td style={{ padding: '14px 18px', color: 'var(--indicator-green, #237653)', fontWeight: 700 }}>
+                      ✓ 100% Doorstep Inspection Allowed
+                    </td>
+                    <td style={{ padding: '14px 18px', color: '#9E3438' }}>✕ Sealed box only, no opening allowed</td>
+                  </tr>
+                  <tr style={{ borderBottom: '1px solid var(--border-warm, #E6E2DA)', backgroundColor: 'var(--bg-subtle, #F0EEE8)' }}>
+                    <td style={{ padding: '14px 18px', fontWeight: 600 }}>Delivery Charges</td>
+                    <td style={{ padding: '14px 18px', color: 'var(--indicator-green, #237653)', fontWeight: 700 }}>
+                      ✓ FREE across all of Pakistan
+                    </td>
+                    <td style={{ padding: '14px 18px', color: '#9E3438' }}>✕ Rs. 250 - 400 extra delivery fee</td>
+                  </tr>
+                  <tr style={{ borderBottom: '1px solid var(--border-warm, #E6E2DA)' }}>
+                    <td style={{ padding: '14px 18px', fontWeight: 600 }}>Customer WhatsApp Support</td>
+                    <td style={{ padding: '14px 18px', color: 'var(--indicator-green, #237653)', fontWeight: 700 }}>
+                      ✓ Direct contact with founder Mubashar
+                    </td>
+                    <td style={{ padding: '14px 18px', color: '#9E3438' }}>✕ Automated bots or delayed replies</td>
+                  </tr>
+                  <tr>
+                    <td style={{ padding: '14px 18px', fontWeight: 600 }}>Exchange Policy</td>
+                    <td style={{ padding: '14px 18px', color: 'var(--indicator-green, #237653)', fontWeight: 700 }}>
+                      ✓ 7-Day Hassle-free Replacement
+                    </td>
+                    <td style={{ padding: '14px 18px', color: '#9E3438' }}>✕ "No return, no exchange" policies</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         )}
 
-        {/* TAB 3: PACKAGING & SAFETY */}
+        {/* TAB 3: Packaging & Safe Delivery */}
         {activeTab === 'box' && (
-          <div 
-            className="unboxing-box-grid"
-            style={{
-              background: 'rgba(255,255,255,0.02)',
-              border: '1px solid rgba(212, 175, 55, 0.25)',
-              borderRadius: '16px',
-              padding: 'clamp(18px, 4vw, 32px)',
-              marginBottom: '36px'
-            }}
-          >
+          <div style={{
+            backgroundColor: 'var(--bg-card, #FFFFFF)',
+            border: '1px solid var(--border-card, #E6E2DA)',
+            borderRadius: 'var(--radius-card, 12px)',
+            padding: '24px',
+            marginBottom: '32px',
+            boxShadow: 'var(--shadow-card)',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: '24px',
+            alignItems: 'center'
+          }}>
             <div>
-              <span style={{ fontSize: '0.78rem', color: '#D4AF37', fontWeight: 700, letterSpacing: '1px', textTransform: 'uppercase' }}>
-                Complimentary Presentation Set
-              </span>
-              <h3 className="font-cinzel" style={{ fontSize: '1.6rem', color: '#fff', marginTop: '6px', marginBottom: '14px' }}>
-                Free Luxury Packaging Included With Every Order
-              </h3>
-              <p style={{ color: '#aaa', fontSize: '0.9rem', lineHeight: 1.7, marginBottom: '20px' }}>
-                Har ghari ke sath protective hard watch box aur plush velvet cushion bilkul free diya jata hai. Parcel double-layered bubble wrap me pack hota hai taake transit ke dauran glass par koi scratch na aye.
+              <h4 style={{ color: 'var(--text-primary, #252A30)', fontSize: '1.2rem', fontWeight: 700, margin: '0 0 10px 0' }}>
+                Safe Multi-Layer Watch Packaging
+              </h4>
+              <p style={{ color: 'var(--text-secondary, #737B84)', fontSize: '0.88rem', lineHeight: 1.6, margin: '0 0 16px 0' }}>
+                Every MUBAR timepiece is shipped in high-density bubble cushioning, protective dial film, and heavy-duty outer box packaging to guarantee zero transit damage during road or air courier transit.
               </p>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', fontSize: '0.82rem', color: '#F3E5AB' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <CheckCircle2 size={14} color="#2ECC71" /> Hard Luxury Watch Box
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.84rem', color: 'var(--text-primary, #252A30)' }}>
+                  <CheckCircle2 size={16} color="var(--indicator-green, #237653)" />
+                  <span>Protective scratch-film on crystal & deployant clasp</span>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <CheckCircle2 size={14} color="#2ECC71" /> Plush Velvet Cushion
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.84rem', color: 'var(--text-primary, #252A30)' }}>
+                  <CheckCircle2 size={16} color="var(--indicator-green, #237653)" />
+                  <span>Pre-fitted fresh battery & tested movement</span>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <CheckCircle2 size={14} color="#2ECC71" /> Sealed Bubble Wrap Protection
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <CheckCircle2 size={14} color="#2ECC71" /> Ready for Gifting
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.84rem', color: 'var(--indicator-green, #237653)' }}>
+                  <CheckCircle2 size={16} color="var(--indicator-green, #237653)" />
+                  <span>100% Trackable courier tracking number sent via SMS</span>
                 </div>
               </div>
             </div>
 
-            <div style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(212, 175, 55, 0.3)' }}>
+            <div style={{
+              borderRadius: '8px',
+              overflow: 'hidden',
+              height: '220px',
+              backgroundColor: '#0C131C'
+            }}>
               <img 
-                src="/images/branding/watch_box_unboxing.jpg" 
-                alt="Luxury Watch Box Packaging" 
-                style={{ width: '100%', height: '240px', objectFit: 'cover', display: 'block' }}
+                src="/images/all-watches/watch 5/03_duo_unboxing_studio.jpg" 
+                alt="Watch Unboxing"
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
               />
             </div>
           </div>
         )}
 
-        {/* Bottom Call to Action */}
+        {/* CTA Bar */}
         <div style={{ textAlign: 'center' }}>
           <button 
-            className="btn-gold" 
             onClick={onOrderAnyClick}
-            style={{ padding: '14px 34px', fontSize: '0.92rem', display: 'inline-flex', alignItems: 'center', gap: '8px' }}
+            className="btn-primary"
+            style={{
+              padding: '12px 28px',
+              fontSize: '0.88rem'
+            }}
           >
-            <span>Order With Open Parcel Inspection (Rs. 1,999+)</span>
+            <span>Explore The Collection</span>
             <ArrowRight size={16} />
           </button>
         </div>

@@ -6,7 +6,7 @@ export default function WhatsAppWidget() {
   const [showTooltip, setShowTooltip] = useState(true);
 
   const whatsappNumber = getWhatsAppNumber();
-  const defaultText = encodeURIComponent("Assalam-o-Alaikum Muhammad Mubashar bhai! 🌟\nMain MUBAR store se watches check kar raha tha. Kindly mujhse connect karein aur real unboxing videos share karein. Shukriya!");
+  const defaultText = encodeURIComponent("Assalam-o-Alaikum! Main MUBAR store se watches check kar raha tha. Kindly mujhse connect karein aur real unboxing videos share karein. Shukriya!");
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${defaultText}`;
 
   return (
@@ -17,33 +17,33 @@ export default function WhatsAppWidget() {
       zIndex: 950,
       display: 'flex',
       alignItems: 'center',
-      gap: '12px'
+      gap: '10px'
     }}>
       {/* Tooltip */}
       {showTooltip && (
         <div 
           className="whatsapp-tooltip"
           style={{
-            background: 'rgba(12, 12, 18, 0.95)',
-            backdropFilter: 'blur(8px)',
-            border: '1px solid rgba(46, 204, 113, 0.4)',
-            borderRadius: '8px',
-            padding: '8px 14px',
-            color: '#fff',
-            fontSize: '0.8rem',
+            backgroundColor: 'var(--brand-navy, #172A3A)',
+            border: '1px solid rgba(255, 255, 255, 0.15)',
+            borderRadius: 'var(--radius-sm, 8px)',
+            padding: '7px 12px',
+            color: '#FFFFFF',
+            fontSize: '0.78rem',
+            fontWeight: 600,
             display: 'flex',
             alignItems: 'center',
             gap: '8px',
-            boxShadow: '0 6px 20px rgba(0,0,0,0.5)'
+            boxShadow: '0 4px 16px rgba(0,0,0,0.2)'
           }}
         >
-          <span className="pulse-dot" />
-          <span>Chat with Founder on WhatsApp</span>
+          <span>Chat with MUBAR on WhatsApp</span>
           <button 
             onClick={() => setShowTooltip(false)}
-            style={{ background: 'none', border: 'none', color: '#777', cursor: 'pointer', padding: 0 }}
+            aria-label="Dismiss tooltip"
+            style={{ background: 'none', border: 'none', color: '#D4D9DF', cursor: 'pointer', padding: 0, display: 'flex' }}
           >
-            <X size={12} />
+            <X size={13} />
           </button>
         </div>
       )}
@@ -53,31 +53,31 @@ export default function WhatsAppWidget() {
         href={whatsappUrl}
         target="_blank"
         rel="noopener noreferrer"
+        aria-label="Contact us on WhatsApp"
         style={{
-          width: '54px',
-          height: '54px',
+          width: '50px',
+          height: '50px',
           borderRadius: '50%',
           backgroundColor: '#25D366',
-          boxShadow: '0 8px 25px rgba(37, 211, 102, 0.45)',
+          boxShadow: '0 6px 20px rgba(37, 211, 102, 0.4)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          color: '#fff',
+          color: '#FFFFFF',
           textDecoration: 'none',
-          transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+          transition: 'transform 0.2s ease, box-shadow 0.2s ease',
           cursor: 'pointer'
         }}
         onMouseEnter={e => {
-          e.currentTarget.style.transform = 'scale(1.1)';
-          e.currentTarget.style.boxShadow = '0 12px 30px rgba(37, 211, 102, 0.65)';
+          e.currentTarget.style.transform = 'scale(1.06)';
+          e.currentTarget.style.boxShadow = '0 8px 24px rgba(37, 211, 102, 0.55)';
         }}
         onMouseLeave={e => {
           e.currentTarget.style.transform = 'scale(1)';
-          e.currentTarget.style.boxShadow = '0 8px 25px rgba(37, 211, 102, 0.45)';
+          e.currentTarget.style.boxShadow = '0 6px 20px rgba(37, 211, 102, 0.4)';
         }}
-        title="Order via WhatsApp"
       >
-        <MessageCircle size={28} />
+        <MessageCircle size={26} />
       </a>
     </div>
   );

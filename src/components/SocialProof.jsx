@@ -1,19 +1,39 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Star, CheckCircle, ChevronLeft, ChevronRight, MessageSquare, Sparkles } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Star, CheckCircle, ChevronLeft, ChevronRight, HelpCircle, ChevronDown, ChevronUp } from 'lucide-react';
 import { REVIEWS } from '../data/products';
+
+const FAQS = [
+  {
+    q: "Can I open and inspect the watch before giving cash to the rider?",
+    a: "Yes, 100%! All MUBAR orders come with an explicit Open Parcel Doorstep Check arrangement. The courier rider will allow you to open the box, inspect the timepiece, check the dial, weight, and movement, and verify everything before handing over the cash."
+  },
+  {
+    q: "How long does delivery take and what are the delivery charges?",
+    a: "Delivery is completely FREE across all cities and towns of Pakistan. Delivery to major cities (Lahore, Karachi, Islamabad, Rawalpindi, Faisalabad) takes 2 to 3 business days via express courier."
+  },
+  {
+    q: "What if there is any defect or I want to exchange the watch?",
+    a: "We provide an unconditional 7-Day Hassle-Free Replacement Policy. If there is any manufacturing defect, physical damage in transit, or functional fault, contact our WhatsApp support team and we will exchange it immediately."
+  },
+  {
+    q: "What payment methods are supported?",
+    a: "We support Cash on Delivery (COD) as our primary payment method nationwide. For customers who prefer cashless digital payments, we accept verified direct transfers via JazzCash, SadaPay, NayaPay, and Raast."
+  }
+];
 
 export default function SocialProof() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [openFaq, setOpenFaq] = useState(null);
   const totalReviews = REVIEWS.length;
 
-  // Auto-rotate strictly every 2 seconds (2000ms)
+  // Gentle auto-rotation every 6 seconds (not frantic 2 seconds)
   useEffect(() => {
     if (isPaused) return;
 
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % totalReviews);
-    }, 2000);
+    }, 6000);
 
     return () => clearInterval(interval);
   }, [isPaused, totalReviews]);
@@ -26,7 +46,7 @@ export default function SocialProof() {
     setCurrentIndex((prev) => (prev + 1) % totalReviews);
   };
 
-  // Calculate items to display: on desktop show 3 items starting from currentIndex
+  // Get 3 reviews starting from currentIndex
   const getVisibleReviews = () => {
     const items = [];
     for (let i = 0; i < 3; i++) {
@@ -36,12 +56,14 @@ export default function SocialProof() {
   };
 
   return (
-    <section id="reviews" style={{
-      padding: 'clamp(40px, 6vw, 75px) clamp(14px, 3vw, 24px)',
-      background: 'radial-gradient(circle at 50% 100%, rgba(212, 175, 55, 0.06) 0%, rgba(7, 7, 9, 1) 80%)',
-      borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
-      overflow: 'hidden'
-    }}>
+    <section 
+      id="reviews" 
+      style={{
+        padding: 'clamp(40px, 6vw, 76px) clamp(16px, 3.5vw, 32px)',
+        backgroundColor: 'var(--bg-primary, #F7F5F0)',
+        borderBottom: '1px solid var(--border-warm, #E6E2DA)'
+      }}
+    >
       <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
         
         {/* Section Header */}
@@ -50,71 +72,68 @@ export default function SocialProof() {
             display: 'inline-flex', 
             alignItems: 'center', 
             gap: '8px', 
-            padding: '5px 14px', 
+            padding: '4px 14px', 
             borderRadius: '20px', 
-            background: 'rgba(212, 175, 55, 0.1)', 
-            border: '1px solid rgba(212, 175, 55, 0.3)', 
-            marginBottom: '14px',
-            maxWidth: '100%'
+            backgroundColor: 'var(--bg-gold-subtle, #F3EBDD)', 
+            border: '1px solid rgba(182, 154, 99, 0.3)', 
+            marginBottom: '12px'
           }}>
-            <Star size={14} fill="#D4AF37" color="#D4AF37" style={{ flexShrink: 0 }} />
-            <span style={{ fontSize: '0.78rem', color: '#F3E5AB', fontWeight: 700, letterSpacing: '1px', textTransform: 'uppercase' }}>
-              REAL PAKISTANI BUYER FEEDBACK (ROMAN URDU)
+            <Star size={13} fill="#B69A63" color="#B69A63" />
+            <span style={{ fontSize: '0.74rem', color: 'var(--brand-navy, #172A3A)', fontWeight: 700, letterSpacing: '1px', textTransform: 'uppercase' }}>
+              VERIFIED CUSTOMER REVIEWS
             </span>
           </div>
 
-          <h2 className="font-cinzel" style={{ fontSize: 'clamp(1.85rem, 3.5vw, 2.8rem)', color: '#fff', marginBottom: '10px' }}>
-            WHAT OUR <span className="gold-text">CUSTOMERS SAY</span>
+          <h2 
+            className="font-playfair"
+            style={{ 
+              fontSize: 'clamp(1.85rem, 3.6vw, 2.75rem)', 
+              color: 'var(--brand-navy, #172A3A)', 
+              marginBottom: '10px',
+              fontWeight: 700,
+              letterSpacing: '-0.3px'
+            }}
+          >
+            What Pakistani Watch Buyers Say
           </h2>
-          <p style={{ color: '#8E8E93', fontSize: 'clamp(0.85rem, 2vw, 0.95rem)', maxWidth: '640px', margin: '0 auto' }}>
-            Rated 4.9/5 by 1,400+ satisfied customers across Lahore, Karachi, Islamabad, Rawalpindi, and all over Pakistan.
-          </p>
 
-          <div style={{ 
-            display: 'inline-flex', 
-            alignItems: 'center', 
-            gap: '8px', 
-            marginTop: '12px',
-            background: 'rgba(46, 204, 113, 0.1)',
-            border: '1px solid rgba(46, 204, 113, 0.3)',
-            padding: '4px 12px',
-            borderRadius: '20px',
-            fontSize: '0.76rem',
-            color: '#2ECC71',
-            fontWeight: 600
+          <p style={{ 
+            color: 'var(--text-secondary, #737B84)', 
+            fontSize: 'clamp(0.88rem, 1.8vw, 1rem)', 
+            maxWidth: '620px', 
+            margin: '0 auto',
+            lineHeight: 1.6
           }}>
-            <span className="pulse-dot" /> Auto-Rotating Every 2 Seconds • Hover to Pause
-          </div>
+            Real doorstep unboxing feedback from customers across Lahore, Karachi, Islamabad, and nationwide.
+          </p>
         </div>
 
         {/* Carousel Container */}
         <div 
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
-          style={{ position: 'relative', padding: '10px 0 20px' }}
+          style={{ position: 'relative', marginBottom: '56px' }}
         >
           {/* Review Cards Grid */}
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-            gap: '20px',
-            transition: 'all 0.4s ease'
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: '20px'
           }}>
             {getVisibleReviews().map((rev, idx) => (
               <div 
                 key={`${rev.id}-${idx}`}
                 style={{
-                  background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.035) 0%, rgba(255, 255, 255, 0.01) 100%)',
-                  border: '1px solid rgba(212, 175, 55, 0.25)',
-                  borderRadius: '16px',
+                  backgroundColor: 'var(--bg-card, #FFFFFF)',
+                  border: '1px solid var(--border-card, #E6E2DA)',
+                  borderRadius: 'var(--radius-card, 12px)',
                   padding: '24px',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
-                  boxShadow: '0 12px 30px rgba(0,0,0,0.6)',
-                  position: 'relative',
-                  minHeight: '230px',
-                  transition: 'transform 0.3s ease, border-color 0.3s ease'
+                  boxShadow: 'var(--shadow-card)',
+                  minHeight: '220px',
+                  transition: 'transform 0.2s ease, box-shadow 0.2s ease'
                 }}
               >
                 <div>
@@ -122,31 +141,31 @@ export default function SocialProof() {
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
                     <div style={{ display: 'flex', gap: '3px' }}>
                       {[...Array(rev.rating)].map((_, i) => (
-                        <Star key={i} size={15} fill="#D4AF37" color="#D4AF37" />
+                        <Star key={i} size={14} fill="#B69A63" color="#B69A63" />
                       ))}
                     </div>
 
                     <span style={{ 
-                      display: 'flex', 
+                      display: 'inline-flex', 
                       alignItems: 'center', 
                       gap: '4px', 
-                      fontSize: '0.74rem', 
-                      color: '#2ECC71', 
+                      fontSize: '0.72rem', 
+                      color: 'var(--indicator-green, #237653)', 
                       fontWeight: 700,
-                      background: 'rgba(46, 204, 113, 0.1)',
-                      padding: '2px 8px',
-                      borderRadius: '12px'
+                      backgroundColor: 'var(--indicator-green-bg, #E8F5EE)',
+                      padding: '3px 8px',
+                      borderRadius: '4px'
                     }}>
-                      <CheckCircle size={12} color="#2ECC71" /> Verified Buyer
+                      <CheckCircle size={11} /> Verified Buyer
                     </span>
                   </div>
 
-                  {/* Roman Urdu Comment */}
+                  {/* Comment */}
                   <p style={{
-                    color: '#E0E0E8',
-                    fontSize: '0.92rem',
+                    color: 'var(--text-primary, #252A30)',
+                    fontSize: '0.88rem',
                     lineHeight: 1.6,
-                    marginBottom: '18px',
+                    margin: '0 0 16px 0',
                     fontStyle: 'normal'
                   }}>
                     "{rev.comment}"
@@ -154,24 +173,24 @@ export default function SocialProof() {
                 </div>
 
                 {/* Bottom Details */}
-                <div style={{ borderTop: '1px solid rgba(255, 255, 255, 0.06)', paddingTop: '14px' }}>
+                <div style={{ borderTop: '1px solid var(--border-warm, #E6E2DA)', paddingTop: '12px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                    <div style={{ fontWeight: 700, color: '#fff', fontSize: '0.92rem' }}>
+                    <span style={{ fontWeight: 700, color: 'var(--brand-navy, #172A3A)', fontSize: '0.88rem' }}>
                       {rev.name}
-                    </div>
-                    <span style={{ fontSize: '0.72rem', color: '#888' }}>
+                    </span>
+                    <span style={{ fontSize: '0.72rem', color: 'var(--text-secondary, #737B84)' }}>
                       {rev.date}
                     </span>
                   </div>
 
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '4px' }}>
-                    <span style={{ fontSize: '0.78rem', color: '#D4AF37', fontWeight: 500 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '3px' }}>
+                    <span style={{ fontSize: '0.76rem', color: 'var(--accent-gold, #B69A63)', fontWeight: 600 }}>
                       📍 {rev.city}
                     </span>
                     <span style={{ 
-                      fontSize: '0.72rem', 
-                      color: '#aaa',
-                      maxWidth: '180px',
+                      fontSize: '0.74rem', 
+                      color: 'var(--text-secondary, #737B84)',
+                      maxWidth: '160px',
                       whiteSpace: 'nowrap',
                       overflow: 'hidden',
                       textOverflow: 'ellipsis'
@@ -191,46 +210,46 @@ export default function SocialProof() {
             justifyContent: 'center',
             alignItems: 'center',
             gap: '16px',
-            marginTop: '28px'
+            marginTop: '24px'
           }}>
             <button
               type="button"
               onClick={handlePrev}
+              aria-label="Previous review"
               style={{
-                width: '40px',
-                height: '40px',
+                width: '38px',
+                height: '38px',
                 borderRadius: '50%',
-                background: 'rgba(255,255,255,0.06)',
-                border: '1px solid rgba(255,255,255,0.15)',
-                color: '#fff',
+                backgroundColor: 'var(--bg-card, #FFFFFF)',
+                border: '1px solid var(--border-card, #E6E2DA)',
+                color: 'var(--text-primary, #252A30)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 cursor: 'pointer',
-                transition: 'all 0.2s'
+                transition: 'all 0.18s ease'
               }}
-              onMouseEnter={e => e.currentTarget.style.borderColor = '#D4AF37'}
-              onMouseLeave={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)'}
             >
-              <ChevronLeft size={18} />
+              <ChevronLeft size={17} />
             </button>
 
-            {/* Dot Indicators */}
+            {/* Pagination Indicators */}
             <div style={{ display: 'flex', gap: '6px' }}>
-              {REVIEWS.map((_, dotIdx) => (
+              {REVIEWS.slice(0, 6).map((_, dotIdx) => (
                 <button
                   key={dotIdx}
                   type="button"
                   onClick={() => setCurrentIndex(dotIdx)}
+                  aria-label={`Go to review ${dotIdx + 1}`}
                   style={{
-                    width: currentIndex === dotIdx ? '24px' : '7px',
-                    height: '7px',
-                    borderRadius: '4px',
-                    background: currentIndex === dotIdx ? '#D4AF37' : 'rgba(255,255,255,0.2)',
+                    width: currentIndex % 6 === dotIdx ? '20px' : '6px',
+                    height: '6px',
+                    borderRadius: '3px',
+                    backgroundColor: currentIndex % 6 === dotIdx ? 'var(--brand-navy, #172A3A)' : 'var(--border-warm, #E6E2DA)',
                     border: 'none',
                     padding: 0,
                     cursor: 'pointer',
-                    transition: 'all 0.3s'
+                    transition: 'all 0.2s ease'
                   }}
                 />
               ))}
@@ -239,26 +258,103 @@ export default function SocialProof() {
             <button
               type="button"
               onClick={handleNext}
+              aria-label="Next review"
               style={{
-                width: '40px',
-                height: '40px',
+                width: '38px',
+                height: '38px',
                 borderRadius: '50%',
-                background: 'rgba(255,255,255,0.06)',
-                border: '1px solid rgba(255,255,255,0.15)',
-                color: '#fff',
+                backgroundColor: 'var(--bg-card, #FFFFFF)',
+                border: '1px solid var(--border-card, #E6E2DA)',
+                color: 'var(--text-primary, #252A30)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 cursor: 'pointer',
-                transition: 'all 0.2s'
+                transition: 'all 0.18s ease'
               }}
-              onMouseEnter={e => e.currentTarget.style.borderColor = '#D4AF37'}
-              onMouseLeave={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)'}
             >
-              <ChevronRight size={18} />
+              <ChevronRight size={17} />
             </button>
           </div>
 
+        </div>
+
+        {/* ==============================================================================
+            FAQ ACCORDION SECTION (Desktops & Mobile)
+            ============================================================================== */}
+        <div style={{
+          maxWidth: '820px',
+          margin: '0 auto',
+          paddingTop: '20px'
+        }}>
+          <div style={{ textAlign: 'center', marginBottom: '28px' }}>
+            <h3 
+              className="font-playfair"
+              style={{
+                fontSize: 'clamp(1.5rem, 2.8vw, 2.2rem)',
+                color: 'var(--brand-navy, #172A3A)',
+                margin: '0 0 8px 0',
+                fontWeight: 700
+              }}
+            >
+              Frequently Asked Questions
+            </h3>
+            <p style={{ color: 'var(--text-secondary, #737B84)', fontSize: '0.9rem', margin: 0 }}>
+              Honest answers about ordering, doorstep open parcel verification, and delivery.
+            </p>
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            {FAQS.map((faq, idx) => {
+              const isOpen = openFaq === idx;
+              return (
+                <div 
+                  key={idx}
+                  style={{
+                    backgroundColor: 'var(--bg-card, #FFFFFF)',
+                    border: '1px solid var(--border-card, #E6E2DA)',
+                    borderRadius: 'var(--radius-card, 12px)',
+                    overflow: 'hidden',
+                    transition: 'border-color 0.2s ease'
+                  }}
+                >
+                  <button
+                    type="button"
+                    onClick={() => setOpenFaq(isOpen ? null : idx)}
+                    style={{
+                      width: '100%',
+                      padding: '16px 20px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      backgroundColor: 'transparent',
+                      border: 'none',
+                      textAlign: 'left',
+                      cursor: 'pointer',
+                      color: 'var(--text-primary, #252A30)',
+                      fontSize: '0.92rem',
+                      fontWeight: 600
+                    }}
+                  >
+                    <span>{faq.q}</span>
+                    {isOpen ? <ChevronUp size={18} color="var(--accent-gold, #B69A63)" /> : <ChevronDown size={18} color="var(--text-secondary, #737B84)" />}
+                  </button>
+                  {isOpen && (
+                    <div style={{
+                      padding: '0 20px 18px 20px',
+                      color: 'var(--text-secondary, #737B84)',
+                      fontSize: '0.86rem',
+                      lineHeight: 1.6,
+                      borderTop: '1px solid var(--border-warm, #E6E2DA)',
+                      paddingTop: '12px'
+                    }}>
+                      {faq.a}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
 
       </div>

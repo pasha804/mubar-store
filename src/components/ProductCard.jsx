@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Eye, Zap, Star, ShieldCheck, MessageCircle } from 'lucide-react';
+import { ShieldCheck, MessageCircle, Star, ArrowUpRight } from 'lucide-react';
 import { getWatchWhatsAppUrl } from '../services/whatsappService';
 
 export default function ProductCard({ product, onSelectProduct, onQuickBuy }) {
@@ -23,276 +23,258 @@ export default function ProductCard({ product, onSelectProduct, onQuickBuy }) {
   );
 
   return (
-    <div style={{
-      background: 'rgba(255, 255, 255, 0.025)',
-      border: '1px solid rgba(255, 255, 255, 0.08)',
-      borderRadius: '16px',
-      overflow: 'hidden',
-      transition: 'transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease',
-      display: 'flex',
-      flexDirection: 'column',
-      position: 'relative'
-    }}
-    className="product-hover-card"
-    onMouseEnter={e => {
-      e.currentTarget.style.transform = 'translateY(-6px)';
-      e.currentTarget.style.borderColor = 'rgba(212, 175, 55, 0.45)';
-      e.currentTarget.style.boxShadow = '0 16px 35px rgba(0,0,0,0.6), 0 0 20px rgba(212, 175, 55, 0.15)';
-    }}
-    onMouseLeave={e => {
-      e.currentTarget.style.transform = 'translateY(0)';
-      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.08)';
-      e.currentTarget.style.boxShadow = 'none';
-    }}
+    <div 
+      className="product-card"
+      style={{
+        backgroundColor: 'var(--bg-card, #FFFFFF)',
+        border: '1px solid var(--border-card, #E6E2DA)',
+        borderRadius: 'var(--radius-card, 12px)',
+        overflow: 'hidden',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        position: 'relative',
+        transition: 'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease'
+      }}
     >
-      
-      {/* Top Badges */}
-      <div style={{ position: 'absolute', top: '14px', left: '14px', right: '14px', display: 'flex', justifyContent: 'space-between', zIndex: 5, pointerEvents: 'none' }}>
-        <span style={{
-          background: 'linear-gradient(90deg, #E74C3C 0%, #C0392B 100%)',
-          color: '#fff',
-          fontSize: '0.72rem',
-          fontWeight: 800,
-          padding: '4px 10px',
-          borderRadius: '4px',
-          letterSpacing: '0.5px',
-          boxShadow: '0 2px 8px rgba(231, 76, 60, 0.4)'
-        }}>
-          SAVE {discountPercent}%
-        </span>
-
-        {product.badge && (
-          <span style={{
-            background: 'rgba(7, 7, 9, 0.88)',
-            backdropFilter: 'blur(6px)',
-            border: '1px solid rgba(212, 175, 55, 0.4)',
-            color: '#F3E5AB',
-            fontSize: '0.7rem',
-            fontWeight: 700,
-            padding: '4px 10px',
-            borderRadius: '12px'
-          }}>
-            {product.badge}
+      {/* Top Floating Badges */}
+      <div style={{
+        position: 'absolute',
+        top: '10px',
+        left: '10px',
+        right: '10px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        zIndex: 2,
+        pointerEvents: 'none'
+      }}>
+        {discountPercent > 0 ? (
+          <span className="badge-sale">
+            SAVE {discountPercent}%
           </span>
-        )}
+        ) : <div />}
+
+        <span style={{
+          backgroundColor: 'rgba(255, 255, 255, 0.92)',
+          color: 'var(--indicator-green, #237653)',
+          fontSize: '0.64rem',
+          fontWeight: 700,
+          padding: '2px 6px',
+          borderRadius: '4px',
+          border: '1px solid rgba(35, 118, 83, 0.2)',
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '3px'
+        }}>
+          <ShieldCheck size={11} /> Open Parcel
+        </span>
       </div>
 
-      {/* Main Image View */}
+      {/* Product Image Area */}
       <div 
         onClick={() => onSelectProduct(product)}
-        style={{ position: 'relative', height: 'clamp(260px, 45vw, 330px)', cursor: 'pointer', overflow: 'hidden', background: '#0a0a0d' }}
+        style={{
+          position: 'relative',
+          width: '100%',
+          aspectRatio: '1 / 1',
+          backgroundColor: '#F5F4F0',
+          cursor: 'pointer',
+          overflow: 'hidden',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+        title={`View details for ${product.title}`}
       >
         <img 
-          src={product.images[activeImgIndex]} 
+          src={product.images[activeImgIndex] || product.images[0]} 
           alt={product.title} 
+          loading="lazy"
           style={{
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            transition: 'opacity 0.25s ease'
+            transition: 'transform 0.3s ease'
           }}
+          onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.04)'}
+          onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
         />
-
-        {/* View Details Overlay on Hover */}
-        <div style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'rgba(0,0,0,0.3)',
-          opacity: 0,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          transition: 'opacity 0.2s ease'
-        }}
-        className="card-overlay"
-        onMouseEnter={e => e.currentTarget.style.opacity = '1'}
-        onMouseLeave={e => e.currentTarget.style.opacity = '0'}
-        >
-          <div style={{ background: 'rgba(7, 7, 9, 0.9)', border: '1px solid #D4AF37', color: '#F3E5AB', padding: '9px 18px', borderRadius: '25px', fontSize: '0.82rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px', boxShadow: '0 4px 15px rgba(0,0,0,0.6)' }}>
-            <Eye size={15} />
-            <span>View 4 Angles & Specs</span>
-          </div>
-        </div>
       </div>
 
-      {/* 4-Shot Thumbnail Selector */}
+      {/* Card Body */}
       <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(4, 1fr)',
-        gap: '6px',
-        padding: '8px 12px',
-        background: 'rgba(0,0,0,0.35)',
-        borderBottom: '1px solid rgba(255,255,255,0.06)'
+        padding: 'clamp(10px, 2vw, 16px)',
+        display: 'flex',
+        flexDirection: 'column',
+        flex: 1,
+        justifyContent: 'space-between'
       }}>
-        {product.images.map((img, idx) => (
-          <img 
-            key={idx}
-            src={img} 
-            alt={`Angle ${idx+1}`}
-            onClick={(e) => {
-              e.stopPropagation();
-              setActiveImgIndex(idx);
-            }}
-            style={{
-              width: '100%',
-              height: '48px',
-              objectFit: 'cover',
-              borderRadius: '4px',
-              cursor: 'pointer',
-              border: activeImgIndex === idx ? '1.5px solid #D4AF37' : '1px solid rgba(255,255,255,0.1)',
-              opacity: activeImgIndex === idx ? 1 : 0.65,
-              transition: 'all 0.2s ease'
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Product Details */}
-      <div style={{ padding: 'clamp(16px, 3.5vw, 22px)', display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'space-between' }}>
         
         <div>
-          {/* Category & Rating */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-            <span style={{ fontSize: '0.72rem', color: '#8E8E93', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 600 }}>
+          {/* Category & Star Rating */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginBottom: '4px'
+          }}>
+            <span style={{
+              fontSize: '0.66rem',
+              fontWeight: 700,
+              textTransform: 'uppercase',
+              letterSpacing: '0.8px',
+              color: 'var(--text-secondary, #737B84)'
+            }}>
               {product.category}
             </span>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#F3E5AB', fontSize: '0.78rem' }}>
-              <Star size={13} fill="#D4AF37" color="#D4AF37" />
+
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '2px',
+              fontSize: '0.72rem',
+              color: 'var(--text-secondary, #737B84)',
+              fontWeight: 600
+            }}>
+              <Star size={11} fill="#B69A63" color="#B69A63" />
               <span>{product.rating}</span>
-              <span style={{ color: '#666' }}>({product.reviewCount})</span>
+              <span style={{ opacity: 0.7 }}>({product.reviewCount})</span>
             </div>
           </div>
 
-          {/* Title & Subtitle */}
+          {/* Product Title */}
           <h3 
             onClick={() => onSelectProduct(product)}
-            className="font-cinzel" 
-            style={{ fontSize: '1.22rem', color: '#fff', cursor: 'pointer', lineHeight: 1.3, marginBottom: '4px' }}
+            style={{
+              fontSize: 'clamp(0.86rem, 1.4vw, 0.98rem)',
+              fontWeight: 700,
+              color: 'var(--text-primary, #252A30)',
+              lineHeight: 1.35,
+              margin: '0 0 6px 0',
+              cursor: 'pointer',
+              display: '-webkit-box',
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: 'vertical',
+              overflow: 'hidden',
+              minHeight: '2.7em'
+            }}
+            title={product.title}
           >
             {product.title}
           </h3>
-          <p style={{ fontSize: '0.82rem', color: '#D4AF37', marginBottom: '10px', fontWeight: 500 }}>
-            {product.subtitle}
-          </p>
 
-          {/* Color Edition Swatches */}
+          {/* Variant Swatches (if available) */}
           {product.variants && product.variants.length > 0 && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '12px', flexWrap: 'wrap' }}>
-              <span style={{ fontSize: '0.68rem', color: '#888' }}>Colors:</span>
-              {product.variants.slice(0, 4).map((v, i) => {
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              marginBottom: '10px',
+              overflowX: 'auto',
+              paddingBottom: '2px'
+            }} className="hide-scrollbar">
+              {product.variants.slice(0, 4).map((v, idx) => {
                 const isSelected = selectedVariant === v;
-                const vImg = product.variantImages?.[v] || product.images?.[i] || product.images?.[0];
+                const vThumb = product.variantImages?.[v] || product.images[idx] || product.images[0];
                 return (
                   <button
-                    key={i}
+                    key={idx}
                     type="button"
                     onClick={(e) => handleVariantClick(v, e)}
                     title={v}
                     style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      padding: '2px',
-                      borderRadius: '5px',
-                      border: isSelected ? '1.5px solid #D4AF37' : '1px solid rgba(255,255,255,0.12)',
-                      background: isSelected ? 'rgba(212, 175, 55, 0.25)' : 'rgba(0,0,0,0.5)',
+                      width: '20px',
+                      height: '20px',
+                      borderRadius: '50%',
+                      padding: 0,
+                      border: isSelected ? '2px solid var(--brand-navy, #172A3A)' : '1px solid var(--border-warm, #E6E2DA)',
+                      overflow: 'hidden',
                       cursor: 'pointer',
-                      transition: 'all 0.15s ease'
+                      flexShrink: 0,
+                      boxShadow: isSelected ? '0 0 0 1px #B69A63' : 'none'
                     }}
                   >
-                    <img 
-                      src={vImg} 
-                      alt={v} 
-                      style={{ width: '22px', height: '22px', borderRadius: '3px', objectFit: 'cover' }} 
-                    />
+                    <img src={vThumb} alt={v} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   </button>
                 );
               })}
               {product.variants.length > 4 && (
-                <span style={{ fontSize: '0.68rem', color: '#D4AF37' }}>+{product.variants.length - 4}</span>
+                <span style={{ fontSize: '0.64rem', color: 'var(--text-secondary, #737B84)' }}>
+                  +{product.variants.length - 4}
+                </span>
               )}
             </div>
           )}
-
-          {/* Flash Sale Stock Claim Bar */}
-          <div style={{ marginBottom: '16px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.72rem', marginBottom: '4px', color: '#aaa' }}>
-              <span>Flash Sale Claimed:</span>
-              <strong style={{ color: '#FF7675' }}>{product.soldPercent}% Sold</strong>
-            </div>
-            <div style={{ width: '100%', height: '5px', background: 'rgba(255,255,255,0.08)', borderRadius: '3px', overflow: 'hidden' }}>
-              <div style={{ width: `${product.soldPercent}%`, height: '100%', background: 'linear-gradient(90deg, #E74C3C 0%, #D4AF37 100%)', borderRadius: '3px' }} />
-            </div>
-          </div>
         </div>
 
-        {/* Pricing & CTA */}
-        <div>
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px', marginBottom: '16px' }}>
-            <span className="font-cinzel" style={{ fontSize: '1.5rem', fontWeight: 800, color: '#F3E5AB' }}>
+        {/* Pricing & CTA Controls */}
+        <div style={{ marginTop: '8px', paddingTop: '8px', borderTop: '1px solid var(--border-card, #E6E2DA)' }}>
+          
+          {/* Price Row */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'baseline',
+            gap: '6px',
+            marginBottom: '10px',
+            flexWrap: 'wrap'
+          }}>
+            <span style={{
+              fontSize: 'clamp(0.98rem, 1.6vw, 1.18rem)',
+              fontWeight: 800,
+              color: 'var(--text-primary, #252A30)'
+            }}>
               Rs. {product.salePrice.toLocaleString()}
             </span>
-            <span style={{ fontSize: '0.92rem', color: '#8E8E93', textDecoration: 'line-through' }}>
-              Rs. {product.originalPrice.toLocaleString()}
-            </span>
-            <span style={{ marginLeft: 'auto', fontSize: '0.72rem', color: '#2ECC71', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '3px' }}>
-              <ShieldCheck size={12} /> Open Parcel
-            </span>
+            {product.originalPrice && (
+              <span style={{
+                fontSize: '0.78rem',
+                color: 'var(--text-secondary, #737B84)',
+                textDecoration: 'line-through'
+              }}>
+                Rs. {product.originalPrice.toLocaleString()}
+              </span>
+            )}
           </div>
 
-          {/* Action Buttons */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <a 
+          {/* Card Actions: Primary COD + WhatsApp */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: '6px' }}>
+            <button
+              onClick={() => onQuickBuy({ ...product, selectedVariant })}
+              className="btn-primary"
+              style={{
+                padding: '8px 10px',
+                fontSize: '0.78rem',
+                fontWeight: 700,
+                minHeight: '36px',
+                width: '100%'
+              }}
+            >
+              <span>Order COD</span>
+            </button>
+
+            <a
               href={getWatchWhatsAppUrl(product, selectedVariant)}
               target="_blank"
               rel="noopener noreferrer"
               style={{
-                background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)',
-                color: '#fff',
-                textDecoration: 'none',
-                padding: '11px 14px',
-                borderRadius: '8px',
-                fontWeight: 700,
-                fontSize: '0.84rem',
+                backgroundColor: '#25D366',
+                color: '#FFFFFF',
+                borderRadius: 'var(--radius-sm, 8px)',
+                width: '36px',
+                height: '36px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '8px',
-                boxShadow: '0 4px 15px rgba(37, 211, 102, 0.35)',
-                transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-                cursor: 'pointer'
+                textDecoration: 'none',
+                flexShrink: 0
               }}
-              onMouseEnter={e => {
-                e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.boxShadow = '0 6px 20px rgba(37, 211, 102, 0.55)';
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 4px 15px rgba(37, 211, 102, 0.35)';
-              }}
+              title="Inquire on WhatsApp"
             >
               <MessageCircle size={16} />
-              <span>Order on WhatsApp</span>
             </a>
-
-            <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '8px' }}>
-              <button 
-                className="btn-gold" 
-                onClick={() => onQuickBuy({ ...product, preselectedVariant: selectedVariant })}
-                style={{ padding: '9px 12px', fontSize: '0.78rem', width: '100%' }}
-              >
-                <Zap size={13} />
-                <span>Quick COD</span>
-              </button>
-
-              <button 
-                className="btn-outline-gold"
-                onClick={() => onSelectProduct(product)}
-                style={{ padding: '9px 10px', fontSize: '0.78rem', width: '100%' }}
-              >
-                Details
-              </button>
-            </div>
           </div>
+
         </div>
 
       </div>

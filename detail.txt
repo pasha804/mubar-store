@@ -1,0 +1,240 @@
+==============================================================================
+            MUBAR CHRONOS — COMPLETE STORE MASTER SPECIFICATION & ARCHITECTURE
+==============================================================================
+Website Domain: https://mubar-iota.vercel.app/
+Official Brand: MUBAR — Haute Horlogerie & Luxury Timepieces Pakistan
+Founder & CEO: Muhammad Mubashar (Lahore, Pakistan)
+Contact / WhatsApp: +92 308 4453846 (03084453846)
+Last Updated: October 2026
+
+------------------------------------------------------------------------------
+1. BRAND OVERVIEW & STORE MISSION
+------------------------------------------------------------------------------
+MUBAR Chronos is Pakistan's premier direct-to-consumer luxury timepiece brand.
+The store is engineered specifically for the Pakistani consumer market, solving
+the single largest barrier to online e-commerce: BUYER DISTRUST.
+
+Core Value Propositions:
+- 100% Open Parcel Inspection Authorization: Customers open the flyer in front
+  of the courier rider, inspect the timepiece, and only pay after total satisfaction.
+- 1-Year Movement Warranty Card: Included in every shipment with a custom serial.
+- Bespoke 1200 GSM Rigid Presentation Box: Velvet cushion and gold foil crest.
+- 100% Free Nationwide Express Shipping: Zero delivery charges across Pakistan.
+- Multi-Method Payment: Cash on Delivery (COD) + Instant Zero-Fee Online Transfers
+  via JazzCash, SadaPay, NayaPay & Raast.
+
+------------------------------------------------------------------------------
+2. FRONTEND ARCHITECTURE & FRAMEWORK
+------------------------------------------------------------------------------
+- Core Framework: React 18+ Single Page Application (SPA) with Vite 5.x bundling.
+- Routing Architecture: Custom client-side dynamic route state parser:
+  * Storefront Homepage: '/'
+  * Dedicated Dynamic Product Detail Pages: '/product/:id' (with deep-link support)
+  * Founder Admin Portal: '/pass' or '/admin' (with secure session auth)
+  * Policy Modals: Integrated overlay viewer for Privacy, Terms, Shipping, Returns.
+- Micro-Interactions & Animation:
+  * Canvas-Confetti on successful COD order placement.
+  * Shimmer gold badges and smooth hover elevation cards.
+  * Auto-rotating 2-second social proof testimonial carousel.
+  * Live Sales Notification Toaster (simulates authentic Pakistani city purchases).
+- Icons & Visual Assets: Lucide React icon suite + Custom SVG brand vector assets.
+- Responsive Design: 100% fluid mobile-first architecture optimized for 4G/3G
+  smartphones, tablets, and 4K ultra-wide monitors.
+
+------------------------------------------------------------------------------
+3. BACKEND, CLOUD DATABASE & REALTIME SYNC
+------------------------------------------------------------------------------
+- Cloud Database: Google Firebase Cloud Firestore (Enterprise rules configured).
+- Local State Resilience: Dual-layer persistence architecture:
+  * Layer 1 (Cloud): Remote Firestore collections ('orders', 'visitors', 'settings').
+  * Layer 2 (Local): Browser localStorage synchronization ensures instant offline
+    resilience and zero checkout drops even on fluctuating 3G/4G Pakistani networks.
+- Analytics & Visitor Tracking:
+  * Live hit recording per route ('/' and individual '/product/:id' watch pages).
+  * Real-time visitor counters showing realistic live viewers (11–24 concurrent).
+- Founder Admin Bridge (`/pass`):
+  * Real-time order management dashboard.
+  * One-tap WhatsApp confirmation dispatch link generator.
+  * Order status management: Pending Verification, Confirmed, Dispatched, Delivered.
+  * CSV export engine for courier booking (Trax, PostEx, TCS, Leopards).
+
+------------------------------------------------------------------------------
+4. DESIGN SYSTEM, LUXURY COLOR PALETTE & TYPOGRAPHY
+------------------------------------------------------------------------------
+Theme Aesthetic: "Obsidian Void & Imperial Champagne Gold"
+
+Color Palette:
+- Deep Obsidian Void (Base Background): #070709 / #050507
+- Elevated Card & Modal Backgrounds: #0c0c11 / rgba(20, 20, 28, 0.95)
+- Imperial Champagne Gold (Primary Accent): #D4AF37
+- Light Gold / Cream Text (High Contrast): #F3E5AB / #F5E8BA
+- Deep Gold Gradient (CTA Buttons): linear-gradient(135deg, #D4AF37 0%, #AA771C 100%)
+- Trust Green (Delivery / Badges): #2ECC71 / #25D366 (Official WhatsApp Green)
+- Titanium Silver (Secondary Accents): #8E8E93 / #A0A0A8
+- Border Stroke Tone: rgba(212, 175, 55, 0.25) to rgba(255, 255, 255, 0.08)
+
+Typography Stack:
+- Editorial / Brand Headings: 'Cinzel' (Google Fonts) — Serif elegance reminiscent
+  of Patek Philippe & Audemars Piguet horology houses.
+- Body, Specs & Form Controls: 'Plus Jakarta Sans' (Google Fonts) — Ultra-crisp,
+  modern geometric sans-serif for high readability on low-cost Android screens.
+- Accent / Subtitles: 'Playfair Display' — Editorial italics for luxury accents.
+
+------------------------------------------------------------------------------
+5. META (FACEBOOK) PIXEL & ECOMMERCE EVENT TRACKING
+------------------------------------------------------------------------------
+Official Meta Pixel ID: 1638013851386202
+Integration Module: src/services/pixelService.js & index.html
+
+Tracked Standard eCommerce Events:
+1. 'PageView': Automatically fired on root '/' and all sub-routes.
+2. 'ViewContent': Fires when customer opens any watch detail page with:
+   - content_name, content_category, content_ids, value (PKR), currency: 'PKR'.
+3. 'AddToCart': Fires when customer clicks "Add to Bag" inside product pages.
+4. 'InitiateCheckout': Fires when customer opens 1-Click COD Modal or Cart Drawer.
+5. 'Purchase': Fires immediately when customer submits order successfully with:
+   - order_id, productTitle, totalAmount (PKR), quantity, currency: 'PKR'.
+6. 'WhatsAppLead' (Custom): Fires when customer taps WhatsApp order buttons.
+
+------------------------------------------------------------------------------
+6. PRODUCT CATALOG & UNIT ECONOMICS BREAKDOWN
+------------------------------------------------------------------------------
+Total Active Vault Timepieces: 7 Products (6 Core Flagship Lines)
+
+1. MEIBO 3D Wheel Rim Kinetic Watch (Solid Steel Chain)
+   - ID: apex-wheel-rim-chain
+   - Category: Supercar Rim (Viral)
+   - Retail Sale Price: Rs. 2,499 (Original: Rs. 3,999 | 38% OFF)
+   - Wholesale Sourcing Cost: Rs. 2,100 | Net Margin: Rs. 399
+   - Features: Freely spinning 3D alloy wheel rotor on wrist, Brembo racing
+     brake caliper, drilled ventilated brake disc, solid matte black steel links.
+   - 4 Color Variants: Sport Red Brembo, Nitro Blue, Lime Green, Speed Yellow.
+
+2. MEIBO 3D Wheel Rim Kinetic Watch (Silicone Sport Strap)
+   - ID: apex-wheel-rim-strap
+   - Category: Supercar Rim (Lightweight Sport)
+   - Retail Sale Price: Rs. 2,199 (Original: Rs. 3,499 | 37% OFF)
+   - Wholesale Sourcing Cost: Rs. 1,700 | Net Margin: Rs. 499
+   - Features: Spinning wheel rotor with lightweight carbon-textured silicone band.
+   - 4 Color Variants: Sport Red, Nitro Blue, Lime Green, Speed Yellow.
+
+3. Yacht-Master Oysterflex Luxury Flagship Edition
+   - ID: mubar-yachtmaster-oysterflex
+   - Category: Luxury Prestige (VIP Flagship)
+   - Retail Sale Price: Rs. 3,999 (Original: Rs. 6,499 | 38% OFF)
+   - Wholesale Sourcing Cost: Rs. 3,000 | Net Margin: Rs. 999
+   - Features: Bidirectional 60-min rotating matte ceramic bezel with raised polished
+     numerals, Cyclops 2.5x date magnifier at 3 o'clock, Mercedes luminescent hands,
+     high-density black elastomer Oysterflex-style strap with safety clasp.
+   - 2 Editions: 18K Rose Gold Casing / Matte Black Dial, Platinum Steel / Rhodium.
+
+4. YOLAKO Luxury Diving Submariner
+   - ID: heritage-diver
+   - Category: Maritime Diver
+   - Retail Sale Price: Rs. 2,499 (Original: Rs. 3,499 | 29% OFF)
+   - Wholesale Sourcing Cost: Rs. 750 | Net Margin: Rs. 1,749 (Highest ROI!)
+   - Features: Unidirectional rotating fluted bezel, luminous geometric indices,
+     Mercedes hands, solid brushed 3-link stainless steel oyster bracelet.
+   - 4 Editions: Emerald Green (Hulk), Deep Ocean Blue, Crimson Red, Onyx Black.
+
+5. GENEVA Executive Multi-Dial Chronograph
+   - ID: executive-chrono
+   - Category: Executive Formal Chronographs
+   - Retail Sale Price: Rs. 2,199 (Original: Rs. 3,499 | 37% OFF)
+   - Wholesale Sourcing Cost: Rs. 850 | Net Margin: Rs. 1,349
+   - Features: Triple auxiliary sub-dials (1/10s, min, sec), panoramic open arc
+     date window with red pointer, dual pushers, polished steel bracelet.
+   - 5 Editions: All-Black PVD, Silver/Black, Silver/Royal Blue, Gold/Blue, Gold/Black.
+
+6. GENEVA Grand Prix Motorsport Racing Chronograph
+   - ID: motorsport-racing
+   - Category: Motorsport
+   - Retail Sale Price: Rs. 2,299 (Original: Rs. 3,499 | 34% OFF)
+   - Wholesale Sourcing Cost: Rs. 900 | Net Margin: Rs. 1,399
+   - Features: F1 dashboard instrumentation, asphalt multi-layered textured dial,
+     bold '12' racing index, speedometer color tracks.
+   - 4 Editions: Stealth Silver/Black, Two-Tone Gold, All-Black PVD, Silver/Blue.
+
+7. YOLAKO Octa Geometric Tachymeter Chronograph (Royal Homage)
+   - ID: octa-tachymeter
+   - Category: Geometric Sports (Royal Oak Homage)
+   - Retail Sale Price: Rs. 2,999 (Original: Rs. 4,499 | 33% OFF)
+   - Wholesale Sourcing Cost: Rs. 950 | Net Margin: Rs. 2,049
+   - Features: Octagonal brushed bezel with 8 hexagonal screws, tapisserie waffle
+     textured dial, integrated steel link bracelet, tachymeter scale.
+   - 5 Editions: Silver/Black, Silver/Ocean Blue, Arctic White, Stealth Black, Two-Tone.
+
+------------------------------------------------------------------------------
+7. PAYMENT GATEWAYS & OFFICIAL VECTOR BADGES
+------------------------------------------------------------------------------
+Official Vector SVG Badges Implemented (src/components/PaymentLogos.jsx):
+1. Cash on Delivery (COD): Gold luxury crest, "100% Free Shipping Unlocked".
+2. JazzCash: Official Red (#E30613) and Yellow spark brand logo.
+3. SadaPay: Official Coral (#FF6584) & Mint Turquoise intersecting glyph.
+4. NayaPay: Official Green (#00D084) origami "N" brand glyph.
+5. Raast / SBP: Official State Bank of Pakistan instant Raast gateway badge.
+
+Public Display Strategy:
+- Raw mobile numbers are hidden from public footer/navbar badges to maintain
+  high-end brand authority.
+- Official account details (Title: Muhammad Mubashar, Account: 03084453846,
+  IBAN: PK43SADA0000003084453846) only display inside the secure Checkout Modal
+  when the customer actively selects the "Online Payment" tab.
+
+------------------------------------------------------------------------------
+8. PAKISTANI COD LOGISTICS & CONVERSION FUNNEL
+------------------------------------------------------------------------------
+Fulfillment Logistics:
+- Central Warehouse & Dispatch Hub: Lahore, Punjab, Pakistan.
+- Primary Courier Partners: Trax Logistics, PostEx, TCS, Leopards.
+- Timelines:
+  * Lahore: 24 to 48 Hours.
+  * Karachi, Islamabad, Rawalpindi, Faisalabad: 2 to 3 Business Days.
+  * Peshawar, Quetta, Multan, Sialkot, Gujranwala: 3 to 4 Business Days.
+  * Rest of Pakistan: 3 to 5 Business Days.
+- Outer Flyer Trust Standard: Explicit "Open Parcel Inspection Allowed" sticker
+  printed on flyer so riders allow parcel verification prior to cash collection.
+
+------------------------------------------------------------------------------
+9. FILE SYSTEM STRUCTURE (DIRECTORY TREE)
+------------------------------------------------------------------------------
+e:/sopify/
+├── index.html                   # HTML5 Entry, SEO Metadata, Meta Pixel Script
+├── package.json                 # Project dependencies (React, Vite, Lucide, Confetti)
+├── vite.config.js               # Vite build configuration
+├── detail.txt                   # Complete project blueprint and architecture
+├── watches_store_master_analysis.md # Sourcing, wholesale & economic master guide
+├── public/
+│   └── images/
+│       ├── branding/            # Logos, seals, unboxing graphics, crests
+│       ├── posters/             # High-res ad posters (01 to 06) for Meta ads
+│       └── products/            # 4-angle studio photography per watch model
+└── src/
+    ├── main.jsx                 # React root mount
+    ├── App.jsx                  # Main application, router parser, cart & modal state
+    ├── index.css                # Global CSS, Cinzel & Jakarta fonts, gold utilities
+    ├── data/
+    │   └── products.js          # Master product vault, accounts & reviews
+    ├── services/
+    │   ├── firebase.js          # Firebase SDK connection
+    │   ├── storeSync.js         # Firestore real-time sync & offline cache
+    │   ├── pixelService.js      # Meta Pixel eCommerce event tracking engine
+    │   └── whatsappService.js   # WhatsApp deep-link message generator
+    └── components/
+        ├── AnnouncementBar.jsx  # Countdown sale timer & free shipping banner
+        ├── Navbar.jsx           # Sticky glassmorphic navbar with cart pill
+        ├── Hero.jsx             # High-impact flagship showcase & action buttons
+        ├── UnboxingFeature.jsx  # 3-step Open Parcel trust standard interactive section
+        ├── ProductCatalog.jsx   # Product grid with category filters & quick buy
+        ├── ProductPage.jsx      # Dedicated detail view with zoom, specs & reviews
+        ├── QuickCODModal.jsx    # 1-Click fast checkout modal (COD + JazzCash/SadaPay)
+        ├── CartDrawer.jsx       # Slide-out shopping bag drawer
+        ├── PaymentLogos.jsx     # Official SVG logos (JazzCash, SadaPay, NayaPay, Raast)
+        ├── SocialProof.jsx      # 2-second auto-rotating Roman Urdu review carousel
+        ├── LiveSalesToaster.jsx # Real-time recent sale purchase notification toaster
+        ├── WhatsAppWidget.jsx   # Floating WhatsApp concierge button
+        ├── PolicyModal.jsx      # Privacy, Terms, Shipping & Refund policies
+        ├── Footer.jsx           # Brand pillars, payment badges & legal links
+        ├── AdminLogin.jsx       # Secure password authentication for founder
+        └── AdminBridge.jsx      # Real-time founder orders & analytics dashboard
+==============================================================================
