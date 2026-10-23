@@ -37,37 +37,36 @@ export default function ProductCard({ product, onSelectProduct, onQuickBuy }) {
         position: 'relative'
       }}
     >
-      {/* Top Floating Badges */}
+      {/* Boutique Hanging Sale Tag with Pendulum Swing Animation */}
+      {discountPercent > 0 && (
+        <div className="hanging-sale-tag" title={`${discountPercent}% Discount`}>
+          <span>{discountPercent}%</span>
+          <span style={{ fontSize: '0.52rem', opacity: 0.9 }}>OFF</span>
+        </div>
+      )}
+
+      {/* Top Right Mini Open Parcel Badge */}
       <div style={{
         position: 'absolute',
-        top: '10px',
-        left: '10px',
-        right: '10px',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        zIndex: 3,
+        top: '8px',
+        right: '8px',
+        zIndex: 5,
         pointerEvents: 'none'
       }}>
-        {discountPercent > 0 ? (
-          <span className="badge-sale">
-            SAVE {discountPercent}%
-          </span>
-        ) : <div />}
-
         <span style={{
-          backgroundColor: 'rgba(255, 255, 255, 0.95)',
+          backgroundColor: 'rgba(255, 255, 255, 0.94)',
           color: 'var(--indicator-green, #237653)',
-          fontSize: '0.64rem',
+          fontSize: '0.62rem',
           fontWeight: 700,
           padding: '2px 6px',
           borderRadius: '4px',
-          border: '1px solid rgba(35, 118, 83, 0.2)',
+          border: '1px solid rgba(35, 118, 83, 0.22)',
           display: 'inline-flex',
           alignItems: 'center',
-          gap: '3px'
+          gap: '3px',
+          boxShadow: '0 1px 4px rgba(0,0,0,0.05)'
         }}>
-          <ShieldCheck size={11} /> Open Parcel
+          <ShieldCheck size={10} /> Open Parcel
         </span>
       </div>
 

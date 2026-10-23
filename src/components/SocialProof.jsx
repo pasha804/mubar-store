@@ -35,7 +35,7 @@ export default function SocialProof() {
     if (isPaused) return;
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % totalReviews);
-    }, 6000);
+    }, 2000); // Automatically change every 2 seconds
     return () => clearInterval(interval);
   }, [isPaused, totalReviews]);
 
@@ -181,8 +181,8 @@ export default function SocialProof() {
 
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: '18px'
+            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+            gap: '14px'
           }}>
             {getVisibleReviews().map((rev, idx) => (
               <div 
@@ -190,20 +190,20 @@ export default function SocialProof() {
                 style={{
                   backgroundColor: '#FFFFFF',
                   border: '1px solid var(--border-card, #E6E2DA)',
-                  borderRadius: 'var(--radius-card, 12px)',
-                  padding: '20px',
+                  borderRadius: 'var(--radius-card, 10px)',
+                  padding: '14px 16px',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
                   boxShadow: 'var(--shadow-card)',
-                  minHeight: '200px'
+                  minHeight: '135px'
                 }}
               >
                 <div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
                     <div style={{ display: 'flex', gap: '2px' }}>
                       {[...Array(rev.rating)].map((_, i) => (
-                        <Star key={i} size={13} fill="#B69A63" color="#B69A63" />
+                        <Star key={i} size={11} fill="#B69A63" color="#B69A63" />
                       ))}
                     </div>
 

@@ -4,10 +4,11 @@
    ============================================================================== */
 
 :root {
-  /* MUBAR Signature Palette */
-  --bg-primary: #F7F5F0;             /* Warm Ivory - Primary Page Background */
+  /* MUBAR Signature Palette - Soft Warm Ivory & Yellowish Champagne Gradient */
+  --bg-primary: #F8F5EE;             /* Warm Ivory - Primary Page Background */
+  --bg-gradient: linear-gradient(180deg, #FCFAF5 0%, #F6F1E6 40%, #FAF6EE 100%);
   --bg-card: #FFFFFF;                /* Pure White - Product Cards */
-  --bg-subtle: #F0EEE8;              /* Subtle Section Background */
+  --bg-subtle: #F0ECE2;              /* Subtle Section Background */
   --bg-gold-subtle: #F3EBDD;         /* Light Champagne Accent Fill */
   
   --brand-navy: #172A3A;             /* Midnight Navy - Primary Brand & Navigation */
@@ -66,6 +67,7 @@ html {
 }
 
 body {
+  background: var(--bg-gradient);
   background-color: var(--bg-primary);
   color: var(--text-charcoal);
   font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -346,28 +348,70 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   }
 }
 
+/* Boutique Hanging Sale Tag with Gentle Pendulum Swing */
+@keyframes tagHangingSwing {
+  0% { transform: rotate(0deg); }
+  20% { transform: rotate(3.5deg); }
+  40% { transform: rotate(-3deg); }
+  60% { transform: rotate(2deg); }
+  80% { transform: rotate(-1deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.hanging-sale-tag {
+  position: absolute;
+  top: 0;
+  left: 12px;
+  z-index: 6;
+  background: linear-gradient(180deg, #B53A3F 0%, #882B2F 100%);
+  color: #FFFFFF;
+  padding: 5px 6px 7px 6px;
+  border-radius: 0 0 5px 5px;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  box-shadow: 0 4px 10px rgba(158, 52, 56, 0.32);
+  transform-origin: top center;
+  animation: tagHangingSwing 4.5s ease-in-out infinite;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.05;
+  pointer-events: none;
+}
+
+.hanging-sale-tag::before {
+  content: '';
+  width: 4px;
+  height: 4px;
+  background-color: #F8F5EE;
+  border-radius: 50%;
+  margin-bottom: 3px;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,0.4);
+}
+
 /* Badge Badges */
 .badge-sale {
   background-color: var(--badge-burgundy);
   color: #FFFFFF;
-  font-size: 0.68rem;
+  font-size: 0.65rem;
   font-weight: 700;
-  letter-spacing: 0.5px;
-  padding: 3px 8px;
-  border-radius: 4px;
+  letter-spacing: 0.3px;
+  padding: 2px 6px;
+  border-radius: 3px;
   text-transform: uppercase;
 }
 
 .badge-trust {
   background-color: var(--indicator-green-bg);
   color: var(--indicator-green);
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   font-weight: 700;
-  padding: 3px 8px;
+  padding: 2px 6px;
   border-radius: 4px;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
 }
 
 /* Navigation System */

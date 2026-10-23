@@ -211,19 +211,19 @@ export default function Footer({ onScrollTo, onOpenPolicy }) {
               OFFICIAL PAYMENT METHODS (PAKISTAN)
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-              <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.08)', border: '1px solid rgba(255, 255, 255, 0.15)', padding: '4px 10px', borderRadius: '6px' }}>
+              <div style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(255, 255, 255, 0.3)', padding: '5px 12px', borderRadius: '6px', display: 'flex', alignItems: 'center' }}>
                 <CashOnDeliveryBadge size={20} />
               </div>
-              <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.08)', border: '1px solid rgba(255, 255, 255, 0.15)', padding: '4px 10px', borderRadius: '6px' }}>
-                <JazzCashLogo size={20} />
+              <div style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(255, 255, 255, 0.3)', padding: '5px 12px', borderRadius: '6px', display: 'flex', alignItems: 'center' }}>
+                <JazzCashLogo size={22} />
               </div>
-              <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.08)', border: '1px solid rgba(255, 255, 255, 0.15)', padding: '4px 10px', borderRadius: '6px' }}>
+              <div style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(255, 255, 255, 0.3)', padding: '5px 12px', borderRadius: '6px', display: 'flex', alignItems: 'center' }}>
                 <SadaPayLogo size={20} />
               </div>
-              <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.08)', border: '1px solid rgba(255, 255, 255, 0.15)', padding: '4px 10px', borderRadius: '6px' }}>
+              <div style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(255, 255, 255, 0.3)', padding: '5px 12px', borderRadius: '6px', display: 'flex', alignItems: 'center' }}>
                 <NayaPayLogo size={20} />
               </div>
-              <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.08)', border: '1px solid rgba(255, 255, 255, 0.15)', padding: '4px 10px', borderRadius: '6px' }}>
+              <div style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(255, 255, 255, 0.3)', padding: '5px 12px', borderRadius: '6px', display: 'flex', alignItems: 'center' }}>
                 <RaastLogo size={20} />
               </div>
             </div>

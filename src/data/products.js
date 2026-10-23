@@ -340,18 +340,18 @@ export const PRODUCTS = [
     badge: "ROYAL OAK HOMAGE - YOLAKO",
     isFlashSale: true,
     images: [
-      "/images/products/mubar-octa-tachymeter/angle-01.jpeg", // Silver Steel Black Dial - poster hero
+      "/images/products/mubar-octa-tachymeter/angle-03.jpeg", // Silver Steel Arctic White Guilloche - default white
+      "/images/products/mubar-octa-tachymeter/angle-04.jpeg", // Two-Tone Gold & Steel - hover golden
+      "/images/products/mubar-octa-tachymeter/angle-01.jpeg", // Silver Steel Black Dial
       "/images/products/mubar-octa-tachymeter/angle-02.jpeg", // Silver Steel Ocean Blue
-      "/images/products/mubar-octa-tachymeter/angle-03.jpeg", // Silver Steel Arctic White Guilloche
-      "/images/products/mubar-octa-tachymeter/angle-06.jpeg", // Stealth Black PVD
-      "/images/products/mubar-octa-tachymeter/angle-04.jpeg"  // Two-Tone Gold & Steel
+      "/images/products/mubar-octa-tachymeter/angle-06.jpeg"  // Stealth Black PVD
     ],
     variants: [
+      "Silver Steel / Arctic White Guilloche Dial",
+      "Two-Tone Gold & Steel Edition",
       "Silver Steel / Black Tachymeter Dial",
       "Silver Steel / Deep Ocean Blue Dial",
-      "Silver Steel / Arctic White Guilloche Dial",
-      "Stealth Black PVD Edition",
-      "Two-Tone Gold & Steel Edition"
+      "Stealth Black PVD Edition"
     ],
     variantImages: {
       "Silver Steel / Black Tachymeter Dial": "/images/products/mubar-octa-tachymeter/angle-01.jpeg",

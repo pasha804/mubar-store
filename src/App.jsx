@@ -371,8 +371,10 @@ export default function App() {
         onSelectFlagship={() => navigateToProduct(PRODUCTS[0].id)}
       />
 
-      {/* Trust-Benefit Row (Section 20) */}
-      <TrustBenefits />
+      {/* Trust-Benefit Row (Desktop Only to keep Mobile direct to watches) */}
+      <div className="desktop-only">
+        <TrustBenefits />
+      </div>
 
       {/* Product Catalog with Category Filters & Strict 2-Column Mobile Grid (Section 9 & 10) */}
       <ProductCatalog 
