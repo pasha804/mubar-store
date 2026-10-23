@@ -1,5 +1,6 @@
 import React from 'react';
 import { ShieldCheck, Truck, Clock, Award, Phone, Mail, MapPin } from 'lucide-react';
+import { JazzCashLogo, SadaPayLogo, NayaPayLogo, CashOnDeliveryBadge, RaastLogo } from './PaymentLogos';
 
 export default function Footer({ onScrollTo, onOpenAdmin, onOpenPolicy }) {
   return (
@@ -175,22 +176,25 @@ export default function Footer({ onScrollTo, onOpenAdmin, onOpenPolicy }) {
           gap: '16px'
         }}>
           <div>
-            <div style={{ fontSize: '0.72rem', color: '#888', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '6px' }}>
+            <div style={{ fontSize: '0.72rem', color: '#888', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>
               ACCEPTED PAYMENT METHODS (NATIONWIDE PAKISTAN)
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-              <span style={{ background: 'rgba(212, 175, 55, 0.1)', border: '1px solid rgba(212, 175, 55, 0.3)', padding: '5px 12px', borderRadius: '6px', fontSize: '0.76rem', color: '#F3E5AB', fontWeight: 600 }}>
-                💵 Cash on Delivery (COD)
-              </span>
-              <span style={{ background: 'rgba(255, 71, 87, 0.12)', border: '1px solid rgba(255, 71, 87, 0.35)', padding: '5px 12px', borderRadius: '6px', fontSize: '0.76rem', color: '#FF6B81', fontWeight: 700 }}>
-                ⚡ JazzCash (03084453846)
-              </span>
-              <span style={{ background: 'rgba(255, 107, 129, 0.12)', border: '1px solid rgba(255, 107, 129, 0.35)', padding: '5px 12px', borderRadius: '6px', fontSize: '0.76rem', color: '#FF7675', fontWeight: 700 }}>
-                🚀 SadaPay (03084453846)
-              </span>
-              <span style={{ background: 'rgba(46, 213, 115, 0.12)', border: '1px solid rgba(46, 213, 115, 0.35)', padding: '5px 12px', borderRadius: '6px', fontSize: '0.76rem', color: '#2ED573', fontWeight: 700 }}>
-                🟢 NayaPay (pashaxora@nayapay)
-              </span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+              <div style={{ background: 'rgba(212, 175, 55, 0.08)', border: '1px solid rgba(212, 175, 55, 0.3)', padding: '5px 12px', borderRadius: '8px' }}>
+                <CashOnDeliveryBadge size={22} />
+              </div>
+              <div style={{ background: 'rgba(227, 6, 19, 0.1)', border: '1px solid rgba(227, 6, 19, 0.35)', padding: '5px 12px', borderRadius: '8px' }}>
+                <JazzCashLogo size={22} />
+              </div>
+              <div style={{ background: 'rgba(255, 101, 132, 0.1)', border: '1px solid rgba(255, 101, 132, 0.35)', padding: '5px 12px', borderRadius: '8px' }}>
+                <SadaPayLogo size={22} />
+              </div>
+              <div style={{ background: 'rgba(0, 208, 132, 0.1)', border: '1px solid rgba(0, 208, 132, 0.35)', padding: '5px 12px', borderRadius: '8px' }}>
+                <NayaPayLogo size={22} />
+              </div>
+              <div style={{ background: 'rgba(13, 59, 102, 0.25)', border: '1px solid rgba(244, 211, 94, 0.35)', padding: '5px 12px', borderRadius: '8px' }}>
+                <RaastLogo size={22} />
+              </div>
             </div>
           </div>
 

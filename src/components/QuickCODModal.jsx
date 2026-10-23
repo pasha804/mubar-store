@@ -9,6 +9,7 @@ import { PAYMENT_ACCOUNTS, FOUNDER_CONTACT } from '../data/products';
 import { persistNewOrder } from '../services/storeSync';
 import { getWatchWhatsAppUrl } from '../services/whatsappService';
 import { trackPurchase, trackInitiateCheckout, trackWhatsAppContact } from '../services/pixelService';
+import { JazzCashLogo, SadaPayLogo, NayaPayLogo } from './PaymentLogos';
 
 const PROVINCES = [
   'Punjab',
@@ -748,6 +749,12 @@ Founder Verification WhatsApp: +92 308 4453846`;
                       {Object.keys(PAYMENT_ACCOUNTS).map(key => {
                         const acc = PAYMENT_ACCOUNTS[key];
                         const isSelected = selectedAccountKey === key;
+                        const renderLogo = () => {
+                          if (key === 'jazzcash') return <JazzCashLogo size={18} showText={false} />;
+                          if (key === 'sadapay') return <SadaPayLogo size={18} showText={false} />;
+                          if (key === 'nayapay') return <NayaPayLogo size={18} showText={false} />;
+                          return null;
+                        };
                         return (
                           <button
                             key={key}
@@ -763,13 +770,16 @@ Founder Verification WhatsApp: +92 308 4453846`;
                               display: 'flex',
                               flexDirection: 'column',
                               alignItems: 'center',
-                              gap: '4px',
+                              gap: '6px',
                               transition: 'all 0.2s'
                             }}
                           >
-                            <span style={{ fontSize: '0.85rem', fontWeight: 800, color: isSelected ? acc.color : '#bbb' }}>
-                              {acc.name}
-                            </span>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                              {renderLogo()}
+                              <span style={{ fontSize: '0.85rem', fontWeight: 800, color: isSelected ? acc.color : '#bbb' }}>
+                                {acc.name}
+                              </span>
+                            </div>
                             <span style={{ fontSize: '0.62rem', color: isSelected ? '#ddd' : '#666', textAlign: 'center' }}>
                               {acc.badge}
                             </span>
