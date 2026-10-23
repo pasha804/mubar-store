@@ -1,30 +1,31 @@
 import React, { useState } from 'react';
-import { ShieldCheck, MessageCircle, Star, ArrowUpRight } from 'lucide-react';
+import { ShieldCheck, MessageCircle, Star, Eye } from 'lucide-react';
 import { getWatchWhatsAppUrl } from '../services/whatsappService';
 
 export default function ProductCard({ product, onSelectProduct, onQuickBuy }) {
-  const [activeImgIndex, setActiveImgIndex] = useState(0);
   const [selectedVariant, setSelectedVariant] = useState(product?.variants?.[0] || '');
 
-  const handleVariantClick = (v, e) => {
-    e.stopPropagation();
-    setSelectedVariant(v);
-    const vImg = product?.variantImages?.[v];
-    if (vImg) {
-      const idx = product.images.indexOf(vImg);
-      if (idx !== -1) {
-        setActiveImgIndex(idx);
-      }
-    }
-  };
+  // Compute primary image based on selected variant or first image
+  const primaryImage = (product?.variantImages && product.variantImages[selectedVariant]) 
+    || product?.images?.[0] 
+    || '';
+
+  // Find a valid alternate image for the hover swap
+  const alternateImage = product?.images?.find(img => img !== primaryImage) || product?.images?.[1] || null;
+  const hasSecondary = Boolean(alternateImage && alternateImage !== primaryImage);
 
   const discountPercent = Math.round(
     ((product.originalPrice - product.salePrice) / product.originalPrice) * 100
   );
 
+  const handleVariantClick = (v, e) => {
+    e.stopPropagation();
+    setSelectedVariant(v);
+  };
+
   return (
     <div 
-      className="product-card"
+      className={`product-card ${hasSecondary ? 'has-secondary' : ''}`}
       style={{
         backgroundColor: 'var(--bg-card, #FFFFFF)',
         border: '1px solid var(--border-card, #E6E2DA)',
@@ -33,8 +34,7 @@ export default function ProductCard({ product, onSelectProduct, onQuickBuy }) {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        position: 'relative',
-        transition: 'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease'
+        position: 'relative'
       }}
     >
       {/* Top Floating Badges */}
@@ -46,7 +46,7 @@ export default function ProductCard({ product, onSelectProduct, onQuickBuy }) {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        zIndex: 2,
+        zIndex: 3,
         pointerEvents: 'none'
       }}>
         {discountPercent > 0 ? (
@@ -56,7 +56,7 @@ export default function ProductCard({ product, onSelectProduct, onQuickBuy }) {
         ) : <div />}
 
         <span style={{
-          backgroundColor: 'rgba(255, 255, 255, 0.92)',
+          backgroundColor: 'rgba(255, 255, 255, 0.95)',
           color: 'var(--indicator-green, #237653)',
           fontSize: '0.64rem',
           fontWeight: 700,
@@ -71,38 +71,69 @@ export default function ProductCard({ product, onSelectProduct, onQuickBuy }) {
         </span>
       </div>
 
-      {/* Product Image Area */}
+      {/* Interactive Image Container with Hover Crossfade */}
       <div 
+        className="product-card__image-container"
         onClick={() => onSelectProduct(product)}
-        style={{
-          position: 'relative',
-          width: '100%',
-          aspectRatio: '1 / 1',
-          backgroundColor: '#F5F4F0',
-          cursor: 'pointer',
-          overflow: 'hidden',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}
-        title={`View details for ${product.title}`}
+        title={`View ${product.title}`}
       >
         <img 
-          src={product.images[activeImgIndex] || product.images[0]} 
+          src={primaryImage} 
           alt={product.title} 
+          className="product-card__image-primary"
           loading="lazy"
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            transition: 'transform 0.3s ease'
-          }}
-          onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.04)'}
-          onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
         />
+
+        {hasSecondary && (
+          <img 
+            src={alternateImage} 
+            alt={`${product.title} - Alternate View`} 
+            className="product-card__image-secondary"
+            loading="lazy"
+          />
+        )}
+
+        {/* Hover Quick View Button */}
+        <div 
+          className="product-card__quick-action"
+          style={{
+            position: 'absolute',
+            bottom: '10px',
+            left: '10px',
+            right: '10px',
+            zIndex: 4
+          }}
+        >
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onSelectProduct(product);
+            }}
+            style={{
+              width: '100%',
+              backgroundColor: 'rgba(23, 42, 58, 0.92)',
+              color: '#FFFFFF',
+              border: 'none',
+              borderRadius: 'var(--radius-sm, 8px)',
+              padding: '8px 12px',
+              fontSize: '0.76rem',
+              fontWeight: 700,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '6px',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.15)'
+            }}
+          >
+            <Eye size={13} />
+            <span>View Watch</span>
+          </button>
+        </div>
       </div>
 
-      {/* Card Body */}
+      {/* Card Content Details */}
       <div style={{
         padding: 'clamp(10px, 2vw, 16px)',
         display: 'flex',
@@ -139,7 +170,6 @@ export default function ProductCard({ product, onSelectProduct, onQuickBuy }) {
             }}>
               <Star size={11} fill="#B69A63" color="#B69A63" />
               <span>{product.rating}</span>
-              <span style={{ opacity: 0.7 }}>({product.reviewCount})</span>
             </div>
           </div>
 
@@ -147,7 +177,7 @@ export default function ProductCard({ product, onSelectProduct, onQuickBuy }) {
           <h3 
             onClick={() => onSelectProduct(product)}
             style={{
-              fontSize: 'clamp(0.86rem, 1.4vw, 0.98rem)',
+              fontSize: 'clamp(0.86rem, 1.4vw, 0.96rem)',
               fontWeight: 700,
               color: 'var(--text-primary, #252A30)',
               lineHeight: 1.35,
@@ -164,16 +194,19 @@ export default function ProductCard({ product, onSelectProduct, onQuickBuy }) {
             {product.title}
           </h3>
 
-          {/* Variant Swatches (if available) */}
+          {/* Color Edition Swatches */}
           {product.variants && product.variants.length > 0 && (
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '4px',
-              marginBottom: '10px',
-              overflowX: 'auto',
-              paddingBottom: '2px'
-            }} className="hide-scrollbar">
+            <div 
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '5px',
+                marginBottom: '10px',
+                overflowX: 'auto',
+                paddingBottom: '2px'
+              }} 
+              className="hide-scrollbar"
+            >
               {product.variants.slice(0, 4).map((v, idx) => {
                 const isSelected = selectedVariant === v;
                 const vThumb = product.variantImages?.[v] || product.images[idx] || product.images[0];
@@ -208,19 +241,19 @@ export default function ProductCard({ product, onSelectProduct, onQuickBuy }) {
           )}
         </div>
 
-        {/* Pricing & CTA Controls */}
-        <div style={{ marginTop: '8px', paddingTop: '8px', borderTop: '1px solid var(--border-card, #E6E2DA)' }}>
+        {/* Pricing & Direct Shopping Actions */}
+        <div style={{ marginTop: '6px', paddingTop: '8px', borderTop: '1px solid var(--border-card, #E6E2DA)' }}>
           
           {/* Price Row */}
           <div style={{
             display: 'flex',
             alignItems: 'baseline',
             gap: '6px',
-            marginBottom: '10px',
+            marginBottom: '8px',
             flexWrap: 'wrap'
           }}>
             <span style={{
-              fontSize: 'clamp(0.98rem, 1.6vw, 1.18rem)',
+              fontSize: 'clamp(0.96rem, 1.5vw, 1.15rem)',
               fontWeight: 800,
               color: 'var(--text-primary, #252A30)'
             }}>
@@ -237,7 +270,7 @@ export default function ProductCard({ product, onSelectProduct, onQuickBuy }) {
             )}
           </div>
 
-          {/* Card Actions: Primary COD + WhatsApp */}
+          {/* Action Row: Order COD + WhatsApp */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: '6px' }}>
             <button
               onClick={() => onQuickBuy({ ...product, selectedVariant })}
@@ -278,7 +311,6 @@ export default function ProductCard({ product, onSelectProduct, onQuickBuy }) {
         </div>
 
       </div>
-
     </div>
   );
 }

@@ -1,8 +1,8 @@
 ==============================================================================
-            MUBAR CHRONOS — COMPLETE STORE MASTER SPECIFICATION & ARCHITECTURE
+            MUBAR — COMPLETE STORE MASTER SPECIFICATION & ARCHITECTURE
 ==============================================================================
 Website Domain: https://mubar-iota.vercel.app/
-Official Brand: MUBAR — Haute Horlogerie & Luxury Timepieces Pakistan
+Official Brand: MUBAR (Modern Affordable-Premium Timepieces Pakistan)
 Founder & CEO: Muhammad Mubashar (Lahore, Pakistan)
 Contact / WhatsApp: +92 308 4453846 (03084453846)
 Last Updated: October 2026
@@ -10,9 +10,9 @@ Last Updated: October 2026
 ------------------------------------------------------------------------------
 1. BRAND OVERVIEW & STORE MISSION
 ------------------------------------------------------------------------------
-MUBAR Chronos is Pakistan's premier direct-to-consumer luxury timepiece brand.
-The store is engineered specifically for the Pakistani consumer market, solving
-the single largest barrier to online e-commerce: BUYER DISTRUST.
+MUBAR is a modern, affordable-premium watch store serving customers across
+Pakistan. The brand personality is minimal, sophisticated, trustworthy, modern,
+approachable, elegant, product-focused, and professional.
 
 Core Value Propositions:
 - 100% Open Parcel Inspection Authorization: Customers open the flyer in front
@@ -61,24 +61,26 @@ Core Value Propositions:
 ------------------------------------------------------------------------------
 4. DESIGN SYSTEM, LUXURY COLOR PALETTE & TYPOGRAPHY
 ------------------------------------------------------------------------------
-Theme Aesthetic: "Obsidian Void & Imperial Champagne Gold"
+Theme Aesthetic: "Minimal Editorial Watch Commerce (Warm Ivory & Midnight Navy)"
 
 Color Palette:
-- Deep Obsidian Void (Base Background): #070709 / #050507
-- Elevated Card & Modal Backgrounds: #0c0c11 / rgba(20, 20, 28, 0.95)
-- Imperial Champagne Gold (Primary Accent): #D4AF37
-- Light Gold / Cream Text (High Contrast): #F3E5AB / #F5E8BA
-- Deep Gold Gradient (CTA Buttons): linear-gradient(135deg, #D4AF37 0%, #AA771C 100%)
-- Trust Green (Delivery / Badges): #2ECC71 / #25D366 (Official WhatsApp Green)
-- Titanium Silver (Secondary Accents): #8E8E93 / #A0A0A8
-- Border Stroke Tone: rgba(212, 175, 55, 0.25) to rgba(255, 255, 255, 0.08)
+- Primary Page Background (Warm Ivory): #F7F5F0
+- Primary Content / Card Background: Pure White #FFFFFF
+- Primary Brand Color (Midnight Navy): #172A3A
+- Primary Text (Charcoal): #252A30
+- Secondary Text (Muted Slate): #737B84
+- Premium Accent (Champagne Gold): #B69A63
+- Subtle Gold Background: #F3EBDD
+- Border Color (Warm Gray): #E6E2DA
+- Subtle Section Background: #F1EFE9
+- Genuine Sale Badge (Deep Burgundy): #9E3438
+- Success & Trust Indicator (Deep Green): #237653
+- Official WhatsApp Green: #25D366
 
 Typography Stack:
-- Editorial / Brand Headings: 'Cinzel' (Google Fonts) — Serif elegance reminiscent
-  of Patek Philippe & Audemars Piguet horology houses.
-- Body, Specs & Form Controls: 'Plus Jakarta Sans' (Google Fonts) — Ultra-crisp,
-  modern geometric sans-serif for high readability on low-cost Android screens.
-- Accent / Subtitles: 'Playfair Display' — Editorial italics for luxury accents.
+- Primary Interface Font: 'Plus Jakarta Sans' (Google Fonts) — Clean, readable modern sans-serif
+- Editorial Headlines & Headings: 'Playfair Display' (Google Fonts) — Restrained, sophisticated serif accents
+- Spacing System: 4px, 8px, 12px, 16px, 24px, 32px, 48px, 64px
 
 ------------------------------------------------------------------------------
 5. META (FACEBOOK) PIXEL & ECOMMERCE EVENT TRACKING
@@ -221,20 +223,20 @@ e:/sopify/
     │   ├── pixelService.js      # Meta Pixel eCommerce event tracking engine
     │   └── whatsappService.js   # WhatsApp deep-link message generator
     └── components/
-        ├── AnnouncementBar.jsx  # Countdown sale timer & free shipping banner
-        ├── Navbar.jsx           # Sticky glassmorphic navbar with cart pill
-        ├── Hero.jsx             # High-impact flagship showcase & action buttons
-        ├── UnboxingFeature.jsx  # 3-step Open Parcel trust standard interactive section
-        ├── ProductCatalog.jsx   # Product grid with category filters & quick buy
-        ├── ProductPage.jsx      # Dedicated detail view with zoom, specs & reviews
-        ├── QuickCODModal.jsx    # 1-Click fast checkout modal (COD + JazzCash/SadaPay)
+        ├── AnnouncementBar.jsx  # Compact #F1EFE9 announcement strip ("Free delivery across Pakistan · COD")
+        ├── Navbar.jsx           # White navbar with logo, horizontal links, search, bag & mobile drawer
+        ├── Hero.jsx             # Compact editorial promotional banner ("Find Your Everyday Statement.")
+        ├── TrustBenefits.jsx    # 3-item concise trust row (Free COD, Open Parcel, 1-Year Warranty)
+        ├── ProductCatalog.jsx   # Catalog with "Find Your Everyday." heading & 2-column mobile grid
+        ├── ProductCard.jsx      # Interactive card with smooth alternate-image crossfade hover swap
+        ├── ProductPage.jsx      # Dedicated product view with multi-angle gallery, specs & reviews
+        ├── QuickCODModal.jsx    # 1-Click fast checkout modal (COD + JazzCash/SadaPay/NayaPay/Raast)
         ├── CartDrawer.jsx       # Slide-out shopping bag drawer
-        ├── PaymentLogos.jsx     # Official SVG logos (JazzCash, SadaPay, NayaPay, Raast)
-        ├── SocialProof.jsx      # 2-second auto-rotating Roman Urdu review carousel
-        ├── LiveSalesToaster.jsx # Real-time recent sale purchase notification toaster
+        ├── PaymentLogos.jsx     # Official SVG vector logos (JazzCash, SadaPay, NayaPay, Raast, COD)
+        ├── SocialProof.jsx      # "A Little Peace of Mind." FAQ accordion + verified buyer reviews
         ├── WhatsAppWidget.jsx   # Floating WhatsApp concierge button
-        ├── PolicyModal.jsx      # Privacy, Terms, Shipping & Refund policies
-        ├── Footer.jsx           # Brand pillars, payment badges & legal links
+        ├── PolicyModal.jsx      # Privacy, Terms, Shipping & Refund policies viewer
+        ├── Footer.jsx           # Clean Midnight Navy footer with vector payment badges & legal links
         ├── AdminLogin.jsx       # Secure password authentication for founder
         └── AdminBridge.jsx      # Real-time founder orders & analytics dashboard
 ==============================================================================

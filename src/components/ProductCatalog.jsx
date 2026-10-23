@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import ProductCard from './ProductCard';
 import { CATEGORIES } from '../data/products';
-import { Search, Sparkles, Filter } from 'lucide-react';
+import { Search } from 'lucide-react';
 
 export default function ProductCatalog({ products, onSelectProduct, onQuickBuy }) {
   const [selectedCategory, setSelectedCategory] = useState("All Timepieces");
@@ -37,56 +37,54 @@ export default function ProductCatalog({ products, onSelectProduct, onQuickBuy }
     <section 
       id="catalog" 
       style={{
-        padding: 'clamp(36px, 6vw, 72px) clamp(16px, 3.5vw, 32px)',
+        padding: 'clamp(36px, 5vw, 64px) clamp(16px, 3.5vw, 32px)',
         maxWidth: '1280px',
         margin: '0 auto'
       }}
     >
       {/* Editorial Section Heading */}
-      <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+      <div style={{ textAlign: 'center', marginBottom: '28px' }}>
         <div style={{
           display: 'inline-flex',
           alignItems: 'center',
-          gap: '8px',
-          padding: '4px 14px',
+          gap: '6px',
+          padding: '3px 12px',
           borderRadius: '20px',
           backgroundColor: 'var(--bg-gold-subtle, #F3EBDD)',
-          border: '1px solid rgba(182, 154, 99, 0.3)',
-          marginBottom: '12px'
+          marginBottom: '8px'
         }}>
-          <Sparkles size={13} color="var(--accent-gold, #B69A63)" />
           <span style={{
             fontSize: '0.74rem',
             color: 'var(--brand-navy, #172A3A)',
             fontWeight: 700,
-            letterSpacing: '1.2px',
+            letterSpacing: '1px',
             textTransform: 'uppercase'
           }}>
-            {products.length} VERIFIED TIMEPIECES IN STOCK
+            {products.length} TIMEPIECES IN STOCK
           </span>
         </div>
 
         <h2 
           className="font-playfair"
           style={{
-            fontSize: 'clamp(1.8rem, 3.6vw, 2.75rem)',
+            fontSize: 'clamp(1.8rem, 3.5vw, 2.6rem)',
             color: 'var(--brand-navy, #172A3A)',
-            margin: '0 0 10px 0',
+            margin: '0 0 8px 0',
             fontWeight: 700,
             letterSpacing: '-0.3px'
           }}
         >
-          Curated Horology Collection
+          Find Your Everyday.
         </h2>
         
         <p style={{
           color: 'var(--text-secondary, #737B84)',
-          fontSize: 'clamp(0.88rem, 1.8vw, 1rem)',
-          maxWidth: '560px',
+          fontSize: 'clamp(0.88rem, 1.8vw, 0.98rem)',
+          maxWidth: '520px',
           margin: '0 auto',
-          lineHeight: 1.6
+          lineHeight: 1.55
         }}>
-          Handpicked for weight, finish, and durability. Backed by our signature 100% open parcel inspection before paying courier.
+          Thoughtfully crafted timepieces for business, sport, and daily life. Delivered with 100% open parcel check.
         </p>
       </div>
 
@@ -97,7 +95,7 @@ export default function ProductCatalog({ products, onSelectProduct, onQuickBuy }
         borderBottom: '1px solid var(--border-warm, #E6E2DA)',
         display: 'flex',
         flexDirection: 'column',
-        gap: '16px'
+        gap: '14px'
       }}>
         
         {/* Horizontal Category Pill Bar */}
@@ -137,8 +135,7 @@ export default function ProductCatalog({ products, onSelectProduct, onQuickBuy }
                   cursor: 'pointer',
                   whiteSpace: 'nowrap',
                   flexShrink: 0,
-                  transition: 'all 0.18s ease',
-                  boxShadow: isSelected ? '0 2px 8px rgba(23, 42, 58, 0.15)' : 'none'
+                  transition: 'all 0.15s ease'
                 }}
               >
                 {cat}
@@ -160,27 +157,26 @@ export default function ProductCatalog({ products, onSelectProduct, onQuickBuy }
             position: 'relative',
             display: 'flex',
             alignItems: 'center',
-            backgroundColor: 'var(--bg-card, #FFFFFF)',
+            backgroundColor: '#FFFFFF',
             border: '1px solid var(--border-card, #E6E2DA)',
             borderRadius: 'var(--radius-sm, 8px)',
-            padding: '8px 14px',
-            flex: '1 1 240px',
-            maxWidth: '380px',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.03)'
+            padding: '7px 12px',
+            flex: '1 1 220px',
+            maxWidth: '360px'
           }}>
-            <Search size={16} color="var(--text-secondary, #737B84)" style={{ marginRight: '8px', flexShrink: 0 }} />
+            <Search size={15} color="var(--text-secondary, #737B84)" style={{ marginRight: '8px', flexShrink: 0 }} />
             <input 
               type="text"
-              placeholder="Search watch name, dial, or style..."
+              placeholder="Filter by name, color, or movement..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              aria-label="Search watches"
+              aria-label="Filter watches"
               style={{
                 backgroundColor: 'transparent',
                 border: 'none',
                 outline: 'none',
                 color: 'var(--text-primary, #252A30)',
-                fontSize: '0.85rem',
+                fontSize: '0.84rem',
                 width: '100%'
               }}
             />
@@ -212,10 +208,10 @@ export default function ProductCatalog({ products, onSelectProduct, onQuickBuy }
               onChange={(e) => setSortBy(e.target.value)}
               aria-label="Sort watches"
               style={{
-                backgroundColor: 'var(--bg-card, #FFFFFF)',
+                backgroundColor: '#FFFFFF',
                 color: 'var(--text-primary, #252A30)',
                 border: '1px solid var(--border-card, #E6E2DA)',
-                padding: '8px 14px',
+                padding: '7px 12px',
                 borderRadius: 'var(--radius-sm, 8px)',
                 fontSize: '0.82rem',
                 cursor: 'pointer',
@@ -223,7 +219,7 @@ export default function ProductCatalog({ products, onSelectProduct, onQuickBuy }
                 fontWeight: 600
               }}
             >
-              <option value="popular">Most Popular</option>
+              <option value="popular">Featured</option>
               <option value="price-low">Price: Low to High</option>
               <option value="price-high">Price: High to Low</option>
               <option value="rating">Highest Rated</option>
@@ -234,21 +230,21 @@ export default function ProductCatalog({ products, onSelectProduct, onQuickBuy }
 
       </div>
 
-      {/* Catalog Grid: Renders strictly in 2-columns on mobile screens via CSS */}
+      {/* Catalog Grid */}
       {filteredProducts.length === 0 ? (
         <div style={{
           textAlign: 'center',
-          padding: '60px 20px',
-          backgroundColor: 'var(--bg-card, #FFFFFF)',
+          padding: '48px 20px',
+          backgroundColor: '#FFFFFF',
           borderRadius: 'var(--radius-card, 12px)',
           border: '1px solid var(--border-card, #E6E2DA)',
           color: 'var(--text-secondary, #737B84)'
         }}>
-          <p style={{ fontSize: '1rem', fontWeight: 600, margin: '0 0 8px 0', color: 'var(--text-primary, #252A30)' }}>
-            No timepieces found
+          <p style={{ fontSize: '0.96rem', fontWeight: 600, margin: '0 0 6px 0', color: 'var(--text-primary, #252A30)' }}>
+            No timepieces match your selection.
           </p>
-          <p style={{ fontSize: '0.86rem', margin: 0 }}>
-            Try clearing your search query or choosing another category.
+          <p style={{ fontSize: '0.84rem', margin: 0 }}>
+            Try resetting your search query or choosing another collection.
           </p>
         </div>
       ) : (

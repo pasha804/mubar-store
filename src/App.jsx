@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import AnnouncementBar from './components/AnnouncementBar';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
+import TrustBenefits from './components/TrustBenefits';
 import UnboxingFeature from './components/UnboxingFeature';
 import ProductCatalog from './components/ProductCatalog';
 import ProductPage from './components/ProductPage';
@@ -364,20 +365,16 @@ export default function App() {
         onLogoClick={() => navigateToStore()}
       />
 
-      {/* Editorial Hero Section */}
+      {/* Compact Editorial Promotional Banner (Section 8) */}
       <Hero 
         onExploreClick={() => handleScrollTo('catalog')}
-        onUnboxingClick={() => handleScrollTo('trust-standard')}
-        onQuickBuyFlagship={() => handleQuickBuy(PRODUCTS[0])}
         onSelectFlagship={() => navigateToProduct(PRODUCTS[0].id)}
       />
 
-      {/* Open Parcel Confidence & Trust Section */}
-      <UnboxingFeature 
-        onOrderAnyClick={() => handleScrollTo('catalog')}
-      />
+      {/* Trust-Benefit Row (Section 20) */}
+      <TrustBenefits />
 
-      {/* Product Catalog with Category Filters & Strict 2-Column Mobile Grid */}
+      {/* Product Catalog with Category Filters & Strict 2-Column Mobile Grid (Section 9 & 10) */}
       <ProductCatalog 
         products={PRODUCTS}
         onSelectProduct={(p) => navigateToProduct(p)}
