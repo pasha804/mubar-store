@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { PRODUCTS, FOUNDER_CONTACT, REVIEWS } from '../data/products';
 import { getWatchWhatsAppUrl } from '../services/whatsappService';
+import { trackWhatsAppContact } from '../services/pixelService';
 
 export default function ProductPage({
   productId,
@@ -611,6 +612,7 @@ export default function ProductPage({
               href={getWatchWhatsAppUrl(product, selectedVariant)}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackWhatsAppContact(product?.title, product?.salePrice)}
               style={{
                 background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)',
                 color: '#fff',

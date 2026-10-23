@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   X, ShieldCheck, CheckCircle2, Truck, Package, MessageCircle, 
   Send, Plus, Minus, Copy, Check, Clock, Smartphone, CreditCard, 
@@ -8,6 +8,7 @@ import confetti from 'canvas-confetti';
 import { PAYMENT_ACCOUNTS, FOUNDER_CONTACT } from '../data/products';
 import { persistNewOrder } from '../services/storeSync';
 import { getWatchWhatsAppUrl } from '../services/whatsappService';
+import { trackPurchase, trackInitiateCheckout, trackWhatsAppContact } from '../services/pixelService';
 
 const PROVINCES = [
   'Punjab',
@@ -70,6 +71,13 @@ export default function QuickCODModal({ product, initialVariant, onClose }) {
 
   const unitPrice = product.salePrice;
   const totalAmount = unitPrice * quantity;
+
+  // Meta Pixel: Track InitiateCheckout when modal opens
+  useEffect(() => {
+    if (product) {
+      trackInitiateCheckout(product, totalAmount);
+    }
+  }, []);
 
   // Retrieve founder phone or use default
   const founderPhone = localStorage.getItem('mubar_founder_phone') || FOUNDER_CONTACT.whatsapp;
@@ -134,6 +142,9 @@ export default function QuickCODModal({ product, initialVariant, onClose }) {
 
     // Save order locally and sync to cloud store
     persistNewOrder(newOrder);
+
+    // Meta Pixel Conversion Event: Purchase
+    trackPurchase(newOrder);
 
     setIsSuccess(true);
 
@@ -372,6 +383,7 @@ Founder Verification WhatsApp: +92 308 4453846`;
               href={getWatchWhatsAppUrl(product, selectedVariant)}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackWhatsAppContact(product?.title, totalAmount)}
               style={{
                 background: 'linear-gradient(135deg, rgba(37, 211, 102, 0.15) 0%, rgba(18, 140, 126, 0.25) 100%)',
                 border: '1px solid rgba(37, 211, 102, 0.5)',
@@ -1033,6 +1045,7 @@ Founder Verification WhatsApp: +92 308 4453846`;
                 href={`https://api.whatsapp.com/send?phone=${founderPhone}&text=${generateWhatsAppMessage()}`}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => trackWhatsAppContact(product?.title, totalAmount)}
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',

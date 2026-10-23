@@ -1,6 +1,7 @@
 import React from 'react';
 import { X, Trash2, ShoppingBag, ArrowRight, ShieldCheck, Plus, Minus, MessageCircle } from 'lucide-react';
 import { getCartWhatsAppUrl } from '../services/whatsappService';
+import { trackWhatsAppContact, trackInitiateCheckout } from '../services/pixelService';
 
 export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQty, onRemoveItem, onCheckout }) {
   if (!isOpen) return null;
@@ -167,6 +168,7 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQty, on
               href={getCartWhatsAppUrl(cartItems, subtotal)}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackWhatsAppContact('Cart Bag Order', subtotal)}
               style={{
                 background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)',
                 color: '#fff',
@@ -192,7 +194,12 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQty, on
 
             <button 
               className="btn-gold" 
-              onClick={onCheckout}
+              onClick={() => {
+                if (cartItems.length > 0) {
+                  trackInitiateCheckout(cartItems[0], subtotal);
+                }
+                onCheckout();
+              }}
               style={{ width: '100%', padding: '12px', fontSize: '0.86rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
             >
               <span>Or Fill Web Order Form</span>

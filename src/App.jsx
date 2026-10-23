@@ -16,6 +16,7 @@ import WhatsAppWidget from './components/WhatsAppWidget';
 import Footer from './components/Footer';
 import { PRODUCTS } from './data/products';
 import { recordVisitorHit } from './services/storeSync';
+import { trackPageView, trackViewContent, trackAddToCart, trackInitiateCheckout } from './services/pixelService';
 
 // Route Parser: detects store, dedicated product page, or founder admin portal
 const parseCurrentRoute = () => {
@@ -96,8 +97,9 @@ export default function App() {
     };
   }, []);
 
-  // Track authentic visitor hits in Firestore & local cache per page visit
+  // Track authentic visitor hits in Firestore & local cache per page visit + Meta Pixel
   useEffect(() => {
+    trackPageView();
     if (routeState.name === 'store') {
       document.title = 'MUBAR Chronos | Luxury Timepieces & Automotive Watches Pakistan';
       recordVisitorHit('/');
@@ -106,6 +108,7 @@ export default function App() {
       if (prod) {
         document.title = `${prod.title} | MUBAR Chronos`;
         recordVisitorHit(`/product/${prod.id}`);
+        trackViewContent(prod);
       } else {
         recordVisitorHit(`/product/${routeState.productId}`);
       }
@@ -153,7 +156,15 @@ export default function App() {
     }, 3200);
   };
 
+  const handleQuickBuy = (product) => {
+    setQuickBuyProduct(product);
+    if (product) {
+      trackInitiateCheckout(product);
+    }
+  };
+
   const handleAddToCart = (product) => {
+    trackAddToCart(product);
     setCartItems(prev => {
       const matchKey = product.selectedVariant 
         ? `${product.id}__${product.selectedVariant}`
@@ -263,7 +274,7 @@ export default function App() {
           productId={routeState.productId}
           onBackToStore={(secId) => navigateToStore(secId)}
           onNavigateToProduct={(id) => navigateToProduct(id)}
-          onQuickBuy={(p) => setQuickBuyProduct(p)}
+          onQuickBuy={(p) => handleQuickBuy(p)}
           onAddToCart={handleAddToCart}
           onOpenCart={() => setIsCartOpen(true)}
         />
@@ -301,7 +312,7 @@ export default function App() {
           onCheckout={() => {
             setIsCartOpen(false);
             if (cartItems.length > 0) {
-              setQuickBuyProduct(cartItems[0]);
+              handleQuickBuy(cartItems[0]);
             }
           }}
         />
@@ -361,7 +372,7 @@ export default function App() {
       <Hero 
         onExploreClick={() => handleScrollTo('catalog')}
         onUnboxingClick={() => handleScrollTo('trust-standard')}
-        onQuickBuyFlagship={() => setQuickBuyProduct(PRODUCTS[0])}
+        onQuickBuyFlagship={() => handleQuickBuy(PRODUCTS[0])}
         onSelectFlagship={() => navigateToProduct(PRODUCTS[0].id)}
       />
 
@@ -374,7 +385,7 @@ export default function App() {
       <ProductCatalog 
         products={PRODUCTS}
         onSelectProduct={(p) => navigateToProduct(p)}
-        onQuickBuy={(p) => setQuickBuyProduct(p)}
+        onQuickBuy={(p) => handleQuickBuy(p)}
       />
 
       {/* Verified Pakistani Social Proof with 2-Second Auto-Rotating Roman Urdu Carousel */}
@@ -410,7 +421,7 @@ export default function App() {
         onCheckout={() => {
           setIsCartOpen(false);
           if (cartItems.length > 0) {
-            setQuickBuyProduct(cartItems[0]);
+            handleQuickBuy(cartItems[0]);
           }
         }}
       />
