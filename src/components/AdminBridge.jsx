@@ -219,15 +219,13 @@ export default function AdminBridge({ onBackToStore, onLogout }) {
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
             <img 
-              src="/images/branding/mubar_logo.jpg" 
+              src="/images/branding/mubar_logo.png" 
               alt="MUBAR Crest" 
               style={{
-                width: '46px',
-                height: '46px',
-                borderRadius: '50%',
-                border: '1.5px solid #D4AF37',
-                boxShadow: '0 0 15px rgba(212, 175, 55, 0.35)',
-                objectFit: 'cover'
+                width: '50px',
+                height: '50px',
+                objectFit: 'contain',
+                filter: 'drop-shadow(0 0 15px rgba(212, 175, 55, 0.4))'
               }}
             />
             <div>

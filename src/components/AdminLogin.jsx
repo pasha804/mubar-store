@@ -88,15 +88,13 @@ export default function AdminLogin({ onLoginSuccess, onBackToStore }) {
         <div style={{ textAlign: 'center', marginBottom: '28px' }}>
           <div style={{ position: 'relative', display: 'inline-block', marginBottom: '14px' }}>
             <img 
-              src="/images/branding/mubar_logo.jpg" 
+              src="/images/branding/mubar_logo.png" 
               alt="MUBAR" 
               style={{
-                width: '68px',
-                height: '68px',
-                borderRadius: '50%',
-                border: '2px solid #D4AF37',
-                boxShadow: '0 0 25px rgba(212, 175, 55, 0.45)',
-                objectFit: 'cover'
+                width: '74px',
+                height: '74px',
+                objectFit: 'contain',
+                filter: 'drop-shadow(0 0 15px rgba(212, 175, 55, 0.45))'
               }}
             />
             <div style={{

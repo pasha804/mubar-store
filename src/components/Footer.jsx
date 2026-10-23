@@ -78,18 +78,23 @@ export default function Footer({ onScrollTo, onOpenPolicy }) {
         >
           {/* Brand Col */}
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
               <img 
-                src="/images/branding/mubar_logo.jpg" 
+                src="/images/branding/mubar_logo.png" 
                 alt="MUBAR" 
-                style={{ width: '38px', height: '38px', borderRadius: '50%', border: '1px solid var(--accent-gold, #B69A63)' }}
+                style={{ height: '48px', width: 'auto', objectFit: 'contain', filter: 'drop-shadow(0 2px 6px rgba(182, 154, 99, 0.4))' }}
               />
-              <span 
-                className="font-playfair" 
-                style={{ fontSize: '1.4rem', fontWeight: 800, color: '#FFFFFF', letterSpacing: '3px' }}
-              >
-                MUBAR
-              </span>
+              <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
+                <span 
+                  className="font-playfair" 
+                  style={{ fontSize: '1.45rem', fontWeight: 800, color: '#FFFFFF', letterSpacing: '3px' }}
+                >
+                  MUBAR
+                </span>
+                <span style={{ fontSize: '0.52rem', letterSpacing: '1.5px', color: 'var(--accent-gold, #B69A63)', fontWeight: 700, textTransform: 'uppercase', marginTop: '3px' }}>
+                  Timepieces Pakistan
+                </span>
+              </div>
             </div>
             <p style={{ fontSize: '0.84rem', lineHeight: 1.65, color: 'var(--hero-text-secondary, #D4D9DF)', margin: '0 0 14px 0' }}>
               Premium watch store serving customers across Pakistan. Dedicated to verified wrist presence, unboxing excellence, and 100% open parcel shopping confidence.
