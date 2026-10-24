@@ -108,7 +108,7 @@ export default function Navbar({
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: 'clamp(10px, 1.8vw, 16px)',
+              gap: 'clamp(10px, 1.8vw, 18px)',
               cursor: 'pointer',
               userSelect: 'none',
               padding: '2px 0',
@@ -120,11 +120,11 @@ export default function Navbar({
               src="/images/branding/mubar_logo.png" 
               alt="MUBAR" 
               style={{
-                height: 'clamp(54px, 7.5vw, 76px)',
+                height: 'clamp(68px, 9.2vw, 98px)',
                 width: 'auto',
-                maxHeight: '78px',
+                maxHeight: '102px',
                 objectFit: 'contain',
-                filter: 'drop-shadow(0 4px 10px rgba(182, 154, 99, 0.48))',
+                filter: 'drop-shadow(0 4px 12px rgba(182, 154, 99, 0.55))',
                 transition: 'transform 0.2s ease'
               }}
               loading="eager"
@@ -134,9 +134,9 @@ export default function Navbar({
               <span 
                 className="font-playfair"
                 style={{
-                  fontSize: 'clamp(1.55rem, 3.2vw, 2.2rem)',
+                  fontSize: 'clamp(1.9rem, 3.8vw, 2.75rem)',
                   fontWeight: 900,
-                  letterSpacing: '3px',
+                  letterSpacing: '3.5px',
                   color: 'var(--brand-navy, #172A3A)',
                   lineHeight: 1
                 }}
@@ -144,8 +144,8 @@ export default function Navbar({
                 MUBAR
               </span>
               <span style={{
-                fontSize: 'clamp(0.6rem, 1.1vw, 0.72rem)',
-                letterSpacing: '2.2px',
+                fontSize: 'clamp(0.68rem, 1.25vw, 0.88rem)',
+                letterSpacing: '2.8px',
                 color: 'var(--accent-gold, #B69A63)',
                 fontWeight: 800,
                 textTransform: 'uppercase',
@@ -328,12 +328,12 @@ export default function Navbar({
             {/* Drawer Header */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', paddingBottom: '16px', borderBottom: '1px solid var(--border-warm, #E6E2DA)' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <img src="/images/branding/mubar_logo.png" alt="MUBAR" style={{ height: '52px', width: 'auto', objectFit: 'contain', filter: 'drop-shadow(0 2px 6px rgba(182, 154, 99, 0.35))' }} />
+                <img src="/images/branding/mubar_logo.png" alt="MUBAR" style={{ height: '68px', width: 'auto', objectFit: 'contain', filter: 'drop-shadow(0 3px 8px rgba(182, 154, 99, 0.45))' }} />
                 <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
-                  <span className="font-playfair" style={{ fontSize: '1.5rem', fontWeight: 900, color: 'var(--brand-navy, #172A3A)', letterSpacing: '2.5px' }}>
+                  <span className="font-playfair" style={{ fontSize: '1.9rem', fontWeight: 900, color: 'var(--brand-navy, #172A3A)', letterSpacing: '3px' }}>
                     MUBAR
                   </span>
-                  <span style={{ fontSize: '0.56rem', color: 'var(--accent-gold, #B69A63)', letterSpacing: '1.5px', fontWeight: 700, textTransform: 'uppercase', marginTop: '3px' }}>
+                  <span style={{ fontSize: '0.68rem', color: 'var(--accent-gold, #B69A63)', letterSpacing: '2.2px', fontWeight: 800, textTransform: 'uppercase', marginTop: '4px' }}>
                     Timepieces Pakistan
                   </span>
                 </div>

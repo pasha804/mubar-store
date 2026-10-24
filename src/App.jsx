@@ -101,12 +101,12 @@ export default function App() {
   useEffect(() => {
     trackPageView();
     if (routeState.name === 'store') {
-      document.title = 'MUBAR | Premium Watches Pakistan';
+      document.title = 'Mubar Store | Buy Luxury Watches Online in Pakistan - Cash on Delivery & Open Parcel';
       recordVisitorHit('/');
     } else if (routeState.name === 'product' && routeState.productId) {
       const prod = PRODUCTS.find(p => p.id === routeState.productId);
       if (prod) {
-        document.title = `${prod.title} | MUBAR`;
+        document.title = `${prod.title} (Rs. ${prod.salePrice}) | Mubar Store Pakistan`;
         recordVisitorHit(`/product/${prod.id}`);
         trackViewContent(prod);
       } else {

@@ -11,15 +11,11 @@
       ]
     },
     {
-      "source": "/(sitemap.xml|robots.txt)",
+      "source": "/(sitemap.xml|robots.txt|llms.txt)",
       "headers": [
         {
           "key": "Cache-Control",
           "value": "public, max-age=3600, must-revalidate"
-        },
-        {
-          "key": "Content-Type",
-          "value": "application/xml; charset=utf-8"
         }
       ]
     },
@@ -49,6 +45,14 @@
     {
       "source": "/robots.txt",
       "destination": "/robots.txt"
+    },
+    {
+      "source": "/googled805ed5818c998b9.html",
+      "destination": "/googled805ed5818c998b9.html"
+    },
+    {
+      "source": "/llms.txt",
+      "destination": "/llms.txt"
     },
     {
       "source": "/(.*)",
