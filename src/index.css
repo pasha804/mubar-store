@@ -77,6 +77,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* High-Performance Smooth Images & Hardware Acceleration */
+img {
+  image-rendering: -webkit-optimize-contrast;
+  content-visibility: auto;
+  contain-intrinsic-size: 300px 300px;
+}
+
 /* Editorial Serif Headings */
 .font-playfair, .font-editorial {
   font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
@@ -292,41 +299,20 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   display: block;
   opacity: 1;
   transform: scale(1);
-  transition: opacity 260ms ease, transform 300ms ease;
+  transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1), opacity 200ms ease;
+  will-change: transform;
 }
 
-.product-card__image-secondary {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  display: block;
-  opacity: 0;
-  transform: scale(1.02);
-  transition: opacity 260ms ease, transform 300ms ease;
-  pointer-events: none;
-}
-
-/* Enable hover transitions ONLY on fine pointers (desktop mice) to prevent stuck touch states */
+/* Enable hover transitions on desktop without hiding user-selected variants */
 @media (hover: hover) and (pointer: fine) {
   .product-card:hover {
     border-color: var(--accent-gold);
-    box-shadow: 0 8px 24px rgba(23, 42, 58, 0.08);
+    box-shadow: 0 10px 28px rgba(23, 42, 58, 0.1);
+    transform: translateY(-2px);
   }
 
-  .product-card.has-secondary:hover .product-card__image-primary {
-    opacity: 0;
-    transform: scale(1.02);
-  }
-
-  .product-card.has-secondary:hover .product-card__image-secondary {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  .product-card:not(.has-secondary):hover .product-card__image-primary {
-    transform: scale(1.03);
+  .product-card:hover .product-card__image-primary {
+    transform: scale(1.05);
   }
 
   .product-card:hover .product-card__quick-action {
@@ -475,5 +461,69 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* Responsive visibility utilities */
+@media (max-width: 768px) {
+  .desktop-only { display: none !important; }
+}
+@media (min-width: 769px) {
+  .mobile-only { display: none !important; }
+}
+
+/* Commercial Hero Promotional Banner */
+.mubar-hero-section {
+  padding: 12px 20px 4px 20px;
+}
+.mubar-hero-banner-wrap {
+  max-width: 1280px;
+  margin: 0 auto;
+  border-radius: var(--radius-card, 12px);
+  overflow: hidden;
+  border: 1px solid var(--border-warm, #E6E2DA);
+  box-shadow: 0 4px 16px rgba(23, 42, 58, 0.08);
+  background-color: #0A121A;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.mubar-hero-banner-wrap:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(23, 42, 58, 0.14);
+}
+.mubar-hero-banner-img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1983 / 793;
+  max-height: 512px;
+  object-fit: contain;
+  display: block;
+}
+
+/* Mobile: Compact banner and immediate watches display */
+@media (max-width: 640px) {
+  .mubar-hero-section {
+    padding: 6px 10px 0 10px !important;
+  }
+  .mubar-hero-banner-wrap {
+    border-radius: 8px !important;
+  }
+  .mubar-hero-banner-img {
+    aspect-ratio: 1983 / 793;
+    max-height: 200px !important;
+  }
+  .mubar-timer-bar-wrap {
+    padding: 8px 10px !important;
+    gap: 8px !important;
+    justify-content: center !important;
+  }
+  #catalog {
+    padding-top: 10px !important;
+    padding-bottom: 24px !important;
+  }
+  .catalog-filter-wrap {
+    margin-bottom: 12px !important;
+    padding-bottom: 10px !important;
+    gap: 10px !important;
   }
 }

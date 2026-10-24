@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   ArrowLeft, ShieldCheck, Truck, Award, Star, CheckCircle2, 
   ShoppingBag, MessageCircle, Share2, Check, ChevronRight, 
-  Package, RefreshCw, Eye
+  Package, RefreshCw, Eye, Sparkles, SlidersHorizontal
 } from 'lucide-react';
 import { PRODUCTS, FOUNDER_CONTACT, REVIEWS } from '../data/products';
 import { getWatchWhatsAppUrl } from '../services/whatsappService';
@@ -11,6 +11,7 @@ import ProductCard from './ProductCard';
 
 export default function ProductPage({
   productId,
+  initialVariant,
   onBackToStore,
   onNavigateToProduct,
   onQuickBuy,
@@ -22,16 +23,31 @@ export default function ProductPage({
   const [activeImgIndex, setActiveImgIndex] = useState(0);
   const [selectedVariant, setSelectedVariant] = useState('');
   const [copiedLink, setCopiedLink] = useState(false);
-  const [activeTab, setActiveTab] = useState('specs'); // 'specs' | 'reviews' | 'delivery'
+  const [activeTab, setActiveTab] = useState('specs'); // 'specs' | 'reviews'
+  
+  // Wheel Rim Studio Filters
+  const [rimFilter, setRimFilter] = useState('all');
+  const [caliperFilter, setCaliperFilter] = useState('all');
 
-  // Sync state when productId or product changes
+  // Sync state when productId, product or initialVariant changes
   useEffect(() => {
     if (product) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
-      setActiveImgIndex(0);
-      setSelectedVariant(product.variants?.[0] || '');
+      const targetVariant = initialVariant && product.variants?.includes(initialVariant)
+        ? initialVariant
+        : (product.variants?.[0] || '');
+      
+      setSelectedVariant(targetVariant);
+      
+      const vImg = product.variantImages?.[targetVariant];
+      if (vImg) {
+        const idx = product.images.indexOf(vImg);
+        setActiveImgIndex(idx !== -1 ? idx : 0);
+      } else {
+        setActiveImgIndex(0);
+      }
     }
-  }, [productId, product]);
+  }, [productId, product?.id, initialVariant]);
 
   if (!product) {
     return (
@@ -92,6 +108,14 @@ export default function ProductPage({
     }
   };
 
+  const handleDesignItemClick = (design) => {
+    setSelectedVariant(design.name);
+    const idx = product.images.indexOf(design.image);
+    if (idx !== -1) {
+      setActiveImgIndex(idx);
+    }
+  };
+
   const handleCopyLink = () => {
     const url = window.location.href;
     if (navigator.clipboard) {
@@ -111,6 +135,18 @@ export default function ProductPage({
   // Other watches from catalog
   const relatedProducts = PRODUCTS.filter(p => p.id !== product.id).slice(0, 4);
 
+  // Is this a wheel rim watch?
+  const isWheelRim = Boolean(product.designList && product.designList.length > 0);
+
+  // Filter designs if on wheel rim product
+  const filteredDesigns = isWheelRim
+    ? product.designList.filter(d => {
+        const matchesRim = rimFilter === 'all' || d.rim === rimFilter;
+        const matchesCaliper = caliperFilter === 'all' || d.caliper === caliperFilter;
+        return matchesRim && matchesCaliper;
+      })
+    : [];
+
   return (
     <div style={{
       backgroundColor: 'var(--bg-primary, #F7F5F0)',
@@ -127,7 +163,7 @@ export default function ProductPage({
           justifyContent: 'space-between',
           flexWrap: 'wrap',
           gap: '12px',
-          marginBottom: '28px',
+          marginBottom: '24px',
           paddingBottom: '16px',
           borderBottom: '1px solid var(--border-warm, #E6E2DA)'
         }}>
@@ -139,60 +175,49 @@ export default function ProductPage({
               style={{
                 backgroundColor: 'var(--bg-card, #FFFFFF)',
                 border: '1px solid var(--border-card, #E6E2DA)',
-                color: 'var(--brand-navy, #172A3A)',
-                padding: '6px 14px',
                 borderRadius: 'var(--radius-sm, 8px)',
-                fontSize: '0.82rem',
-                fontWeight: 600,
-                cursor: 'pointer',
+                padding: '6px 12px',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '6px',
-                transition: 'all 0.18s ease'
+                fontSize: '0.82rem',
+                fontWeight: 600,
+                color: 'var(--text-primary, #252A30)',
+                cursor: 'pointer',
+                transition: 'all 0.15s ease'
               }}
             >
               <ArrowLeft size={14} />
-              <span>Catalog</span>
+              <span>Back to Watches</span>
             </button>
 
-            {/* Breadcrumb Path */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem', color: 'var(--text-secondary, #737B84)' }}>
-              <span 
-                onClick={() => onBackToStore()} 
-                style={{ cursor: 'pointer' }}
-              >
-                Home
-              </span>
-              <ChevronRight size={13} />
-              <span 
-                onClick={() => onBackToStore('catalog')} 
-                style={{ cursor: 'pointer' }}
-              >
-                {product.category}
-              </span>
-              <ChevronRight size={13} />
-              <span style={{ color: 'var(--brand-navy, #172A3A)', fontWeight: 600, maxWidth: '240px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              <span>Store</span>
+              <ChevronRight size={12} />
+              <span>{product.category}</span>
+              <ChevronRight size={12} />
+              <span style={{ color: 'var(--brand-navy, #172A3A)', fontWeight: 600, maxWidth: '200px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                 {product.title}
               </span>
             </div>
           </div>
 
-          {/* Share Action Button */}
+          {/* Share Link Button */}
           <button
             onClick={handleCopyLink}
-            aria-label="Share watch"
             style={{
-              backgroundColor: 'var(--bg-card, #FFFFFF)',
-              border: '1px solid var(--border-card, #E6E2DA)',
-              color: copiedLink ? 'var(--indicator-green, #237653)' : 'var(--text-secondary, #737B84)',
-              padding: '6px 14px',
+              backgroundColor: copiedLink ? 'rgba(35, 118, 83, 0.12)' : 'var(--bg-card, #FFFFFF)',
+              border: copiedLink ? '1px solid var(--indicator-green, #237653)' : '1px solid var(--border-card, #E6E2DA)',
               borderRadius: 'var(--radius-sm, 8px)',
-              fontSize: '0.78rem',
-              fontWeight: 600,
-              cursor: 'pointer',
+              padding: '6px 14px',
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '6px'
+              gap: '6px',
+              fontSize: '0.78rem',
+              fontWeight: 600,
+              color: copiedLink ? 'var(--indicator-green, #237653)' : 'var(--text-secondary, #737B84)',
+              cursor: 'pointer',
+              transition: 'all 0.15s ease'
             }}
           >
             {copiedLink ? <Check size={14} /> : <Share2 size={14} />}
@@ -207,7 +232,7 @@ export default function ProductPage({
           gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 480px), 1fr))',
           gap: 'clamp(24px, 4vw, 48px)',
           alignItems: 'start',
-          marginBottom: '56px'
+          marginBottom: '48px'
         }}>
           
           {/* ========================================================
@@ -230,15 +255,19 @@ export default function ProductPage({
               justifyContent: 'center'
             }}>
               <img 
+                key={product.images[activeImgIndex] || activeImgIndex}
                 src={product.images[activeImgIndex] || product.images[0]} 
-                alt={product.title}
+                alt={`${product.title} - ${selectedVariant || ''}`}
                 style={{
                   width: '100%',
                   height: '100%',
                   objectFit: 'contain',
                   display: 'block',
-                  transition: 'opacity 0.2s ease'
+                  transition: 'transform 0.25s ease'
                 }}
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
               />
 
               {/* Overlaid Badges */}
@@ -265,7 +294,8 @@ export default function ProductPage({
                   border: '1px solid rgba(35, 118, 83, 0.25)',
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: '4px'
+                  gap: '4px',
+                  boxShadow: '0 2px 6px rgba(0,0,0,0.06)'
                 }}>
                   <ShieldCheck size={13} /> Open Parcel Check
                 </span>
@@ -276,24 +306,30 @@ export default function ProductPage({
                 position: 'absolute',
                 bottom: '12px',
                 right: '12px',
-                backgroundColor: 'rgba(23, 42, 58, 0.85)',
+                backgroundColor: 'rgba(23, 42, 58, 0.88)',
                 color: '#FFFFFF',
-                padding: '3px 10px',
+                padding: '4px 10px',
                 borderRadius: '4px',
                 fontSize: '0.72rem',
-                fontWeight: 600
+                fontWeight: 600,
+                backdropFilter: 'blur(4px)'
               }}>
-                Photo {activeImgIndex + 1} of {product.images.length}
+                Angle {activeImgIndex + 1} of {product.images.length}
               </div>
             </div>
 
-            {/* Thumbnails Angle Strip */}
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: `repeat(${Math.min(product.images.length, 6)}, 1fr)`,
-              gap: '8px',
-              marginBottom: '20px'
-            }}>
+            {/* Thumbnails Angle Strip with Fast Horizontal Scroll */}
+            <div 
+              className="hide-scrollbar"
+              style={{
+                display: 'flex',
+                gap: '8px',
+                overflowX: 'auto',
+                paddingBottom: '6px',
+                marginBottom: '18px',
+                WebkitOverflowScrolling: 'touch'
+              }}
+            >
               {product.images.map((img, idx) => {
                 const isActive = activeImgIndex === idx;
                 return (
@@ -303,14 +339,18 @@ export default function ProductPage({
                     onClick={() => setActiveImgIndex(idx)}
                     aria-label={`View photo angle ${idx + 1}`}
                     style={{
-                      aspectRatio: '1 / 1',
+                      width: '64px',
+                      height: '64px',
+                      flexShrink: 0,
                       borderRadius: 'var(--radius-sm, 8px)',
                       overflow: 'hidden',
                       cursor: 'pointer',
-                      border: isActive ? '2px solid var(--brand-navy, #172A3A)' : '1px solid var(--border-card, #E6E2DA)',
+                      border: isActive ? '2px solid var(--accent-gold, #B69A63)' : '1px solid var(--border-card, #E6E2DA)',
                       padding: 0,
                       backgroundColor: '#FFFFFF',
-                      opacity: isActive ? 1 : 0.65,
+                      opacity: isActive ? 1 : 0.7,
+                      boxShadow: isActive ? '0 0 0 2px rgba(182, 154, 99, 0.35)' : 'none',
+                      transform: isActive ? 'scale(1.05)' : 'scale(1)',
                       transition: 'all 0.15s ease'
                     }}
                   >
@@ -318,6 +358,8 @@ export default function ProductPage({
                       src={img} 
                       alt={`Angle ${idx + 1}`}
                       style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      loading="lazy"
+                      decoding="async"
                     />
                   </button>
                 );
@@ -336,16 +378,16 @@ export default function ProductPage({
             }}>
               <Package size={22} color="var(--brand-navy, #172A3A)" style={{ flexShrink: 0 }} />
               <div style={{ fontSize: '0.82rem', color: 'var(--brand-navy, #172A3A)', lineHeight: 1.45 }}>
-                <strong>Complimentary Watch Box & Transit Packaging Included:</strong>
+                <strong>Complimentary Watch Box & Warranty Card Included:</strong>
                 <span style={{ display: 'block', color: 'var(--text-secondary, #737B84)' }}>
-                  Padded cushion box & bubble-cushioned outer shell to prevent any transit shock.
+                  Heavy rigid presentation box, velvet cushion pillow & 1-Year Movement Warranty Card inside.
                 </span>
               </div>
             </div>
           </div>
 
           {/* ========================================================
-              RIGHT COLUMN: Pricing, Variants, and Purchasing Actions
+              RIGHT COLUMN: Pricing, Design Picker, and Purchasing Actions
               ======================================================== */}
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             
@@ -364,7 +406,7 @@ export default function ProductPage({
               <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.82rem', color: 'var(--text-primary, #252A30)', fontWeight: 600 }}>
                 <Star size={13} fill="#B69A63" color="#B69A63" />
                 <span>{product.rating}</span>
-                <span style={{ color: 'var(--text-secondary, #737B84)' }}>({product.reviewCount} Reviews)</span>
+                <span style={{ color: 'var(--text-secondary, #737B84)' }}>({product.reviewCount} Verified Reviews)</span>
               </div>
             </div>
 
@@ -372,7 +414,7 @@ export default function ProductPage({
             <h1 
               className="font-playfair"
               style={{
-                fontSize: 'clamp(1.6rem, 3.2vw, 2.3rem)',
+                fontSize: 'clamp(1.5rem, 3vw, 2.2rem)',
                 color: 'var(--brand-navy, #172A3A)',
                 lineHeight: 1.25,
                 margin: '0 0 6px 0',
@@ -385,7 +427,7 @@ export default function ProductPage({
             <p style={{
               fontSize: '0.92rem',
               color: 'var(--accent-gold, #B69A63)',
-              margin: '0 0 18px 0',
+              margin: '0 0 16px 0',
               fontWeight: 600
             }}>
               {product.subtitle}
@@ -396,12 +438,12 @@ export default function ProductPage({
               backgroundColor: 'var(--bg-card, #FFFFFF)',
               border: '1px solid var(--border-card, #E6E2DA)',
               borderRadius: 'var(--radius-card, 12px)',
-              padding: '18px 20px',
-              marginBottom: '20px',
+              padding: '16px 20px',
+              marginBottom: '18px',
               boxShadow: 'var(--shadow-card)'
             }}>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px', flexWrap: 'wrap', marginBottom: '8px' }}>
-                <span style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.4rem)', fontWeight: 800, color: 'var(--brand-navy, #172A3A)' }}>
+                <span style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.3rem)', fontWeight: 800, color: 'var(--brand-navy, #172A3A)' }}>
                   Rs. {product.salePrice.toLocaleString()}
                 </span>
                 <span style={{ fontSize: '1.05rem', color: 'var(--text-secondary, #737B84)', textDecoration: 'line-through' }}>
@@ -422,89 +464,347 @@ export default function ProductPage({
               </div>
             </div>
 
-            {/* Product Description */}
-            <p style={{
-              color: 'var(--text-secondary, #737B84)',
-              fontSize: '0.92rem',
-              lineHeight: 1.65,
-              margin: '0 0 20px 0'
-            }}>
-              {product.description}
-            </p>
+            {/* Strap / Chain Edition Quick Toggle if Wheel Rim Watch */}
+            {isWheelRim && (
+              <div style={{
+                backgroundColor: 'rgba(23, 42, 58, 0.04)',
+                border: '1px solid var(--border-warm, #E6E2DA)',
+                borderRadius: 'var(--radius-card, 12px)',
+                padding: '12px 16px',
+                marginBottom: '18px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+                gap: '10px'
+              }}>
+                <div style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--brand-navy, #172A3A)' }}>
+                  Band Style:
+                </div>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (product.id !== 'apex-wheel-rim-chain') {
+                        onNavigateToProduct('apex-wheel-rim-chain');
+                      }
+                    }}
+                    style={{
+                      padding: '6px 14px',
+                      borderRadius: '20px',
+                      fontSize: '0.78rem',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      border: product.id === 'apex-wheel-rim-chain' ? '2px solid var(--brand-navy, #172A3A)' : '1px solid var(--border-card, #E6E2DA)',
+                      backgroundColor: product.id === 'apex-wheel-rim-chain' ? 'var(--brand-navy, #172A3A)' : '#FFFFFF',
+                      color: product.id === 'apex-wheel-rim-chain' ? '#FFFFFF' : 'var(--text-primary, #252A30)',
+                      transition: 'all 0.15s ease'
+                    }}
+                  >
+                    Solid Steel Chain (Rs. 2,499)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (product.id !== 'apex-wheel-rim-strap') {
+                        onNavigateToProduct('apex-wheel-rim-strap');
+                      }
+                    }}
+                    style={{
+                      padding: '6px 14px',
+                      borderRadius: '20px',
+                      fontSize: '0.78rem',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      border: product.id === 'apex-wheel-rim-strap' ? '2px solid var(--brand-navy, #172A3A)' : '1px solid var(--border-card, #E6E2DA)',
+                      backgroundColor: product.id === 'apex-wheel-rim-strap' ? 'var(--brand-navy, #172A3A)' : '#FFFFFF',
+                      color: product.id === 'apex-wheel-rim-strap' ? '#FFFFFF' : 'var(--text-primary, #252A30)',
+                      transition: 'all 0.15s ease'
+                    }}
+                  >
+                    Silicone Sport Strap (Rs. 2,199)
+                  </button>
+                </div>
+              </div>
+            )}
 
-            {/* Color / Variant Swatch Selector */}
-            {product.variants && product.variants.length > 0 && (
+            {/* ========================================================
+                WHEEL RIM SPECIAL: Interactive 12-Design Showcase Studio
+                ======================================================== */}
+            {isWheelRim ? (
               <div style={{
                 backgroundColor: 'var(--bg-card, #FFFFFF)',
-                border: '1px solid var(--border-card, #E6E2DA)',
+                border: '2px solid var(--accent-gold, #B69A63)',
                 borderRadius: 'var(--radius-card, 12px)',
                 padding: '16px',
-                marginBottom: '22px'
+                marginBottom: '20px',
+                boxShadow: '0 4px 18px rgba(182, 154, 99, 0.12)'
               }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-                  <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--brand-navy, #172A3A)', textTransform: 'uppercase', letterSpacing: '0.6px' }}>
-                    Select Edition / Color
-                  </span>
-                  <span style={{ fontSize: '0.74rem', color: 'var(--accent-gold, #B69A63)', fontWeight: 600 }}>
-                    {selectedVariant}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <Sparkles size={16} color="var(--accent-gold, #B69A63)" />
+                    <span style={{ fontSize: '0.86rem', fontWeight: 800, color: 'var(--brand-navy, #172A3A)', textTransform: 'uppercase', letterSpacing: '0.8px' }}>
+                      Choose From All 12 Wheel Designs
+                    </span>
+                  </div>
+                  <span style={{
+                    fontSize: '0.7rem',
+                    backgroundColor: 'var(--bg-gold-subtle, #F3EBDD)',
+                    color: 'var(--brand-navy, #172A3A)',
+                    fontWeight: 700,
+                    padding: '2px 8px',
+                    borderRadius: '12px'
+                  }}>
+                    {filteredDesigns.length} in stock
                   </span>
                 </div>
 
+                {/* Selected Design Callout */}
                 <div style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))',
+                  backgroundColor: 'var(--bg-subtle, #F0EEE8)',
+                  borderRadius: 'var(--radius-sm, 8px)',
+                  padding: '8px 12px',
+                  marginBottom: '12px',
+                  display: 'flex',
+                  alignItems: 'center',
                   gap: '8px'
                 }}>
-                  {product.variants.map((v, i) => {
-                    const isSelected = selectedVariant === v;
-                    const vImg = product.variantImages?.[v] || product.images?.[i] || product.images?.[0];
-                    return (
+                  <Check size={14} color="var(--indicator-green, #237653)" />
+                  <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary, #737B84)' }}>Active Selection:</span>
+                  <strong style={{ fontSize: '0.82rem', color: 'var(--brand-navy, #172A3A)' }}>
+                    {selectedVariant}
+                  </strong>
+                </div>
+
+                {/* Filter Row 1: Rim Architecture */}
+                <div style={{ marginBottom: '10px' }}>
+                  <div style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--text-secondary, #737B84)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '6px' }}>
+                    1. Rim Spoke Architecture:
+                  </div>
+                  <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+                    {[
+                      { key: 'all', label: 'All Rims (12)' },
+                      { key: 'Vortex Turbofan', label: '🌪️ Vortex Turbofan' },
+                      { key: 'Twin-Fin Split', label: '⚡ Twin-Fin Split' },
+                      { key: '5-Spoke Deep Dish GT', label: '🏎️ 5-Spoke Deep Dish' }
+                    ].map(f => (
                       <button
-                        key={i}
+                        key={f.key}
                         type="button"
-                        onClick={() => handleVariantSelect(v)}
+                        onClick={() => setRimFilter(f.key)}
                         style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '8px',
-                          padding: '6px 8px',
-                          borderRadius: 'var(--radius-sm, 8px)',
-                          border: isSelected ? '1.5px solid var(--brand-navy, #172A3A)' : '1px solid var(--border-card, #E6E2DA)',
-                          backgroundColor: isSelected ? 'var(--bg-subtle, #F0EEE8)' : '#FFFFFF',
-                          color: 'var(--text-primary, #252A30)',
+                          padding: '5px 10px',
+                          borderRadius: '6px',
+                          fontSize: '0.74rem',
+                          fontWeight: rimFilter === f.key ? 700 : 500,
                           cursor: 'pointer',
-                          textAlign: 'left',
+                          border: rimFilter === f.key ? '1.5px solid var(--brand-navy, #172A3A)' : '1px solid var(--border-card, #E6E2DA)',
+                          backgroundColor: rimFilter === f.key ? 'var(--brand-navy, #172A3A)' : '#FFFFFF',
+                          color: rimFilter === f.key ? '#FFFFFF' : 'var(--text-primary, #252A30)',
                           transition: 'all 0.15s ease'
                         }}
                       >
-                        <img 
-                          src={vImg} 
-                          alt={v}
-                          style={{
-                            width: '32px',
-                            height: '32px',
-                            borderRadius: '4px',
-                            objectFit: 'cover',
-                            flexShrink: 0
-                          }}
-                        />
-                        <span style={{
+                        {f.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Filter Row 2: Caliper Color */}
+                <div style={{ marginBottom: '14px' }}>
+                  <div style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--text-secondary, #737B84)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '6px' }}>
+                    2. Racing Caliper Color:
+                  </div>
+                  <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+                    {[
+                      { key: 'all', label: 'All Colors' },
+                      { key: 'Sport Red', label: '🔴 Sport Red Brembo' },
+                      { key: 'Nitro Blue', label: '🔵 Nitro Blue Brembo' },
+                      { key: 'Lime Green', label: '🟢 Lime Green Turbo' },
+                      { key: 'Speed Yellow', label: '🟡 Speed Yellow Brembo' }
+                    ].map(f => (
+                      <button
+                        key={f.key}
+                        type="button"
+                        onClick={() => setCaliperFilter(f.key)}
+                        style={{
+                          padding: '4px 10px',
+                          borderRadius: '6px',
                           fontSize: '0.72rem',
-                          fontWeight: isSelected ? 700 : 500,
-                          lineHeight: 1.25,
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                          display: '-webkit-box',
-                          WebkitLineClamp: 2,
-                          WebkitBoxOrient: 'vertical'
+                          fontWeight: caliperFilter === f.key ? 700 : 500,
+                          cursor: 'pointer',
+                          border: caliperFilter === f.key ? '1.5px solid var(--accent-gold, #B69A63)' : '1px solid var(--border-card, #E6E2DA)',
+                          backgroundColor: caliperFilter === f.key ? 'var(--bg-gold-subtle, #F3EBDD)' : '#FFFFFF',
+                          color: caliperFilter === f.key ? 'var(--brand-navy, #172A3A)' : 'var(--text-primary, #252A30)',
+                          transition: 'all 0.15s ease'
+                        }}
+                      >
+                        {f.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Visual Design Grid with 1-Click Select */}
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fill, minmax(135px, 1fr))',
+                  gap: '8px',
+                  maxHeight: '340px',
+                  overflowY: 'auto',
+                  paddingRight: '4px'
+                }}>
+                  {filteredDesigns.map((d) => {
+                    const isSelected = selectedVariant === d.name;
+                    return (
+                      <button
+                        key={d.id}
+                        type="button"
+                        onClick={() => handleDesignItemClick(d)}
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignItems: 'center',
+                          padding: '8px 6px',
+                          borderRadius: '8px',
+                          border: isSelected ? '2px solid var(--accent-gold, #B69A63)' : '1px solid var(--border-card, #E6E2DA)',
+                          backgroundColor: isSelected ? 'rgba(182, 154, 99, 0.08)' : '#FFFFFF',
+                          cursor: 'pointer',
+                          textAlign: 'center',
+                          position: 'relative',
+                          boxShadow: isSelected ? '0 0 0 2px rgba(182, 154, 99, 0.35)' : 'none',
+                          transition: 'all 0.15s ease'
+                        }}
+                      >
+                        {isSelected && (
+                          <div style={{
+                            position: 'absolute',
+                            top: '4px',
+                            right: '4px',
+                            width: '16px',
+                            height: '16px',
+                            borderRadius: '50%',
+                            backgroundColor: 'var(--accent-gold, #B69A63)',
+                            color: '#FFFFFF',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                          }}>
+                            <Check size={10} strokeWidth={3} />
+                          </div>
+                        )}
+
+                        <img 
+                          src={d.image} 
+                          alt={d.name}
+                          style={{
+                            width: '56px',
+                            height: '56px',
+                            objectFit: 'contain',
+                            marginBottom: '6px'
+                          }}
+                          loading="lazy"
+                          decoding="async"
+                        />
+
+                        <div style={{ fontSize: '0.68rem', fontWeight: 700, color: 'var(--brand-navy, #172A3A)', lineHeight: 1.25, marginBottom: '4px' }}>
+                          {d.rim}
+                        </div>
+
+                        <span style={{
+                          fontSize: '0.62rem',
+                          fontWeight: 700,
+                          padding: '1px 6px',
+                          borderRadius: '4px',
+                          backgroundColor: `${d.color}20`,
+                          color: d.color === '#F1C40F' ? '#B7950B' : d.color,
+                          border: `1px solid ${d.color}40`
                         }}>
-                          {v}
+                          {d.caliper}
                         </span>
                       </button>
                     );
                   })}
                 </div>
+
               </div>
+            ) : (
+              /* Standard Product Color / Variant Swatch Selector */
+              product.variants && product.variants.length > 0 && (
+                <div style={{
+                  backgroundColor: 'var(--bg-card, #FFFFFF)',
+                  border: '1px solid var(--border-card, #E6E2DA)',
+                  borderRadius: 'var(--radius-card, 12px)',
+                  padding: '16px',
+                  marginBottom: '20px'
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                    <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--brand-navy, #172A3A)', textTransform: 'uppercase', letterSpacing: '0.6px' }}>
+                      Select Edition / Color
+                    </span>
+                    <span style={{ fontSize: '0.74rem', color: 'var(--accent-gold, #B69A63)', fontWeight: 600 }}>
+                      {selectedVariant}
+                    </span>
+                  </div>
+
+                  <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))',
+                    gap: '8px'
+                  }}>
+                    {product.variants.map((v, i) => {
+                      const isSelected = selectedVariant === v;
+                      const vImg = product.variantImages?.[v] || product.images?.[i] || product.images?.[0];
+                      return (
+                        <button
+                          key={i}
+                          type="button"
+                          onClick={() => handleVariantSelect(v)}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            padding: '6px 8px',
+                            borderRadius: 'var(--radius-sm, 8px)',
+                            border: isSelected ? '1.5px solid var(--brand-navy, #172A3A)' : '1px solid var(--border-card, #E6E2DA)',
+                            backgroundColor: isSelected ? 'var(--bg-subtle, #F0EEE8)' : '#FFFFFF',
+                            color: 'var(--text-primary, #252A30)',
+                            cursor: 'pointer',
+                            textAlign: 'left',
+                            transition: 'all 0.15s ease'
+                          }}
+                        >
+                          <img 
+                            src={vImg} 
+                            alt={v}
+                            style={{
+                              width: '32px',
+                              height: '32px',
+                              borderRadius: '4px',
+                              objectFit: 'cover',
+                              flexShrink: 0
+                            }}
+                            loading="lazy"
+                            decoding="async"
+                          />
+                          <span style={{
+                            fontSize: '0.72rem',
+                            fontWeight: isSelected ? 700 : 500,
+                            lineHeight: 1.25,
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            display: '-webkit-box',
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: 'vertical'
+                          }}>
+                            {v}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )
             )}
 
             {/* Direct Action Buttons */}
@@ -519,10 +819,11 @@ export default function ProductPage({
                   fontSize: '0.94rem',
                   fontWeight: 700,
                   width: '100%',
-                  minHeight: '48px'
+                  minHeight: '48px',
+                  boxShadow: '0 4px 16px rgba(23, 42, 58, 0.25)'
                 }}
               >
-                <span>ORDER CASH ON DELIVERY (COD)</span>
+                <span>ORDER CASH ON DELIVERY (FREE SHIPPING)</span>
               </button>
 
               {/* Button 2: WhatsApp Direct Order */}
@@ -539,7 +840,7 @@ export default function ProductPage({
                 }}
               >
                 <MessageCircle size={18} />
-                <span>Order on WhatsApp (Instant Concierge)</span>
+                <span>Order on WhatsApp (Instant Confirmation)</span>
               </a>
 
               {/* Button 3: Add to Bag */}
@@ -751,7 +1052,7 @@ export default function ProductPage({
               <ProductCard 
                 key={p.id}
                 product={p}
-                onSelectProduct={(item) => onNavigateToProduct(item.id)}
+                onSelectProduct={(item, variant) => onNavigateToProduct(item.id, variant)}
                 onQuickBuy={onQuickBuy}
               />
             ))}

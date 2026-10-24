@@ -37,13 +37,13 @@ export default function ProductCatalog({ products, onSelectProduct, onQuickBuy }
     <section 
       id="catalog" 
       style={{
-        padding: 'clamp(36px, 5vw, 64px) clamp(16px, 3.5vw, 32px)',
+        padding: 'clamp(14px, 2.5vw, 36px) clamp(12px, 3vw, 24px)',
         maxWidth: '1280px',
         margin: '0 auto'
       }}
     >
-      {/* Editorial Section Heading */}
-      <div style={{ textAlign: 'center', marginBottom: '28px' }}>
+      {/* Desktop Editorial Section Heading */}
+      <div className="desktop-only" style={{ textAlign: 'center', marginBottom: '16px' }}>
         <div style={{
           display: 'inline-flex',
           alignItems: 'center',
@@ -60,7 +60,7 @@ export default function ProductCatalog({ products, onSelectProduct, onQuickBuy }
             letterSpacing: '1px',
             textTransform: 'uppercase'
           }}>
-            {products.length} TIMEPIECES IN STOCK
+            {filteredProducts.length} TIMEPIECES IN STOCK
           </span>
         </div>
 
@@ -88,8 +88,33 @@ export default function ProductCatalog({ products, onSelectProduct, onQuickBuy }
         </p>
       </div>
 
+      {/* Mobile Streamlined Section Heading */}
+      <div className="mobile-only" style={{ marginBottom: '8px', padding: '0 2px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <h2 style={{
+            fontSize: '1.15rem',
+            fontWeight: 700,
+            color: 'var(--brand-navy, #172A3A)',
+            margin: 0,
+            letterSpacing: '-0.2px'
+          }}>
+            Signature Watches <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary, #737B84)', fontWeight: 500 }}>({filteredProducts.length})</span>
+          </h2>
+          <span style={{
+            fontSize: '0.7rem',
+            fontWeight: 700,
+            color: '#15803D',
+            backgroundColor: 'rgba(21, 128, 61, 0.08)',
+            padding: '2px 8px',
+            borderRadius: '12px'
+          }}>
+            ✓ Open Parcel Check
+          </span>
+        </div>
+      </div>
+
       {/* Filter and Search Controls */}
-      <div style={{
+      <div className="catalog-filter-wrap" style={{
         marginBottom: '28px',
         paddingBottom: '16px',
         borderBottom: '1px solid var(--border-warm, #E6E2DA)',

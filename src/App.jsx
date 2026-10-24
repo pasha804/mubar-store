@@ -115,10 +115,13 @@ export default function App() {
     }
   }, [routeState]);
 
+  const [selectedProductVariant, setSelectedProductVariant] = useState(null);
+
   // Navigate to Dedicated Product Page
-  const navigateToProduct = (prodOrId) => {
+  const navigateToProduct = (prodOrId, initialVariant = null) => {
     const id = typeof prodOrId === 'string' ? prodOrId : prodOrId?.id;
     if (!id) return;
+    setSelectedProductVariant(initialVariant || null);
     window.history.pushState({}, '', `/product/${id}`);
     setRouteState({ name: 'product', productId: id });
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -272,8 +275,9 @@ export default function App() {
         {/* Dedicated Product Page for this specific watch */}
         <ProductPage 
           productId={routeState.productId}
+          initialVariant={selectedProductVariant}
           onBackToStore={(secId) => navigateToStore(secId)}
-          onNavigateToProduct={(id) => navigateToProduct(id)}
+          onNavigateToProduct={(id, v) => navigateToProduct(id, v)}
           onQuickBuy={(p) => handleQuickBuy(p)}
           onAddToCart={handleAddToCart}
           onOpenCart={() => setIsCartOpen(true)}
@@ -379,7 +383,7 @@ export default function App() {
       {/* Product Catalog with Category Filters & Strict 2-Column Mobile Grid (Section 9 & 10) */}
       <ProductCatalog 
         products={PRODUCTS}
-        onSelectProduct={(p) => navigateToProduct(p)}
+        onSelectProduct={(p, v) => navigateToProduct(p, v)}
         onQuickBuy={(p) => handleQuickBuy(p)}
       />
 

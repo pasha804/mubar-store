@@ -71,7 +71,7 @@ export default function Navbar({
           style={{
             maxWidth: '1280px',
             margin: '0 auto',
-            padding: '12px 20px',
+            padding: 'clamp(8px, 1.4vw, 14px) clamp(12px, 3vw, 24px)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -102,15 +102,17 @@ export default function Navbar({
             </button>
           </div>
 
-          {/* Brand Logo (Left on Desktop, Center on Mobile) */}
+          {/* Brand Logo (Enlarged & Prominent Luxury Crest) */}
           <div 
             onClick={onLogoClick}
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '12px',
+              gap: 'clamp(10px, 1.8vw, 16px)',
               cursor: 'pointer',
-              userSelect: 'none'
+              userSelect: 'none',
+              padding: '2px 0',
+              transition: 'transform 0.15s ease'
             }}
             title="MUBAR Home"
           >
@@ -118,20 +120,23 @@ export default function Navbar({
               src="/images/branding/mubar_logo.png" 
               alt="MUBAR" 
               style={{
-                height: '46px',
+                height: 'clamp(54px, 7.5vw, 76px)',
                 width: 'auto',
-                maxHeight: '48px',
+                maxHeight: '78px',
                 objectFit: 'contain',
-                filter: 'drop-shadow(0 2px 5px rgba(182, 154, 99, 0.25))'
+                filter: 'drop-shadow(0 4px 10px rgba(182, 154, 99, 0.48))',
+                transition: 'transform 0.2s ease'
               }}
+              loading="eager"
+              decoding="async"
             />
             <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
               <span 
                 className="font-playfair"
                 style={{
-                  fontSize: '1.45rem',
-                  fontWeight: 800,
-                  letterSpacing: '2.5px',
+                  fontSize: 'clamp(1.55rem, 3.2vw, 2.2rem)',
+                  fontWeight: 900,
+                  letterSpacing: '3px',
                   color: 'var(--brand-navy, #172A3A)',
                   lineHeight: 1
                 }}
@@ -139,12 +144,12 @@ export default function Navbar({
                 MUBAR
               </span>
               <span style={{
-                fontSize: '0.52rem',
-                letterSpacing: '1.5px',
+                fontSize: 'clamp(0.6rem, 1.1vw, 0.72rem)',
+                letterSpacing: '2.2px',
                 color: 'var(--accent-gold, #B69A63)',
-                fontWeight: 700,
+                fontWeight: 800,
                 textTransform: 'uppercase',
-                marginTop: '3px'
+                marginTop: '4px'
               }}>
                 Timepieces Pakistan
               </span>
@@ -322,11 +327,16 @@ export default function Navbar({
           >
             {/* Drawer Header */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', paddingBottom: '16px', borderBottom: '1px solid var(--border-warm, #E6E2DA)' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <img src="/images/branding/mubar_logo.png" alt="MUBAR" style={{ height: '36px', width: 'auto', objectFit: 'contain' }} />
-                <span className="font-playfair" style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--brand-navy, #172A3A)', letterSpacing: '2px' }}>
-                  MUBAR
-                </span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <img src="/images/branding/mubar_logo.png" alt="MUBAR" style={{ height: '52px', width: 'auto', objectFit: 'contain', filter: 'drop-shadow(0 2px 6px rgba(182, 154, 99, 0.35))' }} />
+                <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
+                  <span className="font-playfair" style={{ fontSize: '1.5rem', fontWeight: 900, color: 'var(--brand-navy, #172A3A)', letterSpacing: '2.5px' }}>
+                    MUBAR
+                  </span>
+                  <span style={{ fontSize: '0.56rem', color: 'var(--accent-gold, #B69A63)', letterSpacing: '1.5px', fontWeight: 700, textTransform: 'uppercase', marginTop: '3px' }}>
+                    Timepieces Pakistan
+                  </span>
+                </div>
               </div>
               <button
                 type="button"

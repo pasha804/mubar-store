@@ -1,0 +1,44 @@
+# Robots.txt for Mubar Store (https://mubarstore.com)
+# Full search engine and AI crawler indexing configuration
+
+User-agent: *
+Allow: /
+Disallow: /scratch/
+Disallow: /api/
+
+# AI Search & Large Language Model Crawlers (Generative Engine Optimization - GEO)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: Cohere-ai
+Allow: /
+
+# Canonical XML Sitemap
+Sitemap: https://mubarstore.com/sitemap.xml

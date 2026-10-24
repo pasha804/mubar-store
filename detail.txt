@@ -1,7 +1,7 @@
 ==============================================================================
             MUBAR — COMPLETE STORE MASTER SPECIFICATION & ARCHITECTURE
 ==============================================================================
-Website Domain: https://mubar-iota.vercel.app/
+Website Domain: https://mubarstore.com/
 Official Brand: MUBAR (Modern Affordable-Premium Timepieces Pakistan)
 Founder & CEO: Muhammad Mubashar (Lahore, Pakistan)
 Contact / WhatsApp: +92 308 4453846 (03084453846)
