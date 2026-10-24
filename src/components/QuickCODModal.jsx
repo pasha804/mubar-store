@@ -444,23 +444,135 @@ Assalam-o-Alaikum Muhammad Mubashar bhai! Please verify and dispatch my order.`
                   </div>
 
                   {/* Selected Account Info */}
-                  <div style={{ fontSize: '0.78rem', color: 'var(--text-primary, #252A30)' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+                  <div style={{ fontSize: '0.78rem', color: 'var(--text-primary, #252A30)', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                       <span style={{ color: 'var(--text-secondary, #737B84)' }}>Account Title:</span>
-                      <strong>{currentOnlineAccount.accountTitle}</strong>
+                      <strong style={{ fontSize: '0.84rem' }}>{currentOnlineAccount.accountTitle}</strong>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
-                      <span style={{ color: 'var(--text-secondary, #737B84)' }}>Account Number:</span>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                        <strong style={{ fontSize: '0.85rem' }}>{currentOnlineAccount.accountNumber}</strong>
+
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ color: 'var(--text-secondary, #737B84)' }}>Mobile / Account:</span>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <strong style={{ fontSize: '0.86rem', letterSpacing: '0.5px' }}>{currentOnlineAccount.accountNumber}</strong>
                         <button
                           type="button"
                           onClick={() => handleCopy(currentOnlineAccount.accountNumber, 'acc')}
-                          style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--accent-gold, #B69A63)', padding: 0 }}
+                          style={{
+                            background: copiedField === 'acc' ? '#E8F5EE' : '#FFFFFF',
+                            border: '1px solid var(--border-card, #E6E2DA)',
+                            borderRadius: '4px',
+                            cursor: 'pointer',
+                            color: copiedField === 'acc' ? '#237653' : 'var(--text-primary, #252A30)',
+                            padding: '3px 8px',
+                            fontSize: '0.7rem',
+                            fontWeight: 600,
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '4px'
+                          }}
                         >
-                          {copiedField === 'acc' ? <Check size={13} color="green" /> : <Copy size={13} />}
+                          {copiedField === 'acc' ? <><Check size={12} color="#237653" /><span>Copied!</span></> : <><Copy size={12} /><span>Copy</span></>}
                         </button>
                       </div>
+                    </div>
+
+                    {/* NayaPay ID (if available) */}
+                    {currentOnlineAccount.nayapayId && (
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <span style={{ color: 'var(--text-secondary, #737B84)' }}>NayaPay ID:</span>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <strong style={{ fontSize: '0.82rem', color: '#00D084' }}>{currentOnlineAccount.nayapayId}</strong>
+                          <button
+                            type="button"
+                            onClick={() => handleCopy(currentOnlineAccount.nayapayId, 'npid')}
+                            style={{
+                              background: copiedField === 'npid' ? '#E8F5EE' : '#FFFFFF',
+                              border: '1px solid var(--border-card, #E6E2DA)',
+                              borderRadius: '4px',
+                              cursor: 'pointer',
+                              color: copiedField === 'npid' ? '#237653' : 'var(--text-primary, #252A30)',
+                              padding: '3px 8px',
+                              fontSize: '0.7rem',
+                              fontWeight: 600,
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '4px'
+                            }}
+                          >
+                            {copiedField === 'npid' ? <><Check size={12} color="#237653" /><span>Copied!</span></> : <><Copy size={12} /><span>Copy</span></>}
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Official IBAN (For SadaPay & NayaPay & All 1-Link Banks) */}
+                    {currentOnlineAccount.iban && (
+                      <div style={{
+                        marginTop: '4px',
+                        padding: '10px 12px',
+                        backgroundColor: '#FFFFFF',
+                        borderRadius: '8px',
+                        border: '1.5px dashed var(--accent-gold, #B69A63)',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '6px'
+                      }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                          <span style={{ fontSize: '0.72rem', fontWeight: 800, color: 'var(--accent-gold, #B69A63)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                            🏛️ Official IBAN (Bank / Raast):
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => handleCopy(currentOnlineAccount.iban, 'iban')}
+                            style={{
+                              background: copiedField === 'iban' ? '#E8F5EE' : 'var(--bg-gold-subtle, #F3EBDD)',
+                              border: '1px solid var(--accent-gold, #B69A63)',
+                              borderRadius: '4px',
+                              cursor: 'pointer',
+                              color: copiedField === 'iban' ? '#237653' : 'var(--brand-navy, #172A3A)',
+                              padding: '3px 10px',
+                              fontSize: '0.72rem',
+                              fontWeight: 700,
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '4px'
+                            }}
+                          >
+                            {copiedField === 'iban' ? <><Check size={12} color="#237653" /><span>Copied!</span></> : <><Copy size={12} /><span>Copy IBAN</span></>}
+                          </button>
+                        </div>
+                        <div style={{ fontFamily: 'monospace', fontSize: '0.86rem', fontWeight: 800, color: 'var(--brand-navy, #172A3A)', letterSpacing: '0.5px', wordBreak: 'break-all' }}>
+                          {currentOnlineAccount.iban}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Instructions */}
+                    <div style={{ fontSize: '0.72rem', color: 'var(--text-secondary, #737B84)', lineHeight: 1.4, marginTop: '2px' }}>
+                      💡 {currentOnlineAccount.instructions}
+                    </div>
+
+                    {/* Transaction Reference / Sender Name Input */}
+                    <div style={{ marginTop: '4px' }}>
+                      <label style={{ fontSize: '0.74rem', fontWeight: 700, color: 'var(--text-primary, #252A30)', display: 'block', marginBottom: '3px' }}>
+                        Transaction ID (TID) / Sender Name (Optional)
+                      </label>
+                      <input 
+                        type="text"
+                        placeholder="e.g. TID 123456789 or sender account title"
+                        value={transactionRef}
+                        onChange={e => setTransactionRef(e.target.value)}
+                        style={{
+                          width: '100%',
+                          padding: '7px 10px',
+                          borderRadius: '6px',
+                          border: '1px solid var(--border-card, #E6E2DA)',
+                          fontSize: '0.78rem',
+                          backgroundColor: '#FFFFFF',
+                          outline: 'none',
+                          boxSizing: 'border-box'
+                        }}
+                      />
                     </div>
                   </div>
                 </div>
@@ -658,6 +770,73 @@ Assalam-o-Alaikum Muhammad Mubashar bhai! Please verify and dispatch my order.`
                 <span>{formData.address}, {formData.city}</span>
               </div>
             </div>
+
+            {/* Online Payment Summary on Success */}
+            {paymentType === 'online' && (
+              <div style={{
+                backgroundColor: 'var(--bg-gold-subtle, #F3EBDD)',
+                border: '1.5px solid var(--accent-gold, #B69A63)',
+                borderRadius: 'var(--radius-card, 12px)',
+                padding: '14px',
+                textAlign: 'left',
+                fontSize: '0.8rem',
+                marginBottom: '16px'
+              }}>
+                <div style={{ fontWeight: 800, color: 'var(--brand-navy, #172A3A)', marginBottom: '8px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <span>💳 Transfer to: {currentOnlineAccount.name}</span>
+                  <span style={{ fontSize: '0.72rem', color: '#237653', backgroundColor: '#E8F5EE', padding: '2px 6px', borderRadius: '4px' }}>Awaiting Screenshot</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+                  <span style={{ color: 'var(--text-secondary, #737B84)' }}>Title:</span>
+                  <strong>{currentOnlineAccount.accountTitle}</strong>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                  <span style={{ color: 'var(--text-secondary, #737B84)' }}>Account Number:</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <strong>{currentOnlineAccount.accountNumber}</strong>
+                    <button
+                      type="button"
+                      onClick={() => handleCopy(currentOnlineAccount.accountNumber, 'success-acc')}
+                      style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--accent-gold, #B69A63)', padding: 0 }}
+                    >
+                      {copiedField === 'success-acc' ? <Check size={12} color="#237653" /> : <Copy size={12} />}
+                    </button>
+                  </div>
+                </div>
+                {currentOnlineAccount.iban && (
+                  <div style={{ marginTop: '6px', paddingTop: '6px', borderTop: '1px dashed rgba(182, 154, 99, 0.4)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2px' }}>
+                      <span style={{ fontSize: '0.7rem', fontWeight: 800, color: 'var(--accent-gold, #B69A63)' }}>OFFICIAL IBAN:</span>
+                      <button
+                        type="button"
+                        onClick={() => handleCopy(currentOnlineAccount.iban, 'success-iban')}
+                        style={{
+                          background: copiedField === 'success-iban' ? '#E8F5EE' : '#FFFFFF',
+                          border: '1px solid var(--accent-gold, #B69A63)',
+                          borderRadius: '4px',
+                          cursor: 'pointer',
+                          color: copiedField === 'success-iban' ? '#237653' : 'var(--brand-navy, #172A3A)',
+                          padding: '2px 8px',
+                          fontSize: '0.68rem',
+                          fontWeight: 700,
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '4px'
+                        }}
+                      >
+                        {copiedField === 'success-iban' ? <><Check size={10} color="#237653" /><span>Copied</span></> : <><Copy size={10} /><span>Copy IBAN</span></>}
+                      </button>
+                    </div>
+                    <div style={{ fontFamily: 'monospace', fontSize: '0.82rem', fontWeight: 800, color: 'var(--brand-navy, #172A3A)', wordBreak: 'break-all' }}>
+                      {currentOnlineAccount.iban}
+                    </div>
+                  </div>
+                )}
+                <p style={{ margin: '8px 0 0 0', fontSize: '0.72rem', color: 'var(--text-secondary, #737B84)', lineHeight: 1.4 }}>
+                  Neeche diye gaye WhatsApp button par click karein aur payment receipt ka screenshot bhej kar apna order foran confirm karwayein.
+                </p>
+              </div>
+            )}
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               <a

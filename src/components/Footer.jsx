@@ -1,13 +1,25 @@
 import React, { useState } from 'react';
 import { 
   ShieldCheck, Truck, Clock, Award, Phone, Mail, MapPin, 
-  Sparkles, CheckCircle2, ArrowRight, MessageCircle, Send, Heart 
+  Sparkles, CheckCircle2, ArrowRight, MessageCircle, Send, Heart,
+  Copy, Check, X, Building2
 } from 'lucide-react';
 import { JazzCashLogo, SadaPayLogo, NayaPayLogo, CashOnDeliveryBadge, RaastLogo } from './PaymentLogos';
+import { PAYMENT_ACCOUNTS } from '../data/products';
 
 export default function Footer({ onScrollTo, onOpenPolicy }) {
   const [newsletterPhone, setNewsletterPhone] = useState('');
   const [subscribed, setSubscribed] = useState(false);
+  const [ibanModalOpen, setIbanModalOpen] = useState(false);
+  const [copiedKey, setCopiedKey] = useState(null);
+
+  const handleCopy = (text, key) => {
+    if (navigator?.clipboard?.writeText) {
+      navigator.clipboard.writeText(text);
+      setCopiedKey(key);
+      setTimeout(() => setCopiedKey(null), 2500);
+    }
+  };
 
   const handleSubscribe = (e) => {
     e.preventDefault();
@@ -482,6 +494,32 @@ export default function Footer({ onScrollTo, onOpenPolicy }) {
                 <RaastLogo size={20} />
               </div>
             </div>
+
+            <div style={{ marginTop: '12px' }}>
+              <button
+                type="button"
+                onClick={() => setIbanModalOpen(true)}
+                style={{
+                  background: 'rgba(182, 154, 99, 0.12)',
+                  border: '1px solid rgba(182, 154, 99, 0.4)',
+                  borderRadius: '6px',
+                  color: '#D4AF37',
+                  padding: '6px 12px',
+                  fontSize: '0.74rem',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  transition: 'all 0.15s ease'
+                }}
+                onMouseEnter={e => e.currentTarget.style.background = 'rgba(182, 154, 99, 0.22)'}
+                onMouseLeave={e => e.currentTarget.style.background = 'rgba(182, 154, 99, 0.12)'}
+              >
+                <span>🏛️ View SadaPay & NayaPay IBAN Details</span>
+                <ArrowRight size={13} />
+              </button>
+            </div>
           </div>
 
           {/* Courier Logistics */}
@@ -537,6 +575,202 @@ export default function Footer({ onScrollTo, onOpenPolicy }) {
         </div>
 
       </div>
+
+      {/* ========================================================
+          OFFICIAL BANK ACCOUNTS & IBAN MODAL
+          ======================================================== */}
+      {ibanModalOpen && (
+        <div 
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 1400,
+            backgroundColor: 'rgba(10, 18, 26, 0.82)',
+            backdropFilter: 'blur(6px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '16px'
+          }}
+          onClick={() => setIbanModalOpen(false)}
+        >
+          <div 
+            style={{
+              backgroundColor: '#0F1A24',
+              border: '1px solid rgba(182, 154, 99, 0.45)',
+              borderRadius: '16px',
+              padding: 'clamp(20px, 4vw, 28px)',
+              maxWidth: '540px',
+              width: '100%',
+              boxShadow: '0 20px 50px rgba(0,0,0,0.5)',
+              color: '#FFFFFF',
+              position: 'relative',
+              maxHeight: '90vh',
+              overflowY: 'auto'
+            }}
+            onClick={e => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px', paddingBottom: '12px', borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <div style={{ backgroundColor: 'rgba(182, 154, 99, 0.18)', padding: '8px', borderRadius: '8px' }}>
+                  <Building2 size={20} color="#D4AF37" />
+                </div>
+                <div>
+                  <h3 className="font-playfair" style={{ margin: 0, fontSize: '1.25rem', fontWeight: 800, color: '#FFFFFF' }}>
+                    Official Bank &amp; IBAN Accounts
+                  </h3>
+                  <span style={{ fontSize: '0.72rem', color: '#D4AF37', letterSpacing: '1px', textTransform: 'uppercase', fontWeight: 700 }}>
+                    MUBAR Store Verified Channels
+                  </span>
+                </div>
+              </div>
+              <button 
+                onClick={() => setIbanModalOpen(false)}
+                style={{ background: 'none', border: 'none', color: '#A0AAB5', cursor: 'pointer', padding: '4px' }}
+                aria-label="Close"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            <p style={{ fontSize: '0.78rem', color: '#A0AAB5', margin: '0 0 16px 0', lineHeight: 1.5 }}>
+              Agar aap order confirm karne se pehle direct online transfer ya Raast karna chahein, to darj zail verified accounts use kar sakte hain:
+            </p>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {/* SadaPay Card */}
+              <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.04)', border: '1px solid rgba(255, 107, 129, 0.3)', borderRadius: '10px', padding: '14px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <div style={{ backgroundColor: '#FFFFFF', padding: '3px 8px', borderRadius: '4px' }}>
+                      <SadaPayLogo size={16} />
+                    </div>
+                    <strong style={{ fontSize: '0.86rem', color: '#FFFFFF' }}>SadaPay</strong>
+                  </div>
+                  <span style={{ fontSize: '0.68rem', backgroundColor: 'rgba(255, 107, 129, 0.18)', color: '#FF6B81', padding: '2px 8px', borderRadius: '4px', fontWeight: 700 }}>
+                    Zero Fee
+                  </span>
+                </div>
+                <div style={{ fontSize: '0.78rem', color: '#D4D9DF', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                  <div>Title: <strong>Muhammad Mubashar</strong></div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span>Account: <strong>03084453846</strong></span>
+                    <button
+                      type="button"
+                      onClick={() => handleCopy('03084453846', 'sada-num')}
+                      style={{ background: 'none', border: 'none', color: '#D4AF37', cursor: 'pointer', fontSize: '0.72rem', display: 'flex', alignItems: 'center', gap: '4px' }}
+                    >
+                      {copiedKey === 'sada-num' ? <><Check size={12} color="#2ED573" /><span>Copied</span></> : <><Copy size={12} /><span>Copy</span></>}
+                    </button>
+                  </div>
+                  <div style={{ marginTop: '4px', paddingTop: '6px', borderTop: '1px dashed rgba(255, 255, 255, 0.1)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div>
+                      <div style={{ fontSize: '0.68rem', color: '#D4AF37', fontWeight: 800 }}>OFFICIAL IBAN:</div>
+                      <div style={{ fontFamily: 'monospace', fontSize: '0.82rem', fontWeight: 700, color: '#FFFFFF' }}>PK43SADA0000003084453846</div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => handleCopy('PK43SADA0000003084453846', 'sada-iban')}
+                      style={{ background: 'rgba(182, 154, 99, 0.2)', border: '1px solid #D4AF37', color: '#D4AF37', padding: '3px 8px', borderRadius: '4px', cursor: 'pointer', fontSize: '0.72rem', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px' }}
+                    >
+                      {copiedKey === 'sada-iban' ? <><Check size={12} color="#2ED573" /><span>Copied!</span></> : <><Copy size={12} /><span>Copy IBAN</span></>}
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* NayaPay Card */}
+              <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.04)', border: '1px solid rgba(46, 213, 115, 0.3)', borderRadius: '10px', padding: '14px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <div style={{ backgroundColor: '#FFFFFF', padding: '3px 8px', borderRadius: '4px' }}>
+                      <NayaPayLogo size={16} />
+                    </div>
+                    <strong style={{ fontSize: '0.86rem', color: '#FFFFFF' }}>NayaPay</strong>
+                  </div>
+                  <span style={{ fontSize: '0.68rem', backgroundColor: 'rgba(46, 213, 115, 0.18)', color: '#2ED573', padding: '2px 8px', borderRadius: '4px', fontWeight: 700 }}>
+                    Instant Transfer
+                  </span>
+                </div>
+                <div style={{ fontSize: '0.78rem', color: '#D4D9DF', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                  <div>Title: <strong>Muhammad Mubashar</strong></div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span>NayaPay ID: <strong style={{ color: '#2ED573' }}>pashaxora@nayapay</strong></span>
+                    <button
+                      type="button"
+                      onClick={() => handleCopy('pashaxora@nayapay', 'naya-id')}
+                      style={{ background: 'none', border: 'none', color: '#D4AF37', cursor: 'pointer', fontSize: '0.72rem', display: 'flex', alignItems: 'center', gap: '4px' }}
+                    >
+                      {copiedKey === 'naya-id' ? <><Check size={12} color="#2ED573" /><span>Copied</span></> : <><Copy size={12} /><span>Copy</span></>}
+                    </button>
+                  </div>
+                  <div style={{ marginTop: '4px', paddingTop: '6px', borderTop: '1px dashed rgba(255, 255, 255, 0.1)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div>
+                      <div style={{ fontSize: '0.68rem', color: '#D4AF37', fontWeight: 800 }}>OFFICIAL IBAN:</div>
+                      <div style={{ fontFamily: 'monospace', fontSize: '0.82rem', fontWeight: 700, color: '#FFFFFF' }}>PK79NAYA1234503084453846</div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => handleCopy('PK79NAYA1234503084453846', 'naya-iban')}
+                      style={{ background: 'rgba(182, 154, 99, 0.2)', border: '1px solid #D4AF37', color: '#D4AF37', padding: '3px 8px', borderRadius: '4px', cursor: 'pointer', fontSize: '0.72rem', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px' }}
+                    >
+                      {copiedKey === 'naya-iban' ? <><Check size={12} color="#2ED573" /><span>Copied!</span></> : <><Copy size={12} /><span>Copy IBAN</span></>}
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* JazzCash Card */}
+              <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.04)', border: '1px solid rgba(255, 71, 87, 0.3)', borderRadius: '10px', padding: '14px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <div style={{ backgroundColor: '#FFFFFF', padding: '3px 8px', borderRadius: '4px' }}>
+                      <JazzCashLogo size={18} />
+                    </div>
+                    <strong style={{ fontSize: '0.86rem', color: '#FFFFFF' }}>JazzCash</strong>
+                  </div>
+                  <span style={{ fontSize: '0.68rem', backgroundColor: 'rgba(255, 71, 87, 0.18)', color: '#FF4757', padding: '2px 8px', borderRadius: '4px', fontWeight: 700 }}>
+                    Mobile Wallet
+                  </span>
+                </div>
+                <div style={{ fontSize: '0.78rem', color: '#D4D9DF', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                  <div>Title: <strong>Muhammad Mubashir</strong></div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span>Account: <strong>03084453846</strong></span>
+                    <button
+                      type="button"
+                      onClick={() => handleCopy('03084453846', 'jazz-num')}
+                      style={{ background: 'none', border: 'none', color: '#D4AF37', cursor: 'pointer', fontSize: '0.72rem', display: 'flex', alignItems: 'center', gap: '4px' }}
+                    >
+                      {copiedKey === 'jazz-num' ? <><Check size={12} color="#2ED573" /><span>Copied</span></> : <><Copy size={12} /><span>Copy</span></>}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style={{ marginTop: '16px', textAlign: 'center' }}>
+              <button
+                type="button"
+                onClick={() => setIbanModalOpen(false)}
+                style={{
+                  background: 'linear-gradient(135deg, #B69A63 0%, #947941 100%)',
+                  color: '#FFFFFF',
+                  border: 'none',
+                  borderRadius: '8px',
+                  padding: '9px 24px',
+                  fontSize: '0.82rem',
+                  fontWeight: 700,
+                  cursor: 'pointer'
+                }}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </footer>
   );
 }
