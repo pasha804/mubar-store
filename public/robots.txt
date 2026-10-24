@@ -40,5 +40,6 @@ Allow: /
 User-agent: Cohere-ai
 Allow: /
 
-# Canonical XML Sitemap
+# Canonical XML Sitemaps
+Sitemap: https://www.mubarstore.com/sitemap.xml
 Sitemap: https://mubarstore.com/sitemap.xml
