@@ -366,21 +366,24 @@ export default function ProductPage({
               })}
             </div>
 
-            {/* Complimentary Packaging Notice */}
+            {/* Wholesale Simple Packaging Notice (Watch Only, Box Not Included) */}
             <div style={{
-              backgroundColor: 'var(--bg-gold-subtle, #F3EBDD)',
-              border: '1px solid rgba(182, 154, 99, 0.3)',
+              backgroundColor: '#FFFBEB',
+              border: '1px solid #FDE68A',
               borderRadius: 'var(--radius-card, 12px)',
               padding: '14px 18px',
               display: 'flex',
-              alignItems: 'center',
+              alignItems: 'flex-start',
               gap: '12px'
             }}>
-              <Package size={22} color="var(--brand-navy, #172A3A)" style={{ flexShrink: 0 }} />
-              <div style={{ fontSize: '0.82rem', color: 'var(--brand-navy, #172A3A)', lineHeight: 1.45 }}>
-                <strong>Complimentary Watch Box & Warranty Card Included:</strong>
-                <span style={{ display: 'block', color: 'var(--text-secondary, #737B84)' }}>
-                  Heavy rigid presentation box, velvet cushion pillow & 1-Year Movement Warranty Card inside.
+              <Package size={22} color="#D97706" style={{ flexShrink: 0, marginTop: '2px' }} />
+              <div style={{ fontSize: '0.82rem', color: '#92400E', lineHeight: 1.45 }}>
+                <strong style={{ color: '#B45309' }}>📦 Packaging Notice (Watch Only Edition):</strong>
+                <span style={{ display: 'block', marginTop: '3px', color: '#78350F' }}>
+                  Direct wholesale discount par parcel mein <strong>siraf original watch</strong> safe shock-proof simple protective packing / bubble wrap mein deliver hogi (Luxury presentation box shamil nahi hai).
+                </span>
+                <span style={{ display: 'block', marginTop: '4px', fontSize: '0.78rem', color: '#92400E' }}>
+                  ✓ 1-Year Movement Warranty Card included • ✓ 100% Open Parcel Doorstep Inspection
                 </span>
               </div>
             </div>
@@ -998,6 +1001,22 @@ export default function ProductPage({
                   </div>
                 );
               })}
+              {/* Packaging Specification Card */}
+              <div 
+                style={{
+                  padding: '12px 14px',
+                  backgroundColor: '#FFFBEB',
+                  border: '1px solid #FDE68A',
+                  borderRadius: 'var(--radius-sm, 8px)'
+                }}
+              >
+                <div style={{ fontSize: '0.72rem', textTransform: 'uppercase', color: '#B45309', fontWeight: 700, marginBottom: '2px' }}>
+                  Packaging & Delivery
+                </div>
+                <div style={{ fontSize: '0.84rem', color: '#92400E', fontWeight: 600 }}>
+                  Safe Simple Protective Packaging (Watch Only — Presentation Box Not Included)
+                </div>
+              </div>
             </div>
           )}
 

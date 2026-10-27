@@ -7,9 +7,8 @@ import {
 import confetti from 'canvas-confetti';
 import { PAYMENT_ACCOUNTS, FOUNDER_CONTACT } from '../data/products';
 import { persistNewOrder } from '../services/storeSync';
-import { getWatchWhatsAppUrl } from '../services/whatsappService';
 import { trackPurchase, trackInitiateCheckout } from '../services/pixelService';
-import { JazzCashLogo, SadaPayLogo, NayaPayLogo } from './PaymentLogos';
+import { JazzCashLogo, SadaPayLogo, NayaPayLogo, EasyPaisaLogo } from './PaymentLogos';
 
 const PROVINCES = [
   'Punjab',
@@ -350,6 +349,29 @@ Assalam-o-Alaikum Muhammad Mubashar bhai! Please verify and dispatch my order.`
               </div>
             </div>
 
+            {/* Packaging Transparency Note (Watch Only, Box Not Included) */}
+            <div style={{
+              backgroundColor: '#FFFBEB',
+              border: '1px solid #FDE68A',
+              borderRadius: '8px',
+              padding: '10px 12px',
+              marginBottom: '16px',
+              display: 'flex',
+              alignItems: 'flex-start',
+              gap: '10px',
+              fontSize: '0.78rem',
+              color: '#92400E',
+              lineHeight: 1.45
+            }}>
+              <Package size={17} color="#D97706" style={{ flexShrink: 0, marginTop: '2px' }} />
+              <div>
+                <strong>📦 Zaruri Packaging Note:</strong>
+                <div>
+                  Parcel mein <strong>siraf watch</strong> safe shock-proof simple protective packing / bubble wrap mein deliver hogi (Presentation box shamil nahi hai). Rider ke samne parcel khol k tasalli se check karein phir payment dein!
+                </div>
+              </div>
+            </div>
+
             {/* Payment Method Switcher */}
             <div style={{ marginBottom: '18px' }}>
               <label style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text-primary, #252A30)', display: 'block', marginBottom: '8px' }}>
@@ -434,9 +456,10 @@ Assalam-o-Alaikum Muhammad Mubashar bhai! Please verify and dispatch my order.`
                             gap: '4px'
                           }}
                         >
-                          {key === 'jazzcash' && <JazzCashLogo size={14} />}
-                          {key === 'sadapay' && <SadaPayLogo size={14} />}
-                          {key === 'nayapay' && <NayaPayLogo size={14} />}
+                          {key === 'jazzcash' && <JazzCashLogo size={15} showText={false} />}
+                          {key === 'sadapay' && <SadaPayLogo size={15} showText={false} />}
+                          {key === 'nayapay' && <NayaPayLogo size={15} showText={false} />}
+                          {key === 'easypaisa' && <EasyPaisaLogo size={15} showText={false} />}
                           <span style={{ fontSize: '0.74rem', fontWeight: isAccSelected ? 700 : 500 }}>{acc.name}</span>
                         </button>
                       );

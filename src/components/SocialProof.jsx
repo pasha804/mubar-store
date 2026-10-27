@@ -13,7 +13,11 @@ const FAQS = [
   },
   {
     q: "What does the warranty cover?",
-    a: "Every timepiece includes an official 1-Year Movement Warranty Card inside the presentation box. It covers internal quartz movement irregularities and manufacturing defects occurring under normal use for 12 months."
+    a: "Every timepiece includes an official 1-Year Movement Warranty Card accompanied with the watch in secure transit packaging. It covers internal quartz movement irregularities and manufacturing defects occurring under normal use for 12 months."
+  },
+  {
+    q: "Kya watch ke sath luxury box shamil hoga?",
+    a: "Nahi, ham direct wholesale rates par factory se deliver karte hain taake aapko flat 40% discount mil sake. Is liye parcel mein siraf original watch multi-layer shock-proof simple protective packing mein aati hai. Luxury gift box shamil nahi hai."
   },
   {
     q: "What should I do if my parcel arrives damaged?",
@@ -21,7 +25,7 @@ const FAQS = [
   },
   {
     q: "Which payment methods are available?",
-    a: "Cash on Delivery (COD) is available nationwide. For customers who prefer cashless digital transfers, we accept verified direct payments via JazzCash, SadaPay, NayaPay, and Raast."
+    a: "Cash on Delivery (COD) is available nationwide. For customers who prefer cashless digital transfers, we accept verified direct payments via JazzCash, EasyPaisa, SadaPay, NayaPay, and Raast."
   }
 ];
 

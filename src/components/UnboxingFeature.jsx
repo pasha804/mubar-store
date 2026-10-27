@@ -132,7 +132,7 @@ export default function UnboxingFeature({ onOrderAnyClick }) {
             }}
           >
             <Package size={15} />
-            <span>Protective Watch Packaging</span>
+            <span>Watch Packaging (Watch Only)</span>
           </button>
         </div>
 
@@ -353,24 +353,44 @@ export default function UnboxingFeature({ onOrderAnyClick }) {
             alignItems: 'center'
           }}>
             <div>
-              <h4 style={{ color: 'var(--text-primary, #252A30)', fontSize: '1.2rem', fontWeight: 700, margin: '0 0 10px 0' }}>
-                Safe Multi-Layer Watch Packaging
+              <div style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                backgroundColor: '#FEF3C7',
+                border: '1px solid #FCD34D',
+                borderRadius: '6px',
+                padding: '4px 10px',
+                fontSize: '0.74rem',
+                fontWeight: 700,
+                color: '#B45309',
+                marginBottom: '10px'
+              }}>
+                <Package size={14} color="#D97706" />
+                <span>Watch Only • Simple Secure Packaging</span>
+              </div>
+              <h4 style={{ color: 'var(--text-primary, #252A30)', fontSize: '1.25rem', fontWeight: 700, margin: '0 0 10px 0' }}>
+                Safe Simple Protective Packaging (Box Not Included)
               </h4>
               <p style={{ color: 'var(--text-secondary, #737B84)', fontSize: '0.88rem', lineHeight: 1.6, margin: '0 0 16px 0' }}>
-                Every MUBAR timepiece is shipped in high-density bubble cushioning, protective dial film, and heavy-duty outer box packaging to guarantee zero transit damage during road or air courier transit.
+                Direct wholesale launch rates (flat 40% off) deliver karne ke liye, har parcel mein <strong>siraf authentic watch</strong> multi-layer shock-proof bubble wrap aur protective dial seal ke sath dispatch ki jaati hai. <strong>Luxury presentation box shamil nahi hai</strong> taake parcel compact rahay aur aapko Pakistan ki sabse kam wholesale price mil sake.
               </p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.84rem', color: 'var(--text-primary, #252A30)' }}>
                   <CheckCircle2 size={16} color="var(--indicator-green, #237653)" />
-                  <span>Protective scratch-film on crystal & deployant clasp</span>
+                  <span>100% Original Watch with protective scratch-film on crystal</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.84rem', color: 'var(--text-primary, #252A30)' }}>
                   <CheckCircle2 size={16} color="var(--indicator-green, #237653)" />
-                  <span>Pre-fitted fresh battery & tested movement</span>
+                  <span>Multi-layer shock-proof bubble transit pouch (Zero damage)</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.84rem', color: 'var(--indicator-green, #237653)' }}>
                   <CheckCircle2 size={16} color="var(--indicator-green, #237653)" />
-                  <span>100% Trackable courier tracking number sent via SMS</span>
+                  <span>Pre-fitted fresh battery & calibrated quartz movement</span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.84rem', color: '#B45309', fontWeight: 600 }}>
+                  <AlertCircle size={16} color="#D97706" />
+                  <span>Note: Luxury Gift Box is NOT included (Siraf Watch deliver hogi)</span>
                 </div>
               </div>
             </div>

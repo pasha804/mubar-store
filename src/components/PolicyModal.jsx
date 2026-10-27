@@ -13,11 +13,11 @@ All orders dispatched through our official courier partners (Trax Logistics and 
 If you have received and accepted your watch and notice any manufacturing defect or movement irregularity, you are entitled to a free replacement or exchange within 7 days of delivery.
 To be eligible:
 - The timepiece must be in its original condition with protective plastic seals intact.
-- The watch must be in its original presentation box complete with cushion and documentation.
+- The watch must be in its original protective packaging with warranty documentation.
 - Proof of purchase (Order Reference ID or registered WhatsApp number) must be provided.
 
 ### The 1-Year Movement Warranty Card
-Every MUBAR watch includes a 1-Year Movement Warranty Card inside the box.
+Every MUBAR watch includes a 1-Year Movement Warranty Card accompanied with the parcel.
 - What is covered: Internal quartz movement timekeeping irregularities and manufacturer defects occurring under normal use for 12 months.
 - What is not covered: Normal wear and tear, accidental drops, cracked crystal glass due to impact, or water immersion beyond the specified ATM rating.
 - To claim warranty, message our WhatsApp Concierge at +92 308 4453846.

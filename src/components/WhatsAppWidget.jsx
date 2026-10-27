@@ -6,7 +6,7 @@ export default function WhatsAppWidget() {
   const [showTooltip, setShowTooltip] = useState(true);
 
   const whatsappNumber = getWhatsAppNumber();
-  const defaultText = encodeURIComponent("Assalam-o-Alaikum! Main MUBAR store se watches check kar raha tha. Kindly mujhse connect karein aur real unboxing videos share karein. Shukriya!");
+  const defaultText = encodeURIComponent("Assalam-o-Alaikum! Main MUBAR store se watches check kar raha tha. Mujhe order aur delivery details confirm karne me guide karein. Shukriya!");
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${defaultText}`;
 
   return (

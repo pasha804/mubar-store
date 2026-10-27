@@ -1,42 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import { Flame, Clock, ShieldCheck, Truck, ArrowRight, Sparkles } from 'lucide-react';
+import { Flame, Clock, ShieldCheck, Truck, ArrowRight, Sparkles, Package, AlertCircle } from 'lucide-react';
 
 export default function Hero({ onExploreClick }) {
-  // Countdown Timer State (persisted 6-hour rolling flash sale cycle)
-  const [timeLeft, setTimeLeft] = useState(() => {
-    const savedEndTime = localStorage.getItem('mubar_flash_sale_end');
+  // Countdown Timer State (persisted 6-day rolling flash sale cycle)
+  const calculateRemaining = () => {
+    const savedEndTime = localStorage.getItem('mubar_flash_sale_end_6d');
     const now = Date.now();
-    if (savedEndTime && Number(savedEndTime) > now) {
-      const diff = Math.floor((Number(savedEndTime) - now) / 1000);
-      return {
-        hours: Math.floor(diff / 3600),
-        minutes: Math.floor((diff % 3600) / 60),
-        seconds: diff % 60
-      };
-    } else {
-      // Set new 6 hours 45 mins countdown
-      const newEndTime = now + (6 * 3600 + 45 * 60 + 20) * 1000;
-      localStorage.setItem('mubar_flash_sale_end', newEndTime.toString());
-      return { hours: 6, minutes: 45, seconds: 20 };
+    let end = Number(savedEndTime);
+
+    // If not set or expired, initialize a fresh 6-day countdown (6 days = 518400 seconds)
+    if (!savedEndTime || isNaN(end) || end <= now) {
+      end = now + (6 * 24 * 3600 + 14 * 3600 + 35 * 60) * 1000;
+      localStorage.setItem('mubar_flash_sale_end_6d', end.toString());
     }
-  });
+
+    const diff = Math.max(0, Math.floor((end - now) / 1000));
+    return {
+      days: Math.floor(diff / 86400),
+      hours: Math.floor((diff % 86400) / 3600),
+      minutes: Math.floor((diff % 3600) / 60),
+      seconds: diff % 60
+    };
+  };
+
+  const [timeLeft, setTimeLeft] = useState(calculateRemaining);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTimeLeft(prev => {
-        if (prev.seconds > 0) {
-          return { ...prev, seconds: prev.seconds - 1 };
-        } else if (prev.minutes > 0) {
-          return { ...prev, minutes: 59, seconds: 59 };
-        } else if (prev.hours > 0) {
-          return { hours: prev.hours - 1, minutes: 59, seconds: 59 };
-        } else {
-          // Reset 6 hour cycle
-          const newEndTime = Date.now() + 6 * 3600 * 1000;
-          localStorage.setItem('mubar_flash_sale_end', newEndTime.toString());
-          return { hours: 6, minutes: 0, seconds: 0 };
-        }
-      });
+      setTimeLeft(calculateRemaining());
     }, 1000);
 
     return () => clearInterval(interval);
@@ -52,6 +43,11 @@ export default function Hero({ onExploreClick }) {
         position: 'relative'
       }}
     >
+      {/* Primary Semantic H1 for Google Crawlers & Search Engine Indexing */}
+      <h1 className="sr-only">
+        MUBAR Store Pakistan — Buy Luxury Men's Watches Online with 100% Open Parcel Cash on Delivery
+      </h1>
+
       {/* ========================================================
           1. PURE LUXURY WATCH SALE BANNER
           ======================================================== */}
@@ -153,81 +149,107 @@ export default function Hero({ onExploreClick }) {
             </div>
           </div>
 
-          {/* Digital Timer Unit Blocks */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          {/* Digital Timer Unit Blocks (6 Days Flash Sale) */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
             
+            {/* Days Block */}
+            <div style={{
+              backgroundColor: '#162330',
+              border: '1px solid rgba(212, 175, 55, 0.45)',
+              borderRadius: '8px',
+              padding: '4px 8px',
+              textAlign: 'center',
+              minWidth: '44px',
+              boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.5)'
+            }}>
+              <div style={{
+                fontFamily: 'monospace',
+                fontSize: 'clamp(1.05rem, 1.8vw, 1.3rem)',
+                fontWeight: 900,
+                color: '#D4AF37',
+                lineHeight: 1.1
+              }}>
+                {formatNum(timeLeft.days)}
+              </div>
+              <div style={{ fontSize: '0.52rem', color: '#D4AF37', fontWeight: 800, letterSpacing: '0.5px' }}>
+                DAYS
+              </div>
+            </div>
+
+            <span style={{ color: '#D4AF37', fontWeight: 900, fontSize: '1.1rem' }}>:</span>
+
             {/* Hours Block */}
             <div style={{
               backgroundColor: '#162330',
               border: '1px solid rgba(182, 154, 99, 0.35)',
               borderRadius: '8px',
-              padding: '4px 10px',
+              padding: '4px 8px',
               textAlign: 'center',
-              minWidth: '46px',
+              minWidth: '44px',
               boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.5)'
             }}>
               <div style={{
                 fontFamily: 'monospace',
-                fontSize: 'clamp(1.1rem, 2vw, 1.35rem)',
+                fontSize: 'clamp(1.05rem, 1.8vw, 1.3rem)',
                 fontWeight: 900,
                 color: '#FFFFFF',
                 lineHeight: 1.1
               }}>
                 {formatNum(timeLeft.hours)}
               </div>
-              <div style={{ fontSize: '0.55rem', color: '#B69A63', fontWeight: 700, letterSpacing: '0.5px' }}>
+              <div style={{ fontSize: '0.52rem', color: '#B69A63', fontWeight: 700, letterSpacing: '0.5px' }}>
                 HRS
               </div>
             </div>
 
-            <span style={{ color: '#D4AF37', fontWeight: 900, fontSize: '1.2rem' }}>:</span>
+            <span style={{ color: '#D4AF37', fontWeight: 900, fontSize: '1.1rem' }}>:</span>
 
             {/* Minutes Block */}
             <div style={{
               backgroundColor: '#162330',
               border: '1px solid rgba(182, 154, 99, 0.35)',
               borderRadius: '8px',
-              padding: '4px 10px',
+              padding: '4px 8px',
               textAlign: 'center',
-              minWidth: '46px',
+              minWidth: '44px',
               boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.5)'
             }}>
               <div style={{
                 fontFamily: 'monospace',
-                fontSize: 'clamp(1.1rem, 2vw, 1.35rem)',
+                fontSize: 'clamp(1.05rem, 1.8vw, 1.3rem)',
                 fontWeight: 900,
                 color: '#FFFFFF',
                 lineHeight: 1.1
               }}>
                 {formatNum(timeLeft.minutes)}
               </div>
-              <div style={{ fontSize: '0.55rem', color: '#B69A63', fontWeight: 700, letterSpacing: '0.5px' }}>
+              <div style={{ fontSize: '0.52rem', color: '#B69A63', fontWeight: 700, letterSpacing: '0.5px' }}>
                 MIN
               </div>
             </div>
 
-            <span style={{ color: '#D4AF37', fontWeight: 900, fontSize: '1.2rem' }}>:</span>
+            <span style={{ color: '#D4AF37', fontWeight: 900, fontSize: '1.1rem' }}>:</span>
 
             {/* Seconds Block */}
             <div style={{
               backgroundColor: '#162330',
               border: '1px solid rgba(182, 154, 99, 0.35)',
               borderRadius: '8px',
-              padding: '4px 10px',
+              padding: '4px 8px',
               textAlign: 'center',
-              minWidth: '46px',
+              minWidth: '44px',
               boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.5)'
             }}>
               <div style={{
                 fontFamily: 'monospace',
-                fontSize: 'clamp(1.1rem, 2vw, 1.35rem)',
+                fontSize: 'clamp(1.05rem, 1.8vw, 1.3rem)',
                 fontWeight: 900,
                 color: '#FF6B81',
                 lineHeight: 1.1
               }}>
                 {formatNum(timeLeft.seconds)}
               </div>
-              <div style={{ fontSize: '0.55rem', color: '#B69A63', fontWeight: 700, letterSpacing: '0.5px' }}>
+              <div style={{ fontSize: '0.52rem', color: '#B69A63', fontWeight: 700, letterSpacing: '0.5px' }}>
                 SEC
               </div>
             </div>
@@ -306,6 +328,48 @@ export default function Hero({ onExploreClick }) {
 
         </div>
 
+      </div>
+
+      {/* ========================================================
+          3. PACKAGING TRANSPARENCY NOTICE (WATCH ONLY, NO BOX)
+          ======================================================== */}
+      <div 
+        style={{
+          maxWidth: '1280px',
+          margin: '10px auto 0 auto',
+          backgroundColor: '#FFFBEB',
+          border: '1px solid #FDE68A',
+          borderRadius: '10px',
+          padding: '9px 16px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: '10px',
+          boxShadow: '0 2px 6px rgba(0,0,0,0.04)'
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <Package size={17} color="#D97706" style={{ flexShrink: 0 }} />
+          <span style={{ fontSize: '0.82rem', color: '#92400E', lineHeight: 1.45 }}>
+            <strong>📦 Wholesale Packaging Notice:</strong> Direct factory wholesale rates par parcel mein <strong>siraf original watch</strong> safe shock-proof simple protective packing / bubble wrap mein aayegi (Luxury presentation box shamil nahi hai).
+          </span>
+        </div>
+        <div style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '6px',
+          backgroundColor: '#FEF3C7',
+          padding: '4px 12px',
+          borderRadius: '20px',
+          fontWeight: 700,
+          fontSize: '0.74rem',
+          color: '#B45309',
+          border: '1px solid #FCD34D',
+          whiteSpace: 'nowrap'
+        }}>
+          <span>Watch Only • Secure Transit Pack</span>
+        </div>
       </div>
 
     </section>

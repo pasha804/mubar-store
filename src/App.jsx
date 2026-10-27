@@ -97,16 +97,44 @@ export default function App() {
     };
   }, []);
 
-  // Track authentic visitor hits in Firestore & local cache per page visit + Meta Pixel
+  // Track authentic visitor hits in Firestore & local cache per page visit + Meta Pixel & Dynamic SEO Tags
   useEffect(() => {
     trackPageView();
+
+    const setMetaTag = (selector, attr, value) => {
+      const el = document.querySelector(selector);
+      if (el) {
+        el.setAttribute(attr, value);
+      }
+    };
+
     if (routeState.name === 'store') {
-      document.title = 'Mubar Store | Buy Luxury Watches Online in Pakistan - Cash on Delivery & Open Parcel';
+      document.title = 'MUBAR Store | Buy Luxury Watches Online in Pakistan - 100% Open Parcel Cash on Delivery';
+      setMetaTag('meta[name="description"]', 'content', "Shop luxury men's watches online in Pakistan at Mubar Store. Explore Yacht-Master Oysterflex, Poedagar Nautilus, Goobasen Blue Planet, Daytona Chronometer & 3D Wheel Rim timepieces. 100% Open Parcel Delivery Check before payment, Free Nationwide Cash on Delivery (COD) & 7-Day Replacement.");
+      setMetaTag('meta[property="og:title"]', 'content', 'MUBAR Store — Luxury Watches Pakistan (100% Open Parcel COD)');
+      setMetaTag('meta[property="og:description"]', 'content', "Shop luxury men's timepieces with 100% Open Parcel Inspection before payment & Free Nationwide Cash on Delivery across Pakistan.");
+      setMetaTag('meta[property="og:url"]', 'content', 'https://www.mubarstore.com/');
+      setMetaTag('meta[property="og:image"]', 'content', 'https://www.mubarstore.com/images/branding/mubar_og_share.jpg');
+      setMetaTag('link[rel="canonical"]', 'href', 'https://www.mubarstore.com/');
       recordVisitorHit('/');
     } else if (routeState.name === 'product' && routeState.productId) {
       const prod = PRODUCTS.find(p => p.id === routeState.productId);
       if (prod) {
-        document.title = `${prod.title} (Rs. ${prod.salePrice}) | Mubar Store Pakistan`;
+        const prodTitle = `${prod.title} (Rs. ${prod.salePrice}) | MUBAR Store Pakistan - 100% Open Parcel COD`;
+        const prodDesc = `Buy ${prod.title} in Pakistan for Rs. ${prod.salePrice}. ${prod.subtitle || prod.description}. Free Nationwide Cash on Delivery with 100% Open Parcel Check before payment.`;
+        const prodImg = prod.images?.[0] 
+          ? (prod.images[0].startsWith('http') ? prod.images[0] : `https://www.mubarstore.com${prod.images[0]}`) 
+          : 'https://www.mubarstore.com/images/branding/mubar_og_share.jpg';
+        const prodUrl = `https://www.mubarstore.com/product/${prod.id}`;
+
+        document.title = prodTitle;
+        setMetaTag('meta[name="description"]', 'content', prodDesc);
+        setMetaTag('meta[property="og:title"]', 'content', `${prod.title} — Rs. ${prod.salePrice} (MUBAR Store)`);
+        setMetaTag('meta[property="og:description"]', 'content', prodDesc);
+        setMetaTag('meta[property="og:url"]', 'content', prodUrl);
+        setMetaTag('meta[property="og:image"]', 'content', prodImg);
+        setMetaTag('link[rel="canonical"]', 'href', prodUrl);
+
         recordVisitorHit(`/product/${prod.id}`);
         trackViewContent(prod);
       } else {

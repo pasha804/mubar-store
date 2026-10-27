@@ -44,6 +44,17 @@ export const PAYMENT_ACCOUNTS = {
     bgColor: 'rgba(46, 213, 115, 0.12)',
     borderColor: 'rgba(46, 213, 115, 0.4)',
     instructions: 'NayaPay ID (pashaxora@nayapay) ya kisi bhi Bank App se IBAN par direct transfer karein.'
+  },
+  easypaisa: {
+    id: 'easypaisa',
+    name: 'EasyPaisa',
+    accountTitle: 'Muhammad Mubashar',
+    accountNumber: '03084453846',
+    badge: '⚡ EasyPaisa Transfer',
+    color: '#00A859',
+    bgColor: 'rgba(0, 168, 89, 0.12)',
+    borderColor: 'rgba(0, 168, 89, 0.4)',
+    instructions: 'EasyPaisa App ya *786# dial karke "Send Money" select karein aur 03084453846 par transfer karein.'
   }
 };
 

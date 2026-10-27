@@ -80,8 +80,6 @@ body {
 /* High-Performance Smooth Images & Hardware Acceleration */
 img {
   image-rendering: -webkit-optimize-contrast;
-  content-visibility: auto;
-  contain-intrinsic-size: 300px 300px;
 }
 
 /* Editorial Serif Headings */
@@ -527,3 +525,17 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     gap: 10px !important;
   }
 }
+
+/* Screen-reader / SEO accessible hidden class */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+

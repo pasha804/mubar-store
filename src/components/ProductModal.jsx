@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, ShieldCheck, Truck, Award, Star, CheckCircle, Zap, ShoppingBag, MessageCircle } from 'lucide-react';
+import { X, ShieldCheck, Truck, Award, Star, CheckCircle, Zap, ShoppingBag, MessageCircle, Package } from 'lucide-react';
 import { getWatchWhatsAppUrl } from '../services/whatsappService';
 
 export default function ProductModal({ product, onClose, onQuickBuy, onAddToCart }) {
@@ -140,10 +140,24 @@ export default function ProductModal({ product, onClose, onQuickBuy, onAddToCart
             </div>
 
             {/* Packaging Guarantee Box */}
-            <div style={{ marginTop: '18px', padding: '14px', background: 'rgba(212, 175, 55, 0.06)', borderRadius: '10px', border: '1px solid rgba(212, 175, 55, 0.25)', display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <img src="/images/branding/watch_box_unboxing.jpg" alt="Box" style={{ width: '56px', height: '56px', borderRadius: '8px', objectFit: 'cover' }} />
-              <div style={{ fontSize: '0.8rem', color: '#F3E5AB' }}>
-                <strong>Complimentary Luxury Box Set:</strong> Protective hard presentation box, plush velvet cushion, and 100% safe transit packing included free!
+            <div style={{ marginTop: '18px', padding: '12px 14px', background: 'rgba(212, 175, 55, 0.06)', borderRadius: '10px', border: '1px solid rgba(212, 175, 55, 0.25)', display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <div style={{
+                width: '42px',
+                height: '42px',
+                borderRadius: '8px',
+                backgroundColor: 'rgba(212, 175, 55, 0.12)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0
+              }}>
+                <Package size={22} color="#D4AF37" />
+              </div>
+              <div style={{ fontSize: '0.78rem', color: '#F3E5AB', lineHeight: 1.45 }}>
+                <strong style={{ color: '#D4AF37' }}>📦 Packaging Notice (Watch Only Edition):</strong>
+                <div style={{ color: '#ccc', marginTop: '2px' }}>
+                  Direct factory wholesale rate par <strong>siraf watch</strong> safe shock-proof simple protective packing mein aayegi (Presentation box shamil nahi hai).
+                </div>
               </div>
             </div>
           </div>
@@ -305,8 +319,8 @@ export default function ProductModal({ product, onClose, onQuickBuy, onAddToCart
                     <strong style={{ color: '#ddd' }}>{product.specs.band}</strong>
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '4px' }}>
-                    <span style={{ color: '#888' }}>Unboxing Packaging:</span>
-                    <strong style={{ color: '#F3E5AB' }}>{product.specs.packaging || 'Protective Presentation Box Included'}</strong>
+                    <span style={{ color: '#888' }}>Packaging & Delivery:</span>
+                    <strong style={{ color: '#F3E5AB' }}>Safe Simple Protective Pack (Watch Only - Box Not Included)</strong>
                   </div>
                 </div>
               </div>

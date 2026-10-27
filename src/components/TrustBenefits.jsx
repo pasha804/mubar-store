@@ -16,7 +16,7 @@ export default function TrustBenefits() {
     {
       icon: Award,
       title: "1-Year Warranty Included",
-      description: "Official movement warranty card included in every presentation box."
+      description: "Official movement warranty card included in secure protective packaging."
     }
   ];
 

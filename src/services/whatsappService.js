@@ -15,12 +15,16 @@ export const getWatchWhatsAppUrl = (product, selectedVariant = null) => {
   const priceFormatted = product.salePrice ? product.salePrice.toLocaleString() : '';
 
   const message = `Assalam-o-Alaikum Muhammad Mubashar bhai! 🌟\n` +
-    `Main MUBAR store se yeh watch order / inquire karna chahta hoon:\n\n` +
+    `Main MUBAR store se yeh watch order karna chahta hoon:\n\n` +
     `⌚ *Watch:* ${product.title}\n` +
     `🎨 *Edition/Color:* ${variantText}\n` +
     `💰 *Offer Price:* Rs. ${priceFormatted} (Free Delivery)\n` +
     `📦 *Guarantee:* 100% Open Parcel Check Allowed (Pehle Parcel Kholein, Check Karein, Phir Pay Karein)\n\n` +
-    `Kindly iski real video / availability confirm kar dein taake main apna delivery address share kar sakoon. Shukriya!`;
+    `Mera delivery address yeh hai:\n` +
+    `👤 *Name:*\n` +
+    `📞 *Phone:*\n` +
+    `📍 *Complete Address & City:*\n\n` +
+    `Kindly mera order confirm karke dispatch kar dein. Shukriya!`;
 
   return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 };
@@ -44,7 +48,11 @@ export const getCartWhatsAppUrl = (cartItems, subtotal) => {
     `${itemsList}\n\n` +
     `💵 *Total Bill:* Rs. ${subtotal.toLocaleString()} (Free Delivery)\n` +
     `📦 *Condition:* 100% Open Parcel Doorstep Check\n\n` +
-    `Kindly inki availability confirm karein taake main apna delivery address send kar sakoon. Shukriya!`;
+    `Mera delivery address yeh hai:\n` +
+    `👤 *Name:*\n` +
+    `📞 *Phone:*\n` +
+    `📍 *Complete Address & City:*\n\n` +
+    `Kindly mera order confirm karke dispatch kar dein. Shukriya!`;
 
   return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 };

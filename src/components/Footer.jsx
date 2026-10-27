@@ -4,7 +4,10 @@ import {
   Sparkles, CheckCircle2, ArrowRight, MessageCircle, Send, Heart,
   Copy, Check, X, Building2
 } from 'lucide-react';
-import { JazzCashLogo, SadaPayLogo, NayaPayLogo, CashOnDeliveryBadge, RaastLogo } from './PaymentLogos';
+import { 
+  JazzCashLogo, SadaPayLogo, NayaPayLogo, CashOnDeliveryBadge, 
+  RaastLogo, EasyPaisaLogo, BankTransferBadge 
+} from './PaymentLogos';
 import { PAYMENT_ACCOUNTS } from '../data/products';
 
 export default function Footer({ onScrollTo, onOpenPolicy }) {
@@ -217,7 +220,7 @@ export default function Footer({ onScrollTo, onOpenPolicy }) {
               Get Exclusive WhatsApp Unboxing Drops & VIP Deals.
             </h3>
             <p style={{ fontSize: '0.82rem', color: '#A0AAB5', margin: 0, lineHeight: 1.5 }}>
-              Receive first access to newly imported 3D wheel rim designs, Swiss chronograph replicas, and private flash vouchers.
+              Receive first access to newly imported 3D wheel rim designs, Swiss-inspired chronographs, and private flash vouchers.
             </p>
           </div>
 
@@ -304,7 +307,7 @@ export default function Footer({ onScrollTo, onOpenPolicy }) {
             </div>
 
             <p style={{ fontSize: '0.82rem', lineHeight: 1.65, color: '#A0AAB5', margin: '0 0 16px 0' }}>
-              Pakistan's trusted modern horology brand founded by Muhammad Mubashar in Lahore. Dedicated to authentic wrist presence, bespoke 1200 GSM presentation sets, and 100% open parcel confidence.
+              Pakistan's trusted modern horology brand founded by Muhammad Mubashar in Lahore. Dedicated to authentic wrist presence, direct factory wholesale rates, secure protective packaging, and 100% open parcel confidence.
             </p>
 
             <div style={{
@@ -478,20 +481,121 @@ export default function Footer({ onScrollTo, onOpenPolicy }) {
               OFFICIAL VERIFIED PAYMENT METHODS (PAKISTAN)
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-              <div style={{ backgroundColor: '#FFFFFF', padding: '5px 12px', borderRadius: '6px', display: 'flex', alignItems: 'center', boxShadow: '0 2px 6px rgba(0,0,0,0.2)' }}>
-                <CashOnDeliveryBadge size={20} />
+              <div 
+                style={{ 
+                  backgroundColor: '#FFFFFF', 
+                  padding: '6px 12px', 
+                  borderRadius: '7px', 
+                  display: 'inline-flex', 
+                  alignItems: 'center', 
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.22)',
+                  border: '1px solid rgba(255, 255, 255, 0.9)',
+                  transition: 'transform 0.15s ease, box-shadow 0.15s ease'
+                }}
+                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.35)'; }}
+                onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.22)'; }}
+              >
+                <CashOnDeliveryBadge size={22} theme="light" />
               </div>
-              <div style={{ backgroundColor: '#FFFFFF', padding: '5px 12px', borderRadius: '6px', display: 'flex', alignItems: 'center', boxShadow: '0 2px 6px rgba(0,0,0,0.2)' }}>
-                <JazzCashLogo size={22} />
+
+              <div 
+                style={{ 
+                  backgroundColor: '#FFFFFF', 
+                  padding: '6px 12px', 
+                  borderRadius: '7px', 
+                  display: 'inline-flex', 
+                  alignItems: 'center', 
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.22)',
+                  border: '1px solid rgba(255, 255, 255, 0.9)',
+                  cursor: 'pointer',
+                  transition: 'transform 0.15s ease, box-shadow 0.15s ease'
+                }}
+                onClick={() => setIbanModalOpen(true)}
+                title="Click to view verified JazzCash account details"
+                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.35)'; }}
+                onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.22)'; }}
+              >
+                <JazzCashLogo size={22} theme="light" />
               </div>
-              <div style={{ backgroundColor: '#FFFFFF', padding: '5px 12px', borderRadius: '6px', display: 'flex', alignItems: 'center', boxShadow: '0 2px 6px rgba(0,0,0,0.2)' }}>
-                <SadaPayLogo size={20} />
+
+              <div 
+                style={{ 
+                  backgroundColor: '#FFFFFF', 
+                  padding: '6px 12px', 
+                  borderRadius: '7px', 
+                  display: 'inline-flex', 
+                  alignItems: 'center', 
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.22)',
+                  border: '1px solid rgba(255, 255, 255, 0.9)',
+                  cursor: 'pointer',
+                  transition: 'transform 0.15s ease, box-shadow 0.15s ease'
+                }}
+                onClick={() => setIbanModalOpen(true)}
+                title="Click to view verified EasyPaisa account details"
+                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.35)'; }}
+                onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.22)'; }}
+              >
+                <EasyPaisaLogo size={22} theme="light" />
               </div>
-              <div style={{ backgroundColor: '#FFFFFF', padding: '5px 12px', borderRadius: '6px', display: 'flex', alignItems: 'center', boxShadow: '0 2px 6px rgba(0,0,0,0.2)' }}>
-                <NayaPayLogo size={20} />
+
+              <div 
+                style={{ 
+                  backgroundColor: '#FFFFFF', 
+                  padding: '6px 12px', 
+                  borderRadius: '7px', 
+                  display: 'inline-flex', 
+                  alignItems: 'center', 
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.22)',
+                  border: '1px solid rgba(255, 255, 255, 0.9)',
+                  cursor: 'pointer',
+                  transition: 'transform 0.15s ease, box-shadow 0.15s ease'
+                }}
+                onClick={() => setIbanModalOpen(true)}
+                title="Click to view verified SadaPay IBAN details"
+                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.35)'; }}
+                onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.22)'; }}
+              >
+                <SadaPayLogo size={20} theme="light" />
               </div>
-              <div style={{ backgroundColor: '#FFFFFF', padding: '5px 12px', borderRadius: '6px', display: 'flex', alignItems: 'center', boxShadow: '0 2px 6px rgba(0,0,0,0.2)' }}>
-                <RaastLogo size={20} />
+
+              <div 
+                style={{ 
+                  backgroundColor: '#FFFFFF', 
+                  padding: '6px 12px', 
+                  borderRadius: '7px', 
+                  display: 'inline-flex', 
+                  alignItems: 'center', 
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.22)',
+                  border: '1px solid rgba(255, 255, 255, 0.9)',
+                  cursor: 'pointer',
+                  transition: 'transform 0.15s ease, box-shadow 0.15s ease'
+                }}
+                onClick={() => setIbanModalOpen(true)}
+                title="Click to view verified NayaPay ID & IBAN details"
+                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.35)'; }}
+                onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.22)'; }}
+              >
+                <NayaPayLogo size={22} theme="light" />
+              </div>
+
+              <div 
+                style={{ 
+                  backgroundColor: '#FFFFFF', 
+                  padding: '6px 12px', 
+                  borderRadius: '7px', 
+                  display: 'inline-flex', 
+                  alignItems: 'center', 
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.22)',
+                  border: '1px solid rgba(255, 255, 255, 0.9)',
+                  cursor: 'pointer',
+                  transition: 'transform 0.15s ease, box-shadow 0.15s ease'
+                }}
+                onClick={() => setIbanModalOpen(true)}
+                title="Click to view verified Raast Instant Payment details"
+                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.35)'; }}
+                onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.22)'; }}
+              >
+                <RaastLogo size={22} theme="light" />
               </div>
             </div>
 
@@ -516,7 +620,7 @@ export default function Footer({ onScrollTo, onOpenPolicy }) {
                 onMouseEnter={e => e.currentTarget.style.background = 'rgba(182, 154, 99, 0.22)'}
                 onMouseLeave={e => e.currentTarget.style.background = 'rgba(182, 154, 99, 0.12)'}
               >
-                <span>🏛️ View SadaPay & NayaPay IBAN Details</span>
+                <span>🏛️ View SadaPay, NayaPay &amp; JazzCash IBAN Details</span>
                 <ArrowRight size={13} />
               </button>
             </div>
@@ -643,8 +747,8 @@ export default function Footer({ onScrollTo, onOpenPolicy }) {
               <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.04)', border: '1px solid rgba(255, 107, 129, 0.3)', borderRadius: '10px', padding: '14px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <div style={{ backgroundColor: '#FFFFFF', padding: '3px 8px', borderRadius: '4px' }}>
-                      <SadaPayLogo size={16} />
+                    <div style={{ backgroundColor: '#FFFFFF', padding: '3px 8px', borderRadius: '4px', display: 'flex', alignItems: 'center' }}>
+                      <SadaPayLogo size={16} showText={false} />
                     </div>
                     <strong style={{ fontSize: '0.86rem', color: '#FFFFFF' }}>SadaPay</strong>
                   </div>
@@ -684,8 +788,8 @@ export default function Footer({ onScrollTo, onOpenPolicy }) {
               <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.04)', border: '1px solid rgba(46, 213, 115, 0.3)', borderRadius: '10px', padding: '14px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <div style={{ backgroundColor: '#FFFFFF', padding: '3px 8px', borderRadius: '4px' }}>
-                      <NayaPayLogo size={16} />
+                    <div style={{ backgroundColor: '#FFFFFF', padding: '3px 8px', borderRadius: '4px', display: 'flex', alignItems: 'center' }}>
+                      <NayaPayLogo size={16} showText={false} />
                     </div>
                     <strong style={{ fontSize: '0.86rem', color: '#FFFFFF' }}>NayaPay</strong>
                   </div>
@@ -725,8 +829,8 @@ export default function Footer({ onScrollTo, onOpenPolicy }) {
               <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.04)', border: '1px solid rgba(255, 71, 87, 0.3)', borderRadius: '10px', padding: '14px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <div style={{ backgroundColor: '#FFFFFF', padding: '3px 8px', borderRadius: '4px' }}>
-                      <JazzCashLogo size={18} />
+                    <div style={{ backgroundColor: '#FFFFFF', padding: '3px 8px', borderRadius: '4px', display: 'flex', alignItems: 'center' }}>
+                      <JazzCashLogo size={18} showText={false} />
                     </div>
                     <strong style={{ fontSize: '0.86rem', color: '#FFFFFF' }}>JazzCash</strong>
                   </div>
@@ -744,6 +848,34 @@ export default function Footer({ onScrollTo, onOpenPolicy }) {
                       style={{ background: 'none', border: 'none', color: '#D4AF37', cursor: 'pointer', fontSize: '0.72rem', display: 'flex', alignItems: 'center', gap: '4px' }}
                     >
                       {copiedKey === 'jazz-num' ? <><Check size={12} color="#2ED573" /><span>Copied</span></> : <><Copy size={12} /><span>Copy</span></>}
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* EasyPaisa Card */}
+              <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.04)', border: '1px solid rgba(0, 168, 89, 0.3)', borderRadius: '10px', padding: '14px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <div style={{ backgroundColor: '#FFFFFF', padding: '3px 8px', borderRadius: '4px', display: 'flex', alignItems: 'center' }}>
+                      <EasyPaisaLogo size={18} showText={false} />
+                    </div>
+                    <strong style={{ fontSize: '0.86rem', color: '#FFFFFF' }}>EasyPaisa</strong>
+                  </div>
+                  <span style={{ fontSize: '0.68rem', backgroundColor: 'rgba(0, 168, 89, 0.18)', color: '#00A859', padding: '2px 8px', borderRadius: '4px', fontWeight: 700 }}>
+                    Instant Transfer
+                  </span>
+                </div>
+                <div style={{ fontSize: '0.78rem', color: '#D4D9DF', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                  <div>Title: <strong>Muhammad Mubashar</strong></div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span>Account: <strong>03084453846</strong></span>
+                    <button
+                      type="button"
+                      onClick={() => handleCopy('03084453846', 'ep-num')}
+                      style={{ background: 'none', border: 'none', color: '#D4AF37', cursor: 'pointer', fontSize: '0.72rem', display: 'flex', alignItems: 'center', gap: '4px' }}
+                    >
+                      {copiedKey === 'ep-num' ? <><Check size={12} color="#2ED573" /><span>Copied</span></> : <><Copy size={12} /><span>Copy</span></>}
                     </button>
                   </div>
                 </div>
