@@ -20,6 +20,7 @@ build/
 
 # Vercel
 .vercel
+*.timestamp-*.mjs
 __pycache__/
 *.pyc
 

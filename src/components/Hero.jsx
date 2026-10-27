@@ -4,14 +4,22 @@ import { Flame, Clock, ShieldCheck, Truck, ArrowRight, Sparkles, Package, AlertC
 export default function Hero({ onExploreClick }) {
   // Countdown Timer State (persisted 6-day rolling flash sale cycle)
   const calculateRemaining = () => {
+    try {
+      if (localStorage.getItem('mubar_flash_sale_end')) {
+        localStorage.removeItem('mubar_flash_sale_end');
+      }
+    } catch (e) {}
+
     const savedEndTime = localStorage.getItem('mubar_flash_sale_end_6d');
     const now = Date.now();
     let end = Number(savedEndTime);
 
-    // If not set or expired, initialize a fresh 6-day countdown (6 days = 518400 seconds)
+    // If not set or expired, initialize a fresh 6-day countdown (6 days + 14 hours + 35 mins)
     if (!savedEndTime || isNaN(end) || end <= now) {
       end = now + (6 * 24 * 3600 + 14 * 3600 + 35 * 60) * 1000;
-      localStorage.setItem('mubar_flash_sale_end_6d', end.toString());
+      try {
+        localStorage.setItem('mubar_flash_sale_end_6d', end.toString());
+      } catch (e) {}
     }
 
     const diff = Math.max(0, Math.floor((end - now) / 1000));
