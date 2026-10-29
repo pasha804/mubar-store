@@ -5,13 +5,13 @@ export default function TrustBenefits() {
   const benefits = [
     {
       icon: Truck,
-      title: "Free COD Delivery",
+      title: "100% Free Nationwide Delivery",
       description: "Express 2–3 day delivery across Pakistan with zero shipping charges."
     },
     {
       icon: ShieldCheck,
-      title: "Open Parcel Inspection",
-      description: "Inspect the watch in front of courier rider before handing over cash."
+      title: "Verified Online Payment",
+      description: "Easy direct transfer via JazzCash, SadaPay, NayaPay & EasyPaisa with instant WhatsApp verification."
     },
     {
       icon: Award,

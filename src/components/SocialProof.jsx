@@ -25,7 +25,7 @@ const FAQS = [
   },
   {
     q: "Which payment methods are available?",
-    a: "Cash on Delivery (COD) is available nationwide. For customers who prefer cashless digital transfers, we accept verified direct payments via JazzCash, EasyPaisa, SadaPay, NayaPay, and Raast."
+    a: "We accept 100% verified online payments nationwide via JazzCash, EasyPaisa, SadaPay, NayaPay, and Raast Bank Transfer. Free nationwide express delivery is included on all orders."
   }
 ];
 

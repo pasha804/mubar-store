@@ -53,7 +53,7 @@ export default function Hero({ onExploreClick }) {
     >
       {/* Primary Semantic H1 for Google Crawlers & Search Engine Indexing */}
       <h1 className="sr-only">
-        MUBAR Store Pakistan — Buy Luxury Men's Watches Online with 100% Open Parcel Cash on Delivery
+        MUBAR Store Pakistan — Watch Store in Pakistan | Quality Luxury Men's Watches at Low Price &amp; Free Nationwide Delivery
       </h1>
 
       {/* ========================================================

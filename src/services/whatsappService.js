@@ -18,13 +18,14 @@ export const getWatchWhatsAppUrl = (product, selectedVariant = null) => {
     `Main MUBAR store se yeh watch order karna chahta hoon:\n\n` +
     `⌚ *Watch:* ${product.title}\n` +
     `🎨 *Edition/Color:* ${variantText}\n` +
-    `💰 *Offer Price:* Rs. ${priceFormatted} (Free Delivery)\n` +
-    `📦 *Guarantee:* 100% Open Parcel Check Allowed (Pehle Parcel Kholein, Check Karein, Phir Pay Karein)\n\n` +
+    `💰 *Offer Price:* Rs. ${priceFormatted}\n` +
+    `🚚 *Delivery:* 100% FREE Nationwide Express Delivery (2–3 Days)\n` +
+    `💳 *Payment:* Online Payment (JazzCash / SadaPay / NayaPay / EasyPaisa / Bank Transfer)\n\n` +
     `Mera delivery address yeh hai:\n` +
     `👤 *Name:*\n` +
     `📞 *Phone:*\n` +
     `📍 *Complete Address & City:*\n\n` +
-    `Kindly mera order confirm karke dispatch kar dein. Shukriya!`;
+    `Kindly account details send kar dein taake main payment transfer karke screenshot share kar sakoon. Shukriya!`;
 
   return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 };
@@ -46,13 +47,14 @@ export const getCartWhatsAppUrl = (cartItems, subtotal) => {
   const message = `Assalam-o-Alaikum Muhammad Mubashar bhai! 🌟\n` +
     `Main MUBAR store se yeh watches order karna chahta hoon:\n\n` +
     `${itemsList}\n\n` +
-    `💵 *Total Bill:* Rs. ${subtotal.toLocaleString()} (Free Delivery)\n` +
-    `📦 *Condition:* 100% Open Parcel Doorstep Check\n\n` +
+    `💵 *Total Bill:* Rs. ${subtotal.toLocaleString()}\n` +
+    `🚚 *Delivery:* 100% FREE Nationwide Express Delivery (2–3 Days)\n` +
+    `💳 *Payment:* Online Payment (JazzCash / SadaPay / NayaPay / EasyPaisa / Bank Transfer)\n\n` +
     `Mera delivery address yeh hai:\n` +
     `👤 *Name:*\n` +
     `📞 *Phone:*\n` +
     `📍 *Complete Address & City:*\n\n` +
-    `Kindly mera order confirm karke dispatch kar dein. Shukriya!`;
+    `Kindly account details share karein taake main payment transfer karke order dispatch karwa sakoon. Shukriya!`;
 
   return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 };

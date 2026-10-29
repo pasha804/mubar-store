@@ -109,10 +109,10 @@ export default function App() {
     };
 
     if (routeState.name === 'store') {
-      document.title = 'MUBAR Store | Buy Luxury Watches Online in Pakistan - 100% Open Parcel Cash on Delivery';
-      setMetaTag('meta[name="description"]', 'content', "Shop luxury men's watches online in Pakistan at Mubar Store. Explore Yacht-Master Oysterflex, Poedagar Nautilus, Goobasen Blue Planet, Daytona Chronometer & 3D Wheel Rim timepieces. 100% Open Parcel Delivery Check before payment, Free Nationwide Cash on Delivery (COD) & 7-Day Replacement.");
-      setMetaTag('meta[property="og:title"]', 'content', 'MUBAR Store — Luxury Watches Pakistan (100% Open Parcel COD)');
-      setMetaTag('meta[property="og:description"]', 'content', "Shop luxury men's timepieces with 100% Open Parcel Inspection before payment & Free Nationwide Cash on Delivery across Pakistan.");
+      document.title = 'MUBAR Store | Watch Store in Pakistan - Quality Watches at Low Price | Free Delivery';
+      setMetaTag('meta[name="description"]', 'content', "Shop quality luxury men's watches at unbeatable low prices in Pakistan at Mubar Store. Explore Yacht-Master Oysterflex, Poedagar Nautilus, Goobasen Blue Planet, Daytona Chronometer & 3D Wheel Rim timepieces. 100% Verified Online Payment (JazzCash, SadaPay, NayaPay, EasyPaisa, Raast) & Free Nationwide Express Delivery.");
+      setMetaTag('meta[property="og:title"]', 'content', 'MUBAR Store — Watch Store in Pakistan | Quality Watches at Low Price');
+      setMetaTag('meta[property="og:description"]', 'content', "Shop quality luxury men's watches at unbeatable low prices in Pakistan. Free Express Nationwide Delivery & 7-Day Replacement.");
       setMetaTag('meta[property="og:url"]', 'content', 'https://www.mubarstore.com/');
       setMetaTag('meta[property="og:image"]', 'content', 'https://www.mubarstore.com/images/branding/mubar_og_share.jpg');
       setMetaTag('link[rel="canonical"]', 'href', 'https://www.mubarstore.com/');
@@ -120,8 +120,8 @@ export default function App() {
     } else if (routeState.name === 'product' && routeState.productId) {
       const prod = PRODUCTS.find(p => p.id === routeState.productId);
       if (prod) {
-        const prodTitle = `${prod.title} (Rs. ${prod.salePrice}) | MUBAR Store Pakistan - 100% Open Parcel COD`;
-        const prodDesc = `Buy ${prod.title} in Pakistan for Rs. ${prod.salePrice}. ${prod.subtitle || prod.description}. Free Nationwide Cash on Delivery with 100% Open Parcel Check before payment.`;
+        const prodTitle = `${prod.title} (Rs. ${prod.salePrice}) | MUBAR Watch Store Pakistan - Free Delivery`;
+        const prodDesc = `Buy ${prod.title} in Pakistan for Rs. ${prod.salePrice} at MUBAR Watch Store. ${prod.subtitle || prod.description}. 100% Verified Online Payment & Free Nationwide Express Delivery.`;
         const prodImg = prod.images?.[0] 
           ? (prod.images[0].startsWith('http') ? prod.images[0] : `https://www.mubarstore.com${prod.images[0]}`) 
           : 'https://www.mubarstore.com/images/branding/mubar_og_share.jpg';

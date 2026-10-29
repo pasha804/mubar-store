@@ -57,7 +57,7 @@ export default function UnboxingFeature({ onOrderAnyClick }) {
             fontSize: '0.94rem', 
             lineHeight: 1.6 
           }}>
-            Online watch shopping often comes with the fear of receiving damaged or incorrect items. We eliminate this uncertainty with verified doorstep inspection before payment.
+            Online watch shopping often comes with the fear of receiving damaged or incorrect items. We eliminate this uncertainty with verified dispatch, 1-Year warranty, and 7-day replacement.
           </p>
         </div>
 
@@ -229,10 +229,10 @@ export default function UnboxingFeature({ onOrderAnyClick }) {
                 <Eye size={22} color="var(--accent-gold, #B69A63)" />
               </div>
               <h4 style={{ color: 'var(--text-primary, #252A30)', fontSize: '1.05rem', fontWeight: 700, margin: '0 0 6px 0' }}>
-                Open Parcel Before Payment
+                Instant Order Verification
               </h4>
               <p style={{ color: 'var(--text-secondary, #737B84)', fontSize: '0.86rem', lineHeight: 1.6, margin: 0 }}>
-                Unbox the watch right in front of the courier rider. Inspect dial, steel bracelet, weight, and movement before handing over any cash.
+                Confirm your order and transfer easily via JazzCash, SadaPay, NayaPay, or EasyPaisa with instant WhatsApp verification.
               </p>
             </div>
 
@@ -275,10 +275,10 @@ export default function UnboxingFeature({ onOrderAnyClick }) {
                 <CheckCircle2 size={22} color="var(--brand-navy, #172A3A)" />
               </div>
               <h4 style={{ color: 'var(--text-primary, #252A30)', fontSize: '1.05rem', fontWeight: 700, margin: '0 0 6px 0' }}>
-                Pay Only When 100% Satisfied
+                Free Express Nationwide Delivery
               </h4>
               <p style={{ color: 'var(--text-secondary, #737B84)', fontSize: '0.86rem', lineHeight: 1.6, margin: 0 }}>
-                Hand over the cash only when you are completely satisfied with the watch. If there is any issue, return it immediately on the spot.
+                Your watch is carefully packaged in shock-proof protective padding and delivered with live tracking and 7-day replacement warranty.
               </p>
             </div>
           </div>

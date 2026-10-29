@@ -329,7 +329,7 @@ export default function ProductCard({ product, onSelectProduct, onQuickBuy }) {
             </span>
           </div>
 
-          {/* Action Row: Order COD + WhatsApp */}
+          {/* Action Row: Order Online + WhatsApp */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: '6px' }}>
             <button
               onClick={(e) => {
@@ -345,7 +345,7 @@ export default function ProductCard({ product, onSelectProduct, onQuickBuy }) {
                 width: '100%'
               }}
             >
-              <span>Order COD</span>
+              <span>Order Now</span>
             </button>
 
             <a

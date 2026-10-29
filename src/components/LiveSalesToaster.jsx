@@ -86,7 +86,7 @@ export default function LiveSalesToaster() {
       <div style={{ flex: 1 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.74rem', color: '#2ECC71', fontWeight: 600 }}>
           <CheckCircle2 size={12} />
-          <span>Verified Cash on Delivery Order</span>
+          <span>Verified Online Order (WhatsApp Confirmed)</span>
         </div>
         <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#fff', marginTop: '1px' }}>
           {item.name} <span style={{ color: '#888', fontWeight: 400 }}>({item.city})</span>

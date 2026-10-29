@@ -85,7 +85,7 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQty, on
           fontWeight: 600
         }}>
           <ShieldCheck size={16} />
-          <span>Free Express Shipping Across Pakistan (COD & Online)</span>
+          <span>Free Express Shipping Across Pakistan • Verified Online Payment</span>
         </div>
 
         {/* Cart Item List */}
@@ -97,7 +97,7 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQty, on
                 Your shopping bag is empty.
               </p>
               <p style={{ fontSize: '0.84rem', margin: '0 0 16px 0' }}>
-                Discover our curated watches with 100% open parcel check.
+                Discover our curated luxury timepieces with free nationwide express delivery.
               </p>
               <button 
                 className="btn-primary"

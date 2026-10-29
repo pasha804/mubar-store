@@ -3,25 +3,25 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <!-- 1. Storefront Homepage -->
   <url>
-    <loc>https://mubarstore.com/</loc>
-    <lastmod>2026-10-25</lastmod>
+    <loc>https://www.mubarstore.com/</loc>
+    <lastmod>2026-10-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <image:image>
-      <image:loc>https://mubarstore.com/images/branding/Mubar%20Store%20Luxury%20Watch%20Sale%20Banner.png</image:loc>
-      <image:title>MUBAR Store Luxury Watch Sale Banner Pakistan</image:title>
-      <image:caption>Exclusive Flash Sale on Luxury Men's Watches in Pakistan - 100% Open Parcel Delivery</image:caption>
+      <image:loc>https://www.mubarstore.com/images/branding/Mubar%20Store%20Luxury%20Watch%20Sale%20Banner.png</image:loc>
+      <image:title>MUBAR Store — Buy Luxury Watches Online in Pakistan at Low Price</image:title>
+      <image:caption>Exclusive Sale on Luxury Men's Watches in Pakistan - Free Nationwide Express Delivery</image:caption>
     </image:image>
     <image:image>
-      <image:loc>https://mubarstore.com/images/branding/mubar_crest_logo_transparent.png</image:loc>
+      <image:loc>https://www.mubarstore.com/images/branding/mubar_crest_logo_transparent.png</image:loc>
       <image:title>MUBAR Timepieces Official Crest Logo</image:title>
     </image:image>
   </url>
 
   <!-- 2. Catalog Section -->
   <url>
-    <loc>https://mubarstore.com/#catalog</loc>
-    <lastmod>2026-10-25</lastmod>
+    <loc>https://www.mubarstore.com/#catalog</loc>
+    <lastmod>2026-10-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
@@ -32,64 +32,64 @@
 
   <!-- 1. Yacht-Master Oysterflex Luxury Edition -->
   <url>
-    <loc>https://mubarstore.com/product/mubar-yachtmaster-oysterflex</loc>
-    <lastmod>2026-10-25</lastmod>
+    <loc>https://www.mubarstore.com/product/mubar-yachtmaster-oysterflex</loc>
+    <lastmod>2026-10-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
     <image:image>
-      <image:loc>https://mubarstore.com/images/all-watches/watch%205/Gemini_Generated_Image_olfvedolfvedolfv.jpg</image:loc>
+      <image:loc>https://www.mubarstore.com/images/all-watches/watch%205/Gemini_Generated_Image_olfvedolfvedolfv.jpg</image:loc>
       <image:title>Yacht-Master Oysterflex 18K Gold Matte Black Dial</image:title>
-      <image:caption>Yacht-Master Oysterflex Luxury Edition - 100% Open Parcel Delivery Pakistan</image:caption>
+      <image:caption>Yacht-Master Oysterflex Luxury Edition - Free Nationwide Delivery Pakistan</image:caption>
     </image:image>
   </url>
 
   <!-- 2. POEDAGAR Luxury Nautilus Geometric Edition -->
   <url>
-    <loc>https://mubarstore.com/product/poedagar-nautilus-steel</loc>
-    <lastmod>2026-10-25</lastmod>
+    <loc>https://www.mubarstore.com/product/poedagar-nautilus-steel</loc>
+    <lastmod>2026-10-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
     <image:image>
-      <image:loc>https://mubarstore.com/images/all-watches/watch%206/WhatsApp%20Image%202026-10-20%20at%204.03.19%20PM.jpeg</image:loc>
+      <image:loc>https://www.mubarstore.com/images/all-watches/watch%206/WhatsApp%20Image%202026-10-20%20at%204.03.19%20PM.jpeg</image:loc>
       <image:title>POEDAGAR Luxury Nautilus Geometric Edition Solid Steel Watch</image:title>
-      <image:caption>POEDAGAR Nautilus Luxury Watch - Free Cash on Delivery Pakistan</image:caption>
+      <image:caption>POEDAGAR Nautilus Luxury Watch - Free Delivery Pakistan</image:caption>
     </image:image>
   </url>
 
   <!-- 3. GOOBASEN Blue Planet Royal Mechanical Watch -->
   <url>
-    <loc>https://mubarstore.com/product/goobasen-blue-planet-mechanical</loc>
-    <lastmod>2026-10-25</lastmod>
+    <loc>https://www.mubarstore.com/product/goobasen-blue-planet-mechanical</loc>
+    <lastmod>2026-10-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.88</priority>
     <image:image>
-      <image:loc>https://mubarstore.com/images/all-watches/watch%207/Gemini_Generated_Image_6588gu6588gu6588.jpg</image:loc>
+      <image:loc>https://www.mubarstore.com/images/all-watches/watch%207/Gemini_Generated_Image_6588gu6588gu6588.jpg</image:loc>
       <image:title>GOOBASEN Blue Planet Royal Mechanical Watch Topographical Dial</image:title>
-      <image:caption>GOOBASEN Blue Planet Automatic Watch in Pakistan</image:caption>
+      <image:caption>GOOBASEN Blue Planet Automatic Watch in Pakistan - Free Shipping</image:caption>
     </image:image>
   </url>
 
   <!-- 4. Cosmograph Daytona Two-Tone 18K Gold Chronometer -->
   <url>
-    <loc>https://mubarstore.com/product/cosmograph-daytona-twotone-gold</loc>
-    <lastmod>2026-10-25</lastmod>
+    <loc>https://www.mubarstore.com/product/cosmograph-daytona-twotone-gold</loc>
+    <lastmod>2026-10-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.88</priority>
     <image:image>
-      <image:loc>https://mubarstore.com/images/all-watches/watch%208/Gemini_Generated_Image_k7ekstk7ekstk7ek.jpg</image:loc>
+      <image:loc>https://www.mubarstore.com/images/all-watches/watch%208/Gemini_Generated_Image_k7ekstk7ekstk7ek.jpg</image:loc>
       <image:title>Cosmograph Daytona Two-Tone 18K Gold Chronometer</image:title>
-      <image:caption>Daytona Two-Tone 18K Gold Watch Pakistan Cash on Delivery</image:caption>
+      <image:caption>Daytona Two-Tone 18K Gold Watch Pakistan Free Express Delivery</image:caption>
     </image:image>
   </url>
 
   <!-- 5. MEIBO 3D Wheel Rim Kinetic Watch (Solid Steel Chain) -->
   <url>
-    <loc>https://mubarstore.com/product/apex-wheel-rim-chain</loc>
-    <lastmod>2026-10-25</lastmod>
+    <loc>https://www.mubarstore.com/product/apex-wheel-rim-chain</loc>
+    <lastmod>2026-10-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
     <image:image>
-      <image:loc>https://mubarstore.com/images/products/mubar-apex-wheel-rim/angle-02.jpeg</image:loc>
+      <image:loc>https://www.mubarstore.com/images/products/mubar-apex-wheel-rim/angle-02.jpeg</image:loc>
       <image:title>MEIBO 3D Wheel Rim Kinetic Watch Solid Steel Chain Edition</image:title>
       <image:caption>Supercar Wheel Rim Spinning Watch in Pakistan under 2500 PKR</image:caption>
     </image:image>
@@ -97,25 +97,25 @@
 
   <!-- 6. Heritage Submariner 300M Diver -->
   <url>
-    <loc>https://mubarstore.com/product/heritage-diver</loc>
-    <lastmod>2026-10-25</lastmod>
+    <loc>https://www.mubarstore.com/product/heritage-diver</loc>
+    <lastmod>2026-10-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
     <image:image>
-      <image:loc>https://mubarstore.com/images/all-watches/watch%204/001.png</image:loc>
+      <image:loc>https://www.mubarstore.com/images/all-watches/watch%204/001.png</image:loc>
       <image:title>Heritage Submariner 300M Ceramic Bezel Diver Watch</image:title>
-      <image:caption>YOLAKO Luxury Submariner Hulk &amp; Blue Diver Watch Pakistan</image:caption>
+      <image:caption>Luxury Submariner Hulk and Blue Diver Watch Pakistan Free Delivery</image:caption>
     </image:image>
   </url>
 
   <!-- 7. MEIBO 3D Wheel Rim Supercar Watch (Silicone Sport Strap) -->
   <url>
-    <loc>https://mubarstore.com/product/apex-wheel-rim-strap</loc>
-    <lastmod>2026-10-25</lastmod>
+    <loc>https://www.mubarstore.com/product/apex-wheel-rim-strap</loc>
+    <lastmod>2026-10-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
     <image:image>
-      <image:loc>https://mubarstore.com/images/products/mubar-apex-wheel-rim/angle-01.jpeg</image:loc>
+      <image:loc>https://www.mubarstore.com/images/products/mubar-apex-wheel-rim/angle-01.jpeg</image:loc>
       <image:title>MEIBO 3D Wheel Rim Supercar Watch Silicone Sport Strap</image:title>
       <image:caption>Kinetic Spinning 3D Wheel Rim Watch with Sport Band</image:caption>
     </image:image>
@@ -123,40 +123,40 @@
 
   <!-- 8. Octa-Tachymeter Royal Oak Chrono -->
   <url>
-    <loc>https://mubarstore.com/product/octa-tachymeter</loc>
-    <lastmod>2026-10-25</lastmod>
+    <loc>https://www.mubarstore.com/product/octa-tachymeter</loc>
+    <lastmod>2026-10-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
     <image:image>
-      <image:loc>https://mubarstore.com/images/all-watches/watch%202/001.png</image:loc>
+      <image:loc>https://www.mubarstore.com/images/all-watches/watch%202/001.png</image:loc>
       <image:title>Octa-Tachymeter Royal Oak Chrono Geometric Luxury Watch</image:title>
-      <image:caption>Octa Geometric Tachymeter Stainless Steel Luxury Watch</image:caption>
+      <image:caption>Octa Geometric Tachymeter Stainless Steel Luxury Watch Pakistan</image:caption>
     </image:image>
   </url>
 
   <!-- 9. Executive Chrono Master 44mm -->
   <url>
-    <loc>https://mubarstore.com/product/executive-chrono</loc>
-    <lastmod>2026-10-25</lastmod>
+    <loc>https://www.mubarstore.com/product/executive-chrono</loc>
+    <lastmod>2026-10-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
     <image:image>
-      <image:loc>https://mubarstore.com/images/all-watches/watch%201/001.png</image:loc>
+      <image:loc>https://www.mubarstore.com/images/all-watches/watch%201/001.png</image:loc>
       <image:title>Executive Chrono Master 44mm Sunburst Blue Dial</image:title>
-      <image:caption>GENEVA Executive Multi-Dial Chronograph Pakistan</image:caption>
+      <image:caption>Executive Multi-Dial Chronograph Pakistan Free Delivery</image:caption>
     </image:image>
   </url>
 
   <!-- 10. Grand Prix Motorsport Racing Chronograph -->
   <url>
-    <loc>https://mubarstore.com/product/motorsport-racing</loc>
-    <lastmod>2026-10-25</lastmod>
+    <loc>https://www.mubarstore.com/product/motorsport-racing</loc>
+    <lastmod>2026-10-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
     <image:image>
-      <image:loc>https://mubarstore.com/images/all-watches/watch%203/001.png</image:loc>
+      <image:loc>https://www.mubarstore.com/images/all-watches/watch%203/001.png</image:loc>
       <image:title>Grand Prix Motorsport Racing Chronograph</image:title>
-      <image:caption>GENEVA Grand Prix Motorsport Racing Watch Pakistan</image:caption>
+      <image:caption>Grand Prix Motorsport Racing Watch Pakistan</image:caption>
     </image:image>
   </url>
 </urlset>

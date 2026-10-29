@@ -1,10 +1,12 @@
-# Robots.txt for Mubar Store (https://mubarstore.com)
+# Robots.txt for Mubar Store (https://www.mubarstore.com)
 # Full search engine and AI crawler indexing configuration
 
 User-agent: *
 Allow: /
 Disallow: /scratch/
 Disallow: /api/
+Disallow: /pass/
+Disallow: /admin/
 
 # AI Search & Large Language Model Crawlers (Generative Engine Optimization - GEO)
 User-agent: GPTBot
@@ -42,4 +44,3 @@ Allow: /
 
 # Canonical XML Sitemaps
 Sitemap: https://www.mubarstore.com/sitemap.xml
-Sitemap: https://mubarstore.com/sitemap.xml

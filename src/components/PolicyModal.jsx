@@ -35,7 +35,7 @@ When you interact with our website or place an order, we collect:
 - Contact & Delivery Information: Your full name, mobile / WhatsApp phone number, city, shipping address, and delivery instructions.
 - Order History: Details of timepieces purchased, order reference numbers, and exchange records.
 - Technical Data: Device and IP information to optimize website checkout speed and prevent fraudulent orders.
-Note: Because our primary payment method across Pakistan is Cash on Delivery (COD), we do not collect or store credit card numbers or banking PINs on our servers.
+Note: All transactions are processed through verified direct online transfers (JazzCash, SadaPay, NayaPay, EasyPaisa, Raast). We do not collect or store debit/credit card numbers or sensitive banking PINs on our servers.
 
 ### How We Use Your Information
 We use your information exclusively to:
@@ -59,7 +59,7 @@ This store is operated by MUBAR, founded by Muhammad Mubashar, headquartered in 
 We display the colors, textures, finishes, and dimensions of our watches as accurately as possible through high-definition studio photography. All technical specifications (e.g., stainless steel, Japanese Quartz, ATM water resistance ratings) are verified through importer and manufacturing testing.
 
 ### 3. Pricing & Currency
-All prices on the store are stated in Pakistani Rupees (PKR). The total price indicated at checkout is the complete price payable upon Cash on Delivery. There are no hidden packaging or handling surcharges.
+All prices on the store are stated in Pakistani Rupees (PKR). The total price indicated at checkout is the complete final price with zero hidden packaging or shipping charges.
 
 ### 4. Governing Law & Jurisdiction
 These Terms shall be governed by and construed in accordance with the laws of the Islamic Republic of Pakistan. Any legal dispute shall be subject to the jurisdiction of the civil courts of Lahore, Punjab, Pakistan.
@@ -70,15 +70,15 @@ These Terms shall be governed by and construed in accordance with the laws of th
     icon: Truck,
     content: `
 ### 1. Shipping Rates & 100% Free Nationwide Delivery
-- Nationwide Standard Delivery: 100% FREE across all cities, towns, and districts in Pakistan.
-- Cash on Delivery (COD) Surcharge: Rs. 0 (FREE).
+- Nationwide Express Delivery: 100% FREE across all cities, towns, and districts in Pakistan.
+- Shipping Fee: Rs. 0 (FREE).
 
-### 2. Accepted Payment Methods
-- **Cash on Delivery (COD):** Pay cash to courier rider upon delivery after checking the parcel.
+### 2. Accepted Online Payment Methods
 - **JazzCash:** Direct mobile transfer to 03084453846 (Title: Muhammad Mubashir).
 - **SadaPay:** Transfer to 03084453846 or IBAN PK43SADA0000003084453846 (Title: Muhammad Mubashar).
 - **NayaPay:** Transfer to NayaPay ID pashaxora@nayapay, 03084453846, or IBAN PK79NAYA1234503084453846 (Title: Muhammad Mubashar).
-- Instant verification available via WhatsApp (+92 308 4453846).
+- **EasyPaisa:** Direct mobile transfer to 03084453846 (Title: Muhammad Mubashar).
+- Instant verification and priority dispatch available via WhatsApp (+92 308 4453846).
 
 ### 3. Delivery Timelines
 Orders are processed and dispatched within 24 hours from our central fulfillment hub in Lahore:
@@ -87,8 +87,8 @@ Orders are processed and dispatched within 24 hours from our central fulfillment
 - Multan, Sialkot, Gujranwala, Peshawar, Quetta: 3 to 4 Business Days
 - Rest of Punjab, Sindh, KPK, Balochistan & AJK: 3 to 5 Business Days
 
-### 4. Open Parcel Inspection Authorization
-Every shipment sent by MUBAR contains an explicit "Open Parcel Inspection" arrangement. When the delivery rider arrives, you may open the outer shipping flyer in their presence and verify the watch before paying cash.
+### 4. Order Verification & Dispatch
+Every order is verified via WhatsApp with payment transfer confirmation prior to courier hand-off to ensure 100% accurate address and priority dispatch.
 
 ### 5. Shipment Tracking
 As soon as your parcel is scanned by the courier, you will receive an automated tracking link and tracking code via SMS and WhatsApp.

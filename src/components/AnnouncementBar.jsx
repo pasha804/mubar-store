@@ -1,5 +1,5 @@
 import React from 'react';
-import { Truck, ShieldCheck } from 'lucide-react';
+import { Truck, ShieldCheck, CheckCircle2 } from 'lucide-react';
 
 export default function AnnouncementBar() {
   return (
@@ -25,12 +25,12 @@ export default function AnnouncementBar() {
     >
       <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
         <Truck size={13} color="var(--brand-navy, #172A3A)" />
-        <span>Free delivery across Pakistan</span>
+        <span>100% Free Express Delivery Across Pakistan</span>
       </div>
       <span style={{ color: 'var(--border-warm, #C8C3BA)' }}>·</span>
       <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
         <ShieldCheck size={13} color="var(--indicator-green, #237653)" />
-        <span>Cash on delivery · Open parcel check</span>
+        <span>Verified Online Payment · WhatsApp Order Confirmation</span>
       </div>
     </div>
   );

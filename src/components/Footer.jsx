@@ -97,10 +97,10 @@ export default function Footer({ onScrollTo, onOpenPolicy }) {
             </div>
             <div>
               <h4 style={{ color: '#FFFFFF', fontSize: '0.92rem', fontWeight: 800, margin: '0 0 3px 0' }}>
-                100% Open Parcel Check
+                100% WhatsApp Verified Order
               </h4>
               <p style={{ fontSize: '0.76rem', color: '#A0AAB5', margin: 0, lineHeight: 1.4 }}>
-                Rider ke samne box khol kar tasalli karein, phir cash dein.
+                Instant payment confirmation aur live courier tracking WhatsApp par.
               </p>
             </div>
           </div>
@@ -490,12 +490,15 @@ export default function Footer({ onScrollTo, onOpenPolicy }) {
                   alignItems: 'center', 
                   boxShadow: '0 2px 8px rgba(0,0,0,0.22)',
                   border: '1px solid rgba(255, 255, 255, 0.9)',
+                  cursor: 'pointer',
                   transition: 'transform 0.15s ease, box-shadow 0.15s ease'
                 }}
+                onClick={() => setIbanModalOpen(true)}
+                title="Click to view verified EasyPaisa account details"
                 onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.35)'; }}
                 onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.22)'; }}
               >
-                <CashOnDeliveryBadge size={22} theme="light" />
+                <EasyPaisaLogo size={22} theme="light" />
               </div>
 
               <div 
@@ -632,7 +635,7 @@ export default function Footer({ onScrollTo, onOpenPolicy }) {
               NATIONWIDE EXPRESS COURIER PARTNERS
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-              {['TRAX Logistics', 'TCS Express', 'Leopards Courier', 'PostEx COD'].map(courier => (
+              {['TRAX Logistics', 'TCS Express', 'Leopards Courier', 'PostEx Express'].map(courier => (
                 <span 
                   key={courier}
                   style={{

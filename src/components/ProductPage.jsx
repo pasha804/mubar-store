@@ -462,7 +462,7 @@ export default function ProductPage({
                   <Truck size={14} /> Free Express Delivery (Rs. 0)
                 </span>
                 <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  <ShieldCheck size={14} /> Cash on Delivery (Pay at Doorstep)
+                  <ShieldCheck size={14} /> 100% Secure Online Payment (WhatsApp Verified)
                 </span>
               </div>
             </div>
@@ -813,7 +813,7 @@ export default function ProductPage({
             {/* Direct Action Buttons */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '24px' }}>
               
-              {/* Button 1: Immediate Cash on Delivery Checkout */}
+              {/* Button 1: Immediate Online Checkout */}
               <button
                 className="btn-primary"
                 onClick={() => onQuickBuy({ ...product, selectedVariant })}
@@ -826,7 +826,7 @@ export default function ProductPage({
                   boxShadow: '0 4px 16px rgba(23, 42, 58, 0.25)'
                 }}
               >
-                <span>ORDER CASH ON DELIVERY (FREE SHIPPING)</span>
+                <span>ORDER NOW — FREE EXPRESS SHIPPING</span>
               </button>
 
               {/* Button 2: WhatsApp Direct Order */}

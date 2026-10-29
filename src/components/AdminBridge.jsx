@@ -116,7 +116,7 @@ export default function AdminBridge({ onBackToStore, onLogout }) {
       quantity: 1,
       unitPrice: demoWatch.salePrice,
       totalAmount: demoWatch.salePrice,
-      paymentMethod: 'Cash on Delivery (COD)',
+      paymentMethod: 'Online Transfer (JazzCash)',
       notes: 'Call before delivery. Rider must allow open parcel check.',
       status: 'Pending Verification'
     };
@@ -738,7 +738,7 @@ export default function AdminBridge({ onBackToStore, onLogout }) {
                           <td style={{ padding: '14px 16px' }}>
                             <div style={{ fontWeight: 800, color: '#F3E5AB', fontSize: '0.92rem' }}>Rs. {order.totalAmount?.toLocaleString()}</div>
                             <div style={{ fontSize: '0.72rem', color: isOnlineOrder ? '#2ED573' : '#F3E5AB', fontWeight: 600, marginTop: '2px' }}>
-                              {order.paymentMethod || 'Cash on Delivery'}
+                              {order.paymentMethod || 'Online Transfer'}
                             </div>
                             {order.transactionRef && (
                               <div style={{ fontSize: '0.68rem', color: '#888', fontFamily: 'monospace', marginTop: '2px' }}>

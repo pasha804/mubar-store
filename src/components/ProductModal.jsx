@@ -373,7 +373,7 @@ export default function ProductModal({ product, onClose, onQuickBuy, onAddToCart
                   style={{ padding: '14px 20px', fontSize: '0.88rem' }}
                 >
                   <Zap size={16} />
-                  <span>Quick Order (COD / Online)</span>
+                  <span>Quick Order (Online Payment)</span>
                 </button>
 
                 <button 
