@@ -9,14 +9,16 @@ import ProductPage from './components/ProductPage';
 import QuickCODModal from './components/QuickCODModal';
 import CartDrawer from './components/CartDrawer';
 import SocialProof from './components/SocialProof';
-import AdminBridge from './components/AdminBridge';
-import AdminLogin from './components/AdminLogin';
-import PolicyModal from './components/PolicyModal';
 import WhatsAppWidget from './components/WhatsAppWidget';
 import Footer from './components/Footer';
 import { PRODUCTS } from './data/products';
 import { recordVisitorHit } from './services/storeSync';
 import { trackPageView, trackViewContent, trackAddToCart, trackInitiateCheckout } from './services/pixelService';
+
+// Lazy-loaded heavy components (loaded only on-demand, keeping storefront fast)
+const AdminBridge = React.lazy(() => import('./components/AdminBridge'));
+const AdminLogin = React.lazy(() => import('./components/AdminLogin'));
+const PolicyModal = React.lazy(() => import('./components/PolicyModal'));
 
 // Route Parser: detects store, dedicated product page, or founder admin portal
 const parseCurrentRoute = () => {
@@ -242,21 +244,25 @@ export default function App() {
   if (routeState.name === 'admin') {
     if (!isAdminAuthenticated) {
       return (
-        <AdminLogin 
-          onLoginSuccess={() => setIsAdminAuthenticated(true)}
-          onBackToStore={() => navigateToStore()}
-        />
+        <React.Suspense fallback={<div style={{ minHeight: '100vh', backgroundColor: '#172A3A' }} />}>
+          <AdminLogin 
+            onLoginSuccess={() => setIsAdminAuthenticated(true)}
+            onBackToStore={() => navigateToStore()}
+          />
+        </React.Suspense>
       );
     }
 
     return (
-      <AdminBridge 
-        onBackToStore={() => navigateToStore()}
-        onLogout={() => {
-          localStorage.removeItem('mubar_admin_auth');
-          setIsAdminAuthenticated(false);
-        }}
-      />
+      <React.Suspense fallback={<div style={{ minHeight: '100vh', backgroundColor: '#172A3A' }} />}>
+        <AdminBridge 
+          onBackToStore={() => navigateToStore()}
+          onLogout={() => {
+            localStorage.removeItem('mubar_admin_auth');
+            setIsAdminAuthenticated(false);
+          }}
+        />
+      </React.Suspense>
     );
   }
 
@@ -348,10 +354,12 @@ export default function App() {
 
         {/* Policy Modal */}
         {activePolicy && (
-          <PolicyModal 
-            policyKey={activePolicy}
-            onClose={() => setActivePolicy(null)}
-          />
+          <React.Suspense fallback={null}>
+            <PolicyModal 
+              policyKey={activePolicy}
+              onClose={() => setActivePolicy(null)}
+            />
+          </React.Suspense>
         )}
 
       </div>
@@ -452,10 +460,12 @@ export default function App() {
 
       {/* Policy Modal */}
       {activePolicy && (
-        <PolicyModal 
-          policyKey={activePolicy}
-          onClose={() => setActivePolicy(null)}
-        />
+        <React.Suspense fallback={null}>
+          <PolicyModal 
+            policyKey={activePolicy}
+            onClose={() => setActivePolicy(null)}
+          />
+        </React.Suspense>
       )}
 
     </div>
