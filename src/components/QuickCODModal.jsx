@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  X, ShieldCheck, CheckCircle2, Truck, Package, MessageCircle, 
-  Plus, Minus, Copy, Check, Clock, Smartphone, CreditCard, 
+import {
+  X, ShieldCheck, CheckCircle2, Truck, Package, MessageCircle,
+  Plus, Minus, Copy, Check, Clock, Smartphone, CreditCard,
   Sparkles, ArrowRight
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
@@ -148,14 +148,14 @@ export default function QuickCODModal({ product, initialVariant, onClose }) {
         spread: 70,
         origin: { y: 0.6 }
       });
-    } catch (err) {}
+    } catch (err) { }
   };
 
   const generateWhatsAppMessage = () => {
     const activeAccount = PAYMENT_ACCOUNTS[selectedAccountKey] || PAYMENT_ACCOUNTS.jazzcash;
 
     return encodeURIComponent(
-`👑 *MUBAR TIMEPIECES - PAYMENT VERIFICATION*
+      `👑 *MUBAR TIMEPIECES - PAYMENT VERIFICATION*
 ━━━━━━━━━━━━━━━━━━━━━━
 🏷️ *Order ID:* #${orderId}
 👤 *Customer:* ${formData.name}
@@ -177,7 +177,7 @@ Assalam-o-Alaikum Muhammad Mubashar bhai! Maine ${activeAccount.name} par Rs. ${
   const currentOnlineAccount = PAYMENT_ACCOUNTS[selectedAccountKey] || PAYMENT_ACCOUNTS.jazzcash;
 
   return (
-    <div 
+    <div
       style={{
         position: 'fixed',
         inset: 0,
@@ -191,7 +191,7 @@ Assalam-o-Alaikum Muhammad Mubashar bhai! Maine ${activeAccount.name} par Rs. ${
       }}
       onClick={onClose}
     >
-      <div 
+      <div
         style={{
           backgroundColor: '#FFFFFF',
           border: '1px solid var(--border-card, #E6E2DA)',
@@ -207,7 +207,7 @@ Assalam-o-Alaikum Muhammad Mubashar bhai! Maine ${activeAccount.name} par Rs. ${
         onClick={e => e.stopPropagation()}
       >
         {/* Close Button */}
-        <button 
+        <button
           onClick={onClose}
           aria-label="Close modal"
           style={{
@@ -250,7 +250,7 @@ Assalam-o-Alaikum Muhammad Mubashar bhai! Maine ${activeAccount.name} par Rs. ${
                 </span>
               </div>
 
-              <h3 
+              <h3
                 className="font-playfair"
                 style={{ fontSize: '1.45rem', color: 'var(--brand-navy, #172A3A)', margin: 0, fontWeight: 700 }}
               >
@@ -272,8 +272,8 @@ Assalam-o-Alaikum Muhammad Mubashar bhai! Maine ${activeAccount.name} par Rs. ${
               gap: '12px',
               marginBottom: '18px'
             }}>
-              <img 
-                src={currentVariantImage} 
+              <img
+                src={currentVariantImage}
                 alt={product.title}
                 style={{
                   width: '64px',
@@ -517,7 +517,7 @@ Assalam-o-Alaikum Muhammad Mubashar bhai! Maine ${activeAccount.name} par Rs. ${
                   <label style={{ fontSize: '0.73rem', fontWeight: 700, color: 'var(--text-primary, #252A30)', display: 'block', marginBottom: '3px' }}>
                     Transaction ID (TID) / Sender Name (Optional)
                   </label>
-                  <input 
+                  <input
                     type="text"
                     placeholder="e.g. TID 123456789 or sender account title"
                     value={transactionRef}
@@ -543,8 +543,8 @@ Assalam-o-Alaikum Muhammad Mubashar bhai! Maine ${activeAccount.name} par Rs. ${
                 <label style={{ fontSize: '0.76rem', fontWeight: 700, color: 'var(--text-primary, #252A30)', display: 'block', marginBottom: '4px' }}>
                   Full Name *
                 </label>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   required
                   placeholder="e.g. Muhammad Mubashar"
                   value={formData.name}
@@ -566,8 +566,8 @@ Assalam-o-Alaikum Muhammad Mubashar bhai! Maine ${activeAccount.name} par Rs. ${
                 <label style={{ fontSize: '0.76rem', fontWeight: 700, color: 'var(--text-primary, #252A30)', display: 'block', marginBottom: '4px' }}>
                   Mobile Number (WhatsApp) *
                 </label>
-                <input 
-                  type="tel" 
+                <input
+                  type="tel"
                   required
                   placeholder="0308 4453846"
                   value={formData.phone}
@@ -637,7 +637,7 @@ Assalam-o-Alaikum Muhammad Mubashar bhai! Maine ${activeAccount.name} par Rs. ${
                 <label style={{ fontSize: '0.76rem', fontWeight: 700, color: 'var(--text-primary, #252A30)', display: 'block', marginBottom: '4px' }}>
                   Complete Street Address *
                 </label>
-                <textarea 
+                <textarea
                   required
                   rows="2"
                   placeholder="House number, Street, Sector / Area / Colony, Landmark"
