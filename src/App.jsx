@@ -112,7 +112,7 @@ export default function App() {
 
     if (routeState.name === 'store') {
       document.title = 'MUBAR Store | Watch Store in Pakistan - Quality Watches at Low Price | Free Delivery';
-      setMetaTag('meta[name="description"]', 'content', "Shop quality luxury men's watches at unbeatable low prices in Pakistan at Mubar Store. Explore Yacht-Master Oysterflex, Poedagar Nautilus, Goobasen Blue Planet, Daytona Chronometer & 3D Wheel Rim timepieces. 100% Verified Online Payment (JazzCash, SadaPay, NayaPay, EasyPaisa, Raast) & Free Nationwide Express Delivery.");
+      setMetaTag('meta[name="description"]', 'content', "Shop quality luxury men's watches at unbeatable low prices in Pakistan at Mubar Store. Explore Yacht-Master Oysterflex, Poedagar Nautilus, Goobasen Blue Planet, Daytona Chronometer & 3D Wheel Rim timepieces. Cash on Delivery (COD) with 100% Open Parcel Check & Free Nationwide Express Delivery.");
       setMetaTag('meta[property="og:title"]', 'content', 'MUBAR Store — Watch Store in Pakistan | Quality Watches at Low Price');
       setMetaTag('meta[property="og:description"]', 'content', "Shop quality luxury men's watches at unbeatable low prices in Pakistan. Free Express Nationwide Delivery & 7-Day Replacement.");
       setMetaTag('meta[property="og:url"]', 'content', 'https://www.mubarstore.com/');

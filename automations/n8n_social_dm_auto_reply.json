@@ -1,0 +1,83 @@
+{
+  "name": "MUBAR Store - Social Media (Instagram / TikTok / FB) DM Auto-Responder",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "mubar-social-dm",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "id": "node-social-webhook",
+      "name": "Social DM / Comment Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const payload = $input.first().json.body || $input.first().json;\n\nconst platform = payload.platform || 'instagram'; // 'instagram' | 'tiktok' | 'facebook'\nconst senderId = payload.senderId || 'user_123';\nconst userMessage = (payload.message || payload.text || '').toLowerCase().trim();\n\n// Smart Keyword Intent Matcher\nlet replyType = 'general';\nif (userMessage.includes('price') || userMessage.includes('rate') || userMessage.includes('kitne') || userMessage.includes('pp') || userMessage.includes('cost')) {\n  replyType = 'pricing';\n} else if (userMessage.includes('cod') || userMessage.includes('delivery') || userMessage.includes('khol') || userMessage.includes('check')) {\n  replyType = 'delivery_cod';\n} else if (userMessage.includes('order') || userMessage.includes('buy') || userMessage.includes('mangwani')) {\n  replyType = 'order_intent';\n}\n\nlet responseText = '';\nif (replyType === 'pricing') {\n  responseText = `Assalam-o-Alaikum! 🌟 MUBAR Store (mubarstore.com) par hamari top luxury watches flat wholesale prices par available hain:\\n\\n🔹 YOLAKO Submariner Diver: Rs. 1,999\\n🔹 GENEVA Executive Chrono: Rs. 1,899\\n🔹 GENEVA Motorsport Racing: Rs. 1,899\\n🔹 MEIBO 3D Spinning Wheel Rim: Rs. 2,499\\n🔹 Yacht-Master Ceramic: Rs. 3,899\\n\\n🚚 100% Free Nationwide Delivery!\\n🛡️ Pehle parcel khol kar check karein, phir payment dein (100% Open Parcel COD).\\n\\nOrder karne ke liye website visit karein: https://mubarstore.com/\\nYa foran WhatsApp par rabta karein: https://wa.me/923084453846`;\n} else if (replyType === 'delivery_cod') {\n  responseText = `Assalam-o-Alaikum! 🚚 Jee haan, poore Pakistan mein Cash on Delivery (COD) 100% Free hai (Rs. 0 charges).\\n\\nAur sab se bari baat: Humari 100% Open Parcel Check Policy hai! Courier rider aapke samne pehle parcel khole ga, aap ghari check karein, tasalli hone par cash dein! Zero risk.\\n\\nOrder karne ke liye WhatsApp karein: https://wa.me/923084453846`;\n} else {\n  responseText = `Assalam-o-Alaikum! 🌟 MUBAR Store par khush-amdeed. Hum premium quality men's luxury watches wholesale rates par Free Nationwide Delivery aur 100% Open Parcel Cash on Delivery ke sath deliver karte hain.\\n\\nWatch designs dekhne ke liye website check karein: https://mubarstore.com/\\nDirect order / inquiry ke liye WhatsApp: https://wa.me/923084453846 (Muhammad Mubashar)`;\n}\n\nreturn [{\n  json: {\n    platform,\n    senderId,\n    userMessage,\n    replyType,\n    responseText\n  }\n}];"
+      },
+      "id": "node-ai-responder",
+      "name": "Social Intelligence Engine",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [480, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.facebook.com/v19.0/me/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{$env.META_PAGE_ACCESS_TOKEN}}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"recipient\": { \"id\": \"{{$json.senderId}}\" },\n  \"message\": { \"text\": {{$json.responseText}} }\n}",
+        "options": {}
+      },
+      "id": "node-meta-send",
+      "name": "Send Instagram / FB Reply",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [720, 300]
+    }
+  ],
+  "connections": {
+    "Social DM / Comment Webhook": {
+      "main": [
+        [
+          {
+            "node": "Social Intelligence Engine",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Social Intelligence Engine": {
+      "main": [
+        [
+          {
+            "node": "Send Instagram / FB Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

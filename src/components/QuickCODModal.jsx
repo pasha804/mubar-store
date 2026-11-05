@@ -47,7 +47,8 @@ export default function QuickCODModal({ product, initialVariant, onClose }) {
     || product?.images?.[0]
     || '';
 
-  // 100% Online Payment Mode (COD Disabled as per store policy)
+  // Dual Checkout Mode: COD (Default in Pakistan for 95%+ conversion) + Online Transfer
+  const [paymentType, setPaymentType] = useState('cod'); // 'cod' | 'online'
   const [selectedAccountKey, setSelectedAccountKey] = useState('jazzcash'); // 'jazzcash' | 'sadapay' | 'nayapay' | 'easypaisa'
   const [transactionRef, setTransactionRef] = useState('');
   const [copiedField, setCopiedField] = useState(null);
@@ -104,7 +105,9 @@ export default function QuickCODModal({ product, initialVariant, onClose }) {
     });
 
     const activeAccount = PAYMENT_ACCOUNTS[selectedAccountKey] || PAYMENT_ACCOUNTS.jazzcash;
-    const finalPaymentMethod = `Online Transfer (${activeAccount.name})`;
+    const finalPaymentMethod = paymentType === 'cod'
+      ? 'Cash on Delivery (COD)'
+      : `Online Transfer (${activeAccount.name})`;
 
     const newOrder = {
       id: randomId,
@@ -123,13 +126,13 @@ export default function QuickCODModal({ product, initialVariant, onClose }) {
       unitPrice: unitPrice,
       totalAmount: totalAmount,
       paymentMethod: finalPaymentMethod,
-      paymentType: 'online',
-      onlineAccount: activeAccount.name,
-      accountTitle: activeAccount.accountTitle,
-      accountNumber: activeAccount.accountNumber,
-      transactionRef: transactionRef.trim() || null,
+      paymentType: paymentType,
+      onlineAccount: paymentType === 'online' ? activeAccount.name : null,
+      accountTitle: paymentType === 'online' ? activeAccount.accountTitle : null,
+      accountNumber: paymentType === 'online' ? activeAccount.accountNumber : null,
+      transactionRef: paymentType === 'online' ? (transactionRef.trim() || null) : null,
       notes: formData.notes.trim(),
-      status: 'Online Paid (Awaiting WhatsApp Verification)',
+      status: paymentType === 'cod' ? 'Cash on Delivery (Pending Dispatch)' : 'Online Paid (Awaiting WhatsApp Verification)',
       deliveryFee: 0,
       estimatedDelivery: '2–3 Business Days'
     };
@@ -153,6 +156,25 @@ export default function QuickCODModal({ product, initialVariant, onClose }) {
 
   const generateWhatsAppMessage = () => {
     const activeAccount = PAYMENT_ACCOUNTS[selectedAccountKey] || PAYMENT_ACCOUNTS.jazzcash;
+
+    if (paymentType === 'cod') {
+      return encodeURIComponent(
+        `👑 *MUBAR TIMEPIECES - CASH ON DELIVERY ORDER*
+━━━━━━━━━━━━━━━━━━━━━━
+🏷️ *Order ID:* #${orderId}
+👤 *Customer:* ${formData.name}
+📞 *Phone:* ${formData.phone}
+⌚ *Timepiece:* ${product.title}
+🎨 *Variant:* ${selectedVariant}
+🔢 *Quantity:* ${quantity}
+💰 *Total Amount:* Rs. ${totalAmount.toLocaleString()} (Cash on Delivery)
+🚚 *Delivery:* FREE Express Courier Nationwide (2–3 Days)
+🛡️ *Condition:* 100% Open Parcel Check Allowed
+📍 *Delivery Address:* ${formData.address}, ${formData.city}, ${formData.province}
+━━━━━━━━━━━━━━━━━━━━━━
+Assalam-o-Alaikum Muhammad Mubashar bhai! Maine website par Cash on Delivery order place kiya hai. Kindly order confirm karke priority dispatch kar dein. Shukriya!`
+      );
+    }
 
     return encodeURIComponent(
       `👑 *MUBAR TIMEPIECES - PAYMENT VERIFICATION*
@@ -246,7 +268,7 @@ Assalam-o-Alaikum Muhammad Mubashar bhai! Maine ${activeAccount.name} par Rs. ${
               }}>
                 <Sparkles size={12} color="var(--brand-navy, #172A3A)" />
                 <span style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--brand-navy, #172A3A)', textTransform: 'uppercase', letterSpacing: '0.8px' }}>
-                  Online Order • 100% Free Nationwide Delivery
+                  Cash on Delivery • 100% Free Nationwide Delivery
                 </span>
               </div>
 
@@ -257,7 +279,7 @@ Assalam-o-Alaikum Muhammad Mubashar bhai! Maine ${activeAccount.name} par Rs. ${
                 Complete Your Order
               </h3>
               <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary, #737B84)', margin: '4px 0 0 0' }}>
-                Secure Online Payment via JazzCash, SadaPay, NayaPay & EasyPaisa.
+                Cash on Delivery (Pay at Doorstep) or Direct Online Transfer.
               </p>
             </div>
 
@@ -350,191 +372,276 @@ Assalam-o-Alaikum Muhammad Mubashar bhai! Maine ${activeAccount.name} par Rs. ${
               </div>
             </div>
 
-            {/* Online Payment Method Account Selector */}
-            <div style={{ marginBottom: '18px' }}>
+            {/* Payment Method Selector Tabs: COD (Recommended) vs Online Transfer */}
+            <div style={{ marginBottom: '16px' }}>
               <label style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text-primary, #252A30)', display: 'block', marginBottom: '8px' }}>
-                Select Online Payment Channel
+                Select Payment Method
               </label>
 
-              {/* Account Selection Pills */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '6px', marginBottom: '10px' }}>
-                {Object.keys(PAYMENT_ACCOUNTS).map(key => {
-                  const acc = PAYMENT_ACCOUNTS[key];
-                  const isAccSelected = selectedAccountKey === key;
-                  return (
-                    <button
-                      key={key}
-                      type="button"
-                      onClick={() => setSelectedAccountKey(key)}
-                      style={{
-                        padding: '8px 4px',
-                        borderRadius: '6px',
-                        border: isAccSelected ? '1.5px solid var(--brand-navy, #172A3A)' : '1px solid var(--border-card, #E6E2DA)',
-                        backgroundColor: isAccSelected ? 'var(--bg-gold-subtle, #F3EBDD)' : '#FFFFFF',
-                        cursor: 'pointer',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        gap: '4px',
-                        transition: 'all 0.15s ease'
-                      }}
-                    >
-                      {key === 'jazzcash' && <JazzCashLogo size={14} showText={false} />}
-                      {key === 'sadapay' && <SadaPayLogo size={14} showText={false} />}
-                      {key === 'nayapay' && <NayaPayLogo size={14} showText={false} />}
-                      {key === 'easypaisa' && <EasyPaisaLogo size={14} showText={false} />}
-                      <span style={{ fontSize: '0.72rem', fontWeight: isAccSelected ? 800 : 600, color: 'var(--text-primary, #252A30)' }}>
-                        {acc.name}
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* Selected Account Info Details Card */}
-              <div style={{
-                padding: '12px 14px',
-                backgroundColor: 'var(--bg-subtle, #F0EEE8)',
-                borderRadius: 'var(--radius-sm, 8px)',
-                border: '1px solid var(--border-card, #E6E2DA)',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '8px',
-                fontSize: '0.78rem'
-              }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ color: 'var(--text-secondary, #737B84)' }}>Account Title:</span>
-                  <strong style={{ fontSize: '0.84rem', color: 'var(--brand-navy, #172A3A)' }}>{currentOnlineAccount.accountTitle}</strong>
-                </div>
-
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ color: 'var(--text-secondary, #737B84)' }}>Mobile / Account:</span>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <strong style={{ fontSize: '0.88rem', letterSpacing: '0.5px', color: 'var(--brand-navy, #172A3A)' }}>
-                      {currentOnlineAccount.accountNumber}
-                    </strong>
-                    <button
-                      type="button"
-                      onClick={() => handleCopy(currentOnlineAccount.accountNumber, 'acc')}
-                      style={{
-                        background: copiedField === 'acc' ? '#E8F5EE' : '#FFFFFF',
-                        border: '1px solid var(--border-card, #E6E2DA)',
-                        borderRadius: '4px',
-                        cursor: 'pointer',
-                        color: copiedField === 'acc' ? '#237653' : 'var(--text-primary, #252A30)',
-                        padding: '3px 8px',
-                        fontSize: '0.7rem',
-                        fontWeight: 600,
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '4px'
-                      }}
-                    >
-                      {copiedField === 'acc' ? <><Check size={12} color="#237653" /><span>Copied!</span></> : <><Copy size={12} /><span>Copy</span></>}
-                    </button>
-                  </div>
-                </div>
-
-                {/* NayaPay ID (if available) */}
-                {currentOnlineAccount.nayapayId && (
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ color: 'var(--text-secondary, #737B84)' }}>NayaPay ID:</span>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <strong style={{ fontSize: '0.82rem', color: '#00D084' }}>{currentOnlineAccount.nayapayId}</strong>
-                      <button
-                        type="button"
-                        onClick={() => handleCopy(currentOnlineAccount.nayapayId, 'npid')}
-                        style={{
-                          background: copiedField === 'npid' ? '#E8F5EE' : '#FFFFFF',
-                          border: '1px solid var(--border-card, #E6E2DA)',
-                          borderRadius: '4px',
-                          cursor: 'pointer',
-                          color: copiedField === 'npid' ? '#237653' : 'var(--text-primary, #252A30)',
-                          padding: '3px 8px',
-                          fontSize: '0.7rem',
-                          fontWeight: 600,
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '4px'
-                        }}
-                      >
-                        {copiedField === 'npid' ? <><Check size={12} color="#237653" /><span>Copied!</span></> : <><Copy size={12} /><span>Copy</span></>}
-                      </button>
-                    </div>
-                  </div>
-                )}
-
-                {/* Official IBAN (For SadaPay & NayaPay & All 1-Link Banks) */}
-                {currentOnlineAccount.iban && (
-                  <div style={{
-                    marginTop: '4px',
-                    padding: '8px 10px',
-                    backgroundColor: '#FFFFFF',
-                    borderRadius: '6px',
-                    border: '1.5px dashed var(--accent-gold, #B69A63)',
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginBottom: '12px' }}>
+                <button
+                  type="button"
+                  onClick={() => setPaymentType('cod')}
+                  style={{
+                    padding: '10px 12px',
+                    borderRadius: '8px',
+                    border: paymentType === 'cod' ? '2px solid #16A34A' : '1px solid var(--border-card, #E6E2DA)',
+                    backgroundColor: paymentType === 'cod' ? '#F0FDF4' : '#FFFFFF',
+                    cursor: 'pointer',
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: '4px'
-                  }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span style={{ fontSize: '0.7rem', fontWeight: 800, color: 'var(--accent-gold, #B69A63)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                        🏛️ Official IBAN (Bank / Raast):
-                      </span>
-                      <button
-                        type="button"
-                        onClick={() => handleCopy(currentOnlineAccount.iban, 'iban')}
-                        style={{
-                          background: copiedField === 'iban' ? '#E8F5EE' : 'var(--bg-gold-subtle, #F3EBDD)',
-                          border: '1px solid var(--accent-gold, #B69A63)',
-                          borderRadius: '4px',
-                          cursor: 'pointer',
-                          color: copiedField === 'iban' ? '#237653' : 'var(--brand-navy, #172A3A)',
-                          padding: '2px 8px',
-                          fontSize: '0.68rem',
-                          fontWeight: 700,
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '4px'
-                        }}
-                      >
-                        {copiedField === 'iban' ? <><Check size={11} color="#237653" /><span>Copied</span></> : <><Copy size={11} /><span>Copy IBAN</span></>}
-                      </button>
-                    </div>
-                    <div style={{ fontFamily: 'monospace', fontSize: '0.82rem', fontWeight: 800, color: 'var(--brand-navy, #172A3A)', letterSpacing: '0.5px', wordBreak: 'break-all' }}>
-                      {currentOnlineAccount.iban}
+                    alignItems: 'center',
+                    gap: '4px',
+                    textAlign: 'center',
+                    transition: 'all 0.15s ease',
+                    boxShadow: paymentType === 'cod' ? '0 2px 8px rgba(22, 163, 74, 0.15)' : 'none'
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <Truck size={16} color="#16A34A" />
+                    <strong style={{ fontSize: '0.84rem', color: paymentType === 'cod' ? '#15803D' : 'var(--text-primary, #252A30)' }}>
+                      Cash on Delivery
+                    </strong>
+                  </div>
+                  <span style={{ fontSize: '0.68rem', color: '#16A34A', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.3px' }}>
+                    ✓ 100% Open Parcel Check
+                  </span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setPaymentType('online')}
+                  style={{
+                    padding: '10px 12px',
+                    borderRadius: '8px',
+                    border: paymentType === 'online' ? '2px solid var(--brand-navy, #172A3A)' : '1px solid var(--border-card, #E6E2DA)',
+                    backgroundColor: paymentType === 'online' ? 'var(--bg-gold-subtle, #F3EBDD)' : '#FFFFFF',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: '4px',
+                    textAlign: 'center',
+                    transition: 'all 0.15s ease'
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <Smartphone size={16} color="var(--brand-navy, #172A3A)" />
+                    <strong style={{ fontSize: '0.84rem', color: paymentType === 'online' ? 'var(--brand-navy, #172A3A)' : 'var(--text-primary, #252A30)' }}>
+                      Online Transfer
+                    </strong>
+                  </div>
+                  <span style={{ fontSize: '0.68rem', color: 'var(--text-secondary, #737B84)', fontWeight: 600 }}>
+                    JazzCash / SadaPay / EasyPaisa
+                  </span>
+                </button>
+              </div>
+
+              {/* COD Open Parcel Trust Callout */}
+              {paymentType === 'cod' ? (
+                <div style={{
+                  backgroundColor: '#F0FDF4',
+                  border: '1px solid #BBF7D0',
+                  borderRadius: '8px',
+                  padding: '12px 14px',
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: '10px',
+                  fontSize: '0.8rem',
+                  color: '#166534',
+                  lineHeight: 1.45
+                }}>
+                  <ShieldCheck size={20} color="#16A34A" style={{ flexShrink: 0, marginTop: '2px' }} />
+                  <div>
+                    <strong style={{ color: '#15803D' }}>🛡️ 100% Open Parcel Inspection Guaranteed:</strong>
+                    <div>
+                      Rider aapke doorstep par pehle parcel khol kar check karwaye ga. Tasalli hone par cash payment karein. Zero risk order!
                     </div>
                   </div>
-                )}
-
-                {/* Transfer Guidance */}
-                <div style={{ fontSize: '0.72rem', color: 'var(--text-secondary, #737B84)', lineHeight: 1.4 }}>
-                  💡 {currentOnlineAccount.instructions}
                 </div>
+              ) : (
+                /* Online Payment Method Account Selector */
+                <div>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '6px', marginBottom: '10px' }}>
+                    {Object.keys(PAYMENT_ACCOUNTS).map(key => {
+                      const acc = PAYMENT_ACCOUNTS[key];
+                      const isAccSelected = selectedAccountKey === key;
+                      return (
+                        <button
+                          key={key}
+                          type="button"
+                          onClick={() => setSelectedAccountKey(key)}
+                          style={{
+                            padding: '8px 4px',
+                            borderRadius: '6px',
+                            border: isAccSelected ? '1.5px solid var(--brand-navy, #172A3A)' : '1px solid var(--border-card, #E6E2DA)',
+                            backgroundColor: isAccSelected ? 'var(--bg-gold-subtle, #F3EBDD)' : '#FFFFFF',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: '4px',
+                            transition: 'all 0.15s ease'
+                          }}
+                        >
+                          {key === 'jazzcash' && <JazzCashLogo size={14} showText={false} />}
+                          {key === 'sadapay' && <SadaPayLogo size={14} showText={false} />}
+                          {key === 'nayapay' && <NayaPayLogo size={14} showText={false} />}
+                          {key === 'easypaisa' && <EasyPaisaLogo size={14} showText={false} />}
+                          <span style={{ fontSize: '0.72rem', fontWeight: isAccSelected ? 800 : 600, color: 'var(--text-primary, #252A30)' }}>
+                            {acc.name}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
 
-                {/* Optional TID / Sender Name */}
-                <div style={{ marginTop: '2px' }}>
-                  <label style={{ fontSize: '0.73rem', fontWeight: 700, color: 'var(--text-primary, #252A30)', display: 'block', marginBottom: '3px' }}>
-                    Transaction ID (TID) / Sender Name (Optional)
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="e.g. TID 123456789 or sender account title"
-                    value={transactionRef}
-                    onChange={e => setTransactionRef(e.target.value)}
-                    style={{
-                      width: '100%',
-                      padding: '7px 10px',
-                      borderRadius: '6px',
-                      border: '1px solid var(--border-card, #E6E2DA)',
-                      fontSize: '0.78rem',
-                      backgroundColor: '#FFFFFF',
-                      outline: 'none',
-                      boxSizing: 'border-box'
-                    }}
-                  />
+                  {/* Selected Account Info Details Card */}
+                  <div style={{
+                    padding: '12px 14px',
+                    backgroundColor: 'var(--bg-subtle, #F0EEE8)',
+                    borderRadius: 'var(--radius-sm, 8px)',
+                    border: '1px solid var(--border-card, #E6E2DA)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '8px',
+                    fontSize: '0.78rem'
+                  }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ color: 'var(--text-secondary, #737B84)' }}>Account Title:</span>
+                      <strong style={{ fontSize: '0.84rem', color: 'var(--brand-navy, #172A3A)' }}>{currentOnlineAccount.accountTitle}</strong>
+                    </div>
+
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ color: 'var(--text-secondary, #737B84)' }}>Mobile / Account:</span>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <strong style={{ fontSize: '0.88rem', letterSpacing: '0.5px', color: 'var(--brand-navy, #172A3A)' }}>
+                          {currentOnlineAccount.accountNumber}
+                        </strong>
+                        <button
+                          type="button"
+                          onClick={() => handleCopy(currentOnlineAccount.accountNumber, 'acc')}
+                          style={{
+                            background: copiedField === 'acc' ? '#E8F5EE' : '#FFFFFF',
+                            border: '1px solid var(--border-card, #E6E2DA)',
+                            borderRadius: '4px',
+                            cursor: 'pointer',
+                            color: copiedField === 'acc' ? '#237653' : 'var(--text-primary, #252A30)',
+                            padding: '3px 8px',
+                            fontSize: '0.7rem',
+                            fontWeight: 600,
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '4px'
+                          }}
+                        >
+                          {copiedField === 'acc' ? <><Check size={12} color="#237653" /><span>Copied!</span></> : <><Copy size={12} /><span>Copy</span></>}
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* NayaPay ID (if available) */}
+                    {currentOnlineAccount.nayapayId && (
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <span style={{ color: 'var(--text-secondary, #737B84)' }}>NayaPay ID:</span>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <strong style={{ fontSize: '0.82rem', color: '#00D084' }}>{currentOnlineAccount.nayapayId}</strong>
+                          <button
+                            type="button"
+                            onClick={() => handleCopy(currentOnlineAccount.nayapayId, 'npid')}
+                            style={{
+                              background: copiedField === 'npid' ? '#E8F5EE' : '#FFFFFF',
+                              border: '1px solid var(--border-card, #E6E2DA)',
+                              borderRadius: '4px',
+                              cursor: 'pointer',
+                              color: copiedField === 'npid' ? '#237653' : 'var(--text-primary, #252A30)',
+                              padding: '3px 8px',
+                              fontSize: '0.7rem',
+                              fontWeight: 600,
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '4px'
+                            }}
+                          >
+                            {copiedField === 'npid' ? <><Check size={12} color="#237653" /><span>Copied!</span></> : <><Copy size={12} /><span>Copy</span></>}
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Official IBAN (For SadaPay & NayaPay & All 1-Link Banks) */}
+                    {currentOnlineAccount.iban && (
+                      <div style={{
+                        marginTop: '4px',
+                        padding: '8px 10px',
+                        backgroundColor: '#FFFFFF',
+                        borderRadius: '6px',
+                        border: '1.5px dashed var(--accent-gold, #B69A63)',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '4px'
+                      }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                          <span style={{ fontSize: '0.7rem', fontWeight: 800, color: 'var(--accent-gold, #B69A63)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                            🏛️ Official IBAN (Bank / Raast):
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => handleCopy(currentOnlineAccount.iban, 'iban')}
+                            style={{
+                              background: copiedField === 'iban' ? '#E8F5EE' : 'var(--bg-gold-subtle, #F3EBDD)',
+                              border: '1px solid var(--accent-gold, #B69A63)',
+                              borderRadius: '4px',
+                              cursor: 'pointer',
+                              color: copiedField === 'iban' ? '#237653' : 'var(--brand-navy, #172A3A)',
+                              padding: '2px 8px',
+                              fontSize: '0.68rem',
+                              fontWeight: 700,
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '4px'
+                            }}
+                          >
+                            {copiedField === 'iban' ? <><Check size={11} color="#237653" /><span>Copied</span></> : <><Copy size={11} /><span>Copy IBAN</span></>}
+                          </button>
+                        </div>
+                        <div style={{ fontFamily: 'monospace', fontSize: '0.82rem', fontWeight: 800, color: 'var(--brand-navy, #172A3A)', letterSpacing: '0.5px', wordBreak: 'break-all' }}>
+                          {currentOnlineAccount.iban}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Transfer Guidance */}
+                    <div style={{ fontSize: '0.72rem', color: 'var(--text-secondary, #737B84)', lineHeight: 1.4 }}>
+                      💡 {currentOnlineAccount.instructions}
+                    </div>
+
+                    {/* Optional TID / Sender Name */}
+                    <div style={{ marginTop: '2px' }}>
+                      <label style={{ fontSize: '0.73rem', fontWeight: 700, color: 'var(--text-primary, #252A30)', display: 'block', marginBottom: '3px' }}>
+                        Transaction ID (TID) / Sender Name (Optional)
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="e.g. TID 123456789 or sender account title"
+                        value={transactionRef}
+                        onChange={e => setTransactionRef(e.target.value)}
+                        style={{
+                          width: '100%',
+                          padding: '7px 10px',
+                          borderRadius: '6px',
+                          border: '1px solid var(--border-card, #E6E2DA)',
+                          fontSize: '0.78rem',
+                          backgroundColor: '#FFFFFF',
+                          outline: 'none',
+                          boxSizing: 'border-box'
+                        }}
+                      />
+                    </div>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
 
             {/* Delivery Details Form */}
@@ -669,12 +776,20 @@ Assalam-o-Alaikum Muhammad Mubashar bhai! Maine ${activeAccount.name} par Rs. ${
                   marginTop: '6px'
                 }}
               >
-                <span>Confirm Online Order — Rs. {totalAmount.toLocaleString()} (Free Delivery)</span>
+                <span>
+                  {paymentType === 'cod'
+                    ? `Confirm Cash on Delivery — Rs. ${totalAmount.toLocaleString()} (Free Delivery)`
+                    : `Confirm Online Order — Rs. ${totalAmount.toLocaleString()} (Free Delivery)`
+                  }
+                </span>
                 <ArrowRight size={16} />
               </button>
 
               <div style={{ textAlign: 'center', fontSize: '0.74rem', color: 'var(--indicator-green, #237653)', fontWeight: 600 }}>
-                ✓ 100% Free Nationwide Express Delivery • Fast WhatsApp Verification
+                {paymentType === 'cod'
+                  ? '✓ Pay on Delivery • 100% Pehle Parcel Khol Kar Check Karein • Zero Risk'
+                  : '✓ 100% Free Nationwide Express Delivery • Fast WhatsApp Verification'
+                }
               </div>
             </form>
           </div>
@@ -699,7 +814,11 @@ Assalam-o-Alaikum Muhammad Mubashar bhai! Maine ${activeAccount.name} par Rs. ${
               Order Placed Successfully!
             </h3>
             <p style={{ fontSize: '0.86rem', color: 'var(--text-secondary, #737B84)', margin: '0 0 16px 0' }}>
-              Your order ID is <strong style={{ color: 'var(--brand-navy, #172A3A)' }}>#{orderId}</strong>. Send transfer proof on WhatsApp for priority dispatch within 24 hours.
+              Your order ID is <strong style={{ color: 'var(--brand-navy, #172A3A)' }}>#{orderId}</strong>.
+              {paymentType === 'cod'
+                ? ' Trax / Leopards courier se 24 ghantay ke andar parcel dispatch kiya jayega. Rider ke samne parcel khol kar check karne ke baad cash dein.'
+                : ' Send transfer proof on WhatsApp for priority dispatch within 24 hours.'
+              }
             </p>
 
             <div style={{
@@ -716,6 +835,12 @@ Assalam-o-Alaikum Muhammad Mubashar bhai! Maine ${activeAccount.name} par Rs. ${
                 <strong>{product.title} ({selectedVariant}) x {quantity}</strong>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
+                <span style={{ color: 'var(--text-secondary, #737B84)' }}>Payment Method:</span>
+                <strong style={{ color: paymentType === 'cod' ? '#15803D' : 'var(--brand-navy, #172A3A)' }}>
+                  {paymentType === 'cod' ? 'Cash on Delivery (COD)' : `Online (${currentOnlineAccount.name})`}
+                </strong>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
                 <span style={{ color: 'var(--text-secondary, #737B84)' }}>Total Amount:</span>
                 <strong style={{ color: 'var(--brand-navy, #172A3A)', fontSize: '0.92rem' }}>Rs. {totalAmount.toLocaleString()}</strong>
               </div>
@@ -729,70 +854,92 @@ Assalam-o-Alaikum Muhammad Mubashar bhai! Maine ${activeAccount.name} par Rs. ${
               </div>
             </div>
 
-            {/* Online Payment Summary on Success */}
-            <div style={{
-              backgroundColor: 'var(--bg-gold-subtle, #F3EBDD)',
-              border: '1.5px solid var(--accent-gold, #B69A63)',
-              borderRadius: 'var(--radius-card, 12px)',
-              padding: '14px',
-              textAlign: 'left',
-              fontSize: '0.8rem',
-              marginBottom: '16px'
-            }}>
-              <div style={{ fontWeight: 800, color: 'var(--brand-navy, #172A3A)', marginBottom: '8px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <span>💳 Transfer To: {currentOnlineAccount.name}</span>
-                <span style={{ fontSize: '0.72rem', color: '#237653', backgroundColor: '#E8F5EE', padding: '2px 6px', borderRadius: '4px' }}>Awaiting Verification</span>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
-                <span style={{ color: 'var(--text-secondary, #737B84)' }}>Title:</span>
-                <strong>{currentOnlineAccount.accountTitle}</strong>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
-                <span style={{ color: 'var(--text-secondary, #737B84)' }}>Account Number:</span>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <strong>{currentOnlineAccount.accountNumber}</strong>
-                  <button
-                    type="button"
-                    onClick={() => handleCopy(currentOnlineAccount.accountNumber, 'success-acc')}
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--accent-gold, #B69A63)', padding: 0 }}
-                  >
-                    {copiedField === 'success-acc' ? <Check size={12} color="#237653" /> : <Copy size={12} />}
-                  </button>
+            {/* Payment Summary on Success */}
+            {paymentType === 'cod' ? (
+              <div style={{
+                backgroundColor: '#F0FDF4',
+                border: '1.5px solid #16A34A',
+                borderRadius: 'var(--radius-card, 12px)',
+                padding: '14px',
+                textAlign: 'left',
+                fontSize: '0.8rem',
+                marginBottom: '16px'
+              }}>
+                <div style={{ fontWeight: 800, color: '#15803D', marginBottom: '6px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <span>💵 Payment: Cash on Delivery</span>
+                  <span style={{ fontSize: '0.72rem', color: '#166534', backgroundColor: '#DCFCE7', padding: '2px 6px', borderRadius: '4px' }}>
+                    100% Open Parcel Check
+                  </span>
                 </div>
+                <p style={{ margin: 0, fontSize: '0.76rem', color: '#166534', lineHeight: 1.45 }}>
+                  Aapka order receive ho gaya hai! Humara representative Trax / Leopards courier ke zariye parcel rawana karega. Pehle rider ke samne parcel khol kar ghari check karein, tasalli hone par cash payment dein. Zero tension!
+                </p>
               </div>
-              {currentOnlineAccount.iban && (
-                <div style={{ marginTop: '6px', paddingTop: '6px', borderTop: '1px dashed rgba(182, 154, 99, 0.4)' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2px' }}>
-                    <span style={{ fontSize: '0.7rem', fontWeight: 800, color: 'var(--accent-gold, #B69A63)' }}>OFFICIAL IBAN:</span>
+            ) : (
+              <div style={{
+                backgroundColor: 'var(--bg-gold-subtle, #F3EBDD)',
+                border: '1.5px solid var(--accent-gold, #B69A63)',
+                borderRadius: 'var(--radius-card, 12px)',
+                padding: '14px',
+                textAlign: 'left',
+                fontSize: '0.8rem',
+                marginBottom: '16px'
+              }}>
+                <div style={{ fontWeight: 800, color: 'var(--brand-navy, #172A3A)', marginBottom: '8px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <span>💳 Transfer To: {currentOnlineAccount.name}</span>
+                  <span style={{ fontSize: '0.72rem', color: '#237653', backgroundColor: '#E8F5EE', padding: '2px 6px', borderRadius: '4px' }}>Awaiting Verification</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+                  <span style={{ color: 'var(--text-secondary, #737B84)' }}>Title:</span>
+                  <strong>{currentOnlineAccount.accountTitle}</strong>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                  <span style={{ color: 'var(--text-secondary, #737B84)' }}>Account Number:</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <strong>{currentOnlineAccount.accountNumber}</strong>
                     <button
                       type="button"
-                      onClick={() => handleCopy(currentOnlineAccount.iban, 'success-iban')}
-                      style={{
-                        background: copiedField === 'success-iban' ? '#E8F5EE' : '#FFFFFF',
-                        border: '1px solid var(--accent-gold, #B69A63)',
-                        borderRadius: '4px',
-                        cursor: 'pointer',
-                        color: copiedField === 'success-iban' ? '#237653' : 'var(--brand-navy, #172A3A)',
-                        padding: '2px 8px',
-                        fontSize: '0.68rem',
-                        fontWeight: 700,
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '4px'
-                      }}
+                      onClick={() => handleCopy(currentOnlineAccount.accountNumber, 'success-acc')}
+                      style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--accent-gold, #B69A63)', padding: 0 }}
                     >
-                      {copiedField === 'success-iban' ? <><Check size={10} color="#237653" /><span>Copied</span></> : <><Copy size={10} /><span>Copy IBAN</span></>}
+                      {copiedField === 'success-acc' ? <Check size={12} color="#237653" /> : <Copy size={12} />}
                     </button>
                   </div>
-                  <div style={{ fontFamily: 'monospace', fontSize: '0.82rem', fontWeight: 800, color: 'var(--brand-navy, #172A3A)', wordBreak: 'break-all' }}>
-                    {currentOnlineAccount.iban}
-                  </div>
                 </div>
-              )}
-              <p style={{ margin: '8px 0 0 0', fontSize: '0.72rem', color: 'var(--text-secondary, #737B84)', lineHeight: 1.4 }}>
-                Neeche diye gaye green WhatsApp button par click karein aur payment receipt ka screenshot bhej kar apna order foran verify karwayein.
-              </p>
-            </div>
+                {currentOnlineAccount.iban && (
+                  <div style={{ marginTop: '6px', paddingTop: '6px', borderTop: '1px dashed rgba(182, 154, 99, 0.4)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2px' }}>
+                      <span style={{ fontSize: '0.7rem', fontWeight: 800, color: 'var(--accent-gold, #B69A63)' }}>OFFICIAL IBAN:</span>
+                      <button
+                        type="button"
+                        onClick={() => handleCopy(currentOnlineAccount.iban, 'success-iban')}
+                        style={{
+                          background: copiedField === 'success-iban' ? '#E8F5EE' : '#FFFFFF',
+                          border: '1px solid var(--accent-gold, #B69A63)',
+                          borderRadius: '4px',
+                          cursor: 'pointer',
+                          color: copiedField === 'success-iban' ? '#237653' : 'var(--brand-navy, #172A3A)',
+                          padding: '2px 8px',
+                          fontSize: '0.68rem',
+                          fontWeight: 700,
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '4px'
+                        }}
+                      >
+                        {copiedField === 'success-iban' ? <><Check size={10} color="#237653" /><span>Copied</span></> : <><Copy size={10} /><span>Copy IBAN</span></>}
+                      </button>
+                    </div>
+                    <div style={{ fontFamily: 'monospace', fontSize: '0.82rem', fontWeight: 800, color: 'var(--brand-navy, #172A3A)', wordBreak: 'break-all' }}>
+                      {currentOnlineAccount.iban}
+                    </div>
+                  </div>
+                )}
+                <p style={{ margin: '8px 0 0 0', fontSize: '0.72rem', color: 'var(--text-secondary, #737B84)', lineHeight: 1.4 }}>
+                  Neeche diye gaye green WhatsApp button par click karein aur payment receipt ka screenshot bhej kar apna order foran verify karwayein.
+                </p>
+              </div>
+            )}
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               <a
@@ -803,7 +950,12 @@ Assalam-o-Alaikum Muhammad Mubashar bhai! Maine ${activeAccount.name} par Rs. ${
                 style={{ width: '100%', padding: '13px', fontSize: '0.9rem' }}
               >
                 <MessageCircle size={18} />
-                <span>Verify on WhatsApp for Instant Dispatch</span>
+                <span>
+                  {paymentType === 'cod'
+                    ? 'Confirm on WhatsApp for Instant Dispatch'
+                    : 'Verify on WhatsApp for Instant Dispatch'
+                  }
+                </span>
               </a>
 
               <button

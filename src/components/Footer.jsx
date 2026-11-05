@@ -97,10 +97,10 @@ export default function Footer({ onScrollTo, onOpenPolicy }) {
             </div>
             <div>
               <h4 style={{ color: '#FFFFFF', fontSize: '0.92rem', fontWeight: 800, margin: '0 0 3px 0' }}>
-                100% WhatsApp Verified Order
+                Cash on Delivery &amp; Open Parcel
               </h4>
               <p style={{ fontSize: '0.76rem', color: '#A0AAB5', margin: 0, lineHeight: 1.4 }}>
-                Instant payment confirmation aur live courier tracking WhatsApp par.
+                Rider ke samne box khol kar check karein, tasalli ke baad cash payment karein.
               </p>
             </div>
           </div>
@@ -481,6 +481,21 @@ export default function Footer({ onScrollTo, onOpenPolicy }) {
               OFFICIAL VERIFIED PAYMENT METHODS (PAKISTAN)
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+              <div 
+                style={{ 
+                  backgroundColor: '#FFFFFF', 
+                  padding: '6px 12px', 
+                  borderRadius: '7px', 
+                  display: 'inline-flex', 
+                  alignItems: 'center', 
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.22)',
+                  border: '1px solid rgba(255, 255, 255, 0.9)'
+                }}
+                title="Cash on Delivery Available Across Pakistan - 100% Open Parcel Check"
+              >
+                <CashOnDeliveryBadge size={20} theme="light" />
+              </div>
+
               <div 
                 style={{ 
                   backgroundColor: '#FFFFFF', 

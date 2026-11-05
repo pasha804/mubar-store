@@ -1,0 +1,105 @@
+{
+  "name": "MUBAR Store - WhatsApp Abandoned Cart Recovery (15-Min Followup)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "mubar-cart-abandoned",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "id": "node-abandoned-trigger",
+      "name": "Checkout Abandoned Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "unit": "minutes",
+        "amount": 15
+      },
+      "id": "node-wait-15m",
+      "name": "Wait 15 Minutes",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const payload = $input.first().json.body || $input.first().json;\n\nlet phone = (payload.phone || '').replace(/[^0-9]/g, '');\nif (phone.startsWith('0')) {\n  phone = '92' + phone.substring(1);\n}\n\nconst customerName = payload.customerName || 'Janab';\nconst productTitle = payload.productTitle || 'Luxury Watch';\nconst variant = payload.variant || 'Standard';\nconst price = payload.price || 1999;\n\n// WhatsApp message text in high-converting, polite Roman Urdu\nconst messageText = `Assalam-o-Alaikum ${customerName}! 🌟\\n\\nMain Muhammad Mubashar baat kar raha hoon MUBAR Store (mubarstore.com) Lahore se.\\n\\nAap ne thori der pehle humari website par *${productTitle}* (${variant}) pasand ki thi. Kya aap ka order place karte waqt koi masla paish aaya?\\n\\nBhai humari policy 100% customer-first hai:\\n✅ *Cash on Delivery (COD)* poore Pakistan mein available hai\\n✅ *100% Free Express Delivery* (Zero courier charges)\\n✅ *100% Open Parcel Check Guarantee* — Rider aap ke samne pehle parcel khole ga, aap tasalli se check karein, pasand aane par payment karein! Zero risk.\\n\\nAgar aap order book karwana chahte hain to sirf apna shehar aur address is WhatsApp par bhej dein, hum foran priority dispatch karwa denge.\\n\\nShukriya!\\nFounder, MUBAR Store (+92 308 4453846)`.trim();\n\nreturn [{\n  json: {\n    phone,\n    customerName,\n    productTitle,\n    variant,\n    price,\n    messageText\n  }\n}];"
+      },
+      "id": "node-compose-recovery",
+      "name": "Compose High-Converting Roman Urdu Message",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.facebook.com/v19.0/{{$env.WHATSAPP_PHONE_NUMBER_ID}}/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{$env.WHATSAPP_CLOUD_API_TOKEN}}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"messaging_product\": \"whatsapp\",\n  \"to\": \"{{$json.phone}}\",\n  \"type\": \"text\",\n  \"text\": {\n    \"body\": {{$json.messageText}}\n  }\n}",
+        "options": {}
+      },
+      "id": "node-send-whatsapp",
+      "name": "Send WhatsApp Recovery Message",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [900, 300]
+    }
+  ],
+  "connections": {
+    "Checkout Abandoned Webhook": {
+      "main": [
+        [
+          {
+            "node": "Wait 15 Minutes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 15 Minutes": {
+      "main": [
+        [
+          {
+            "node": "Compose High-Converting Roman Urdu Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compose High-Converting Roman Urdu Message": {
+      "main": [
+        [
+          {
+            "node": "Send WhatsApp Recovery Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

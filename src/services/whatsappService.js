@@ -20,7 +20,8 @@ export const getWatchWhatsAppUrl = (product, selectedVariant = null) => {
     `🎨 *Edition/Color:* ${variantText}\n` +
     `💰 *Offer Price:* Rs. ${priceFormatted}\n` +
     `🚚 *Delivery:* 100% FREE Nationwide Express Delivery (2–3 Days)\n` +
-    `💳 *Payment:* Online Payment (JazzCash / SadaPay / NayaPay / EasyPaisa / Bank Transfer)\n\n` +
+    `💵 *Payment:* Cash on Delivery (COD) / Online Payment\n` +
+    `🛡️ *Guarantee:* 100% Open Parcel Check (Pehle check karein, phir payment dein)\n\n` +
     `Mera delivery address yeh hai:\n` +
     `👤 *Name:*\n` +
     `📞 *Phone:*\n` +
@@ -49,7 +50,8 @@ export const getCartWhatsAppUrl = (cartItems, subtotal) => {
     `${itemsList}\n\n` +
     `💵 *Total Bill:* Rs. ${subtotal.toLocaleString()}\n` +
     `🚚 *Delivery:* 100% FREE Nationwide Express Delivery (2–3 Days)\n` +
-    `💳 *Payment:* Online Payment (JazzCash / SadaPay / NayaPay / EasyPaisa / Bank Transfer)\n\n` +
+    `💵 *Payment:* Cash on Delivery (COD) / Online Payment\n` +
+    `🛡️ *Guarantee:* 100% Open Parcel Check Allowed\n\n` +
     `Mera delivery address yeh hai:\n` +
     `👤 *Name:*\n` +
     `📞 *Phone:*\n` +

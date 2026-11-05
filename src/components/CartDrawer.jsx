@@ -85,7 +85,7 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQty, on
           fontWeight: 600
         }}>
           <ShieldCheck size={16} />
-          <span>Free Express Shipping Across Pakistan • Verified Online Payment</span>
+          <span>Free Express Shipping Across Pakistan • Cash on Delivery &amp; Open Parcel</span>
         </div>
 
         {/* Cart Item List */}

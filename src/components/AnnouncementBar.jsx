@@ -30,7 +30,7 @@ export default function AnnouncementBar() {
       <span style={{ color: 'var(--border-warm, #C8C3BA)' }}>·</span>
       <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
         <ShieldCheck size={13} color="var(--indicator-green, #237653)" />
-        <span>Verified Online Payment · WhatsApp Order Confirmation</span>
+        <span>Cash on Delivery (COD) · 100% Open Parcel Check Before Payment</span>
       </div>
     </div>
   );

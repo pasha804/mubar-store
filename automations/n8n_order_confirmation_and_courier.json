@@ -1,0 +1,130 @@
+{
+  "name": "MUBAR Store - Order Processing, Courier Dispatch & Founder Alert",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "mubar-new-order",
+        "responseMode": "onReceived",
+        "responseData": "allEntries",
+        "options": {}
+      },
+      "id": "node-webhook-order",
+      "name": "Webhook New Order",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract order data from webhook payload\nconst payload = $input.first().json.body || $input.first().json;\n\nconst orderId = payload.id || ('MB-' + Math.floor(100000 + Math.random() * 900000));\nconst customerName = payload.customerName || 'Customer';\nlet phone = (payload.phone || '').replace(/[^0-9]/g, '');\nif (phone.startsWith('0')) {\n  phone = '92' + phone.substring(1);\n}\nconst city = payload.city || 'Lahore';\nconst province = payload.province || 'Punjab';\nconst address = payload.address || '';\nconst productTitle = payload.productTitle || 'Luxury Watch';\nconst variant = payload.variant || 'Standard';\nconst quantity = payload.quantity || 1;\nconst totalAmount = Number(payload.totalAmount || 0);\nconst paymentType = payload.paymentType || 'cod';\nconst paymentMethod = payload.paymentMethod || (paymentType === 'cod' ? 'Cash on Delivery (COD)' : 'Online Transfer');\nconst transactionRef = payload.transactionRef || '';\n\nconst codAmountToCollect = paymentType === 'cod' ? totalAmount : 0;\n\nreturn [{\n  json: {\n    orderId,\n    customerName,\n    phone,\n    city,\n    province,\n    address,\n    productTitle,\n    variant,\n    quantity,\n    totalAmount,\n    codAmountToCollect,\n    paymentType,\n    paymentMethod,\n    transactionRef,\n    timestamp: new Date().toISOString(),\n    formattedDate: new Date().toLocaleString('en-PK', { timeZone: 'Asia/Karachi' })\n  }\n}];"
+      },
+      "id": "node-clean-data",
+      "name": "Normalize Order & Phone",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.telegram.org/bot{{$env.TELEGRAM_BOT_TOKEN}}/sendMessage",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"chat_id\": \"{{$env.TELEGRAM_FOUNDER_CHAT_ID}}\",\n  \"parse_mode\": \"Markdown\",\n  \"text\": \"👑 *NEW ORDER RECEIVED - MUBAR STORE*\\n━━━━━━━━━━━━━━━━━━━━\\n🏷️ *Order ID:* `#{{$json.orderId}}`\\n👤 *Customer:* {{$json.customerName}}\\n📞 *Phone:* `{{$json.phone}}`\\n⌚ *Watch:* {{$json.productTitle}}\\n🎨 *Variant:* {{$json.variant}}\\n🔢 *Qty:* {{$json.quantity}}\\n💰 *Amount:* Rs. {{$json.totalAmount.toLocaleString()}}\\n💵 *Payment:* {{$json.paymentMethod}}\\n🛡️ *Condition:* 100% Open Parcel Allowed\\n📍 *City:* {{$json.city}} ({{$json.province}})\\n🏠 *Address:* {{$json.address}}\\n━━━━━━━━━━━━━━━━━━━━\\n🚚 *Action Required:* Book courier & prepare dispatch package!\"\n}",
+        "options": {}
+      },
+      "id": "node-telegram-alert",
+      "name": "Instant Founder Telegram Alert",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [700, 180]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.trax.pk/charges/create_order",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{$env.TRAX_API_KEY}}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"service_type_id\": 1,\n  \"pickup_address_id\": {{$env.TRAX_PICKUP_ADDRESS_ID}},\n  \"information_display\": 1,\n  \"consignee_name\": \"{{$json.customerName}}\",\n  \"consignee_email\": \"customer@mubarstore.com\",\n  \"consignee_phone_number_1\": \"{{$json.phone}}\",\n  \"consignee_address\": \"{{$json.address}}, {{$json.city}}\",\n  \"consignee_city_id_or_name\": \"{{$json.city}}\",\n  \"item_product_type_id\": 1,\n  \"item_description\": \"{{$json.productTitle}} ({{$json.variant}}) - MUBAR Store (Open Parcel Permitted)\",\n  \"item_quantity\": {{$json.quantity}},\n  \"item_insurance\": 0,\n  \"pieces_quantity\": 1,\n  \"estimated_weight\": 0.4,\n  \"shipping_mode_id\": 1,\n  \"amount\": {{$json.codAmountToCollect}},\n  \"payment_mode_id\": {{$json.paymentType === 'cod' ? 1 : 2}},\n  \"special_instructions\": \"OPEN PARCEL CHECK PERMITTED: Allow customer to open the outer box and inspect watch before taking payment. 100% Guaranteed.\"\n}",
+        "options": {}
+      },
+      "id": "node-courier-booking",
+      "name": "Auto-Book Courier (Trax / PostEx)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [700, 420]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1A2B3C_MUBAR_STORE_ORDERS_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Orders",
+          "mode": "name"
+        },
+        "options": {}
+      },
+      "id": "node-google-sheet",
+      "name": "Log to Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [940, 300]
+    }
+  ],
+  "connections": {
+    "Webhook New Order": {
+      "main": [
+        [
+          {
+            "node": "Normalize Order & Phone",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Order & Phone": {
+      "main": [
+        [
+          {
+            "node": "Instant Founder Telegram Alert",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Auto-Book Courier (Trax / PostEx)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Log to Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

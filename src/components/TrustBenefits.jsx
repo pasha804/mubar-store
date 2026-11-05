@@ -10,8 +10,8 @@ export default function TrustBenefits() {
     },
     {
       icon: ShieldCheck,
-      title: "Verified Online Payment",
-      description: "Easy direct transfer via JazzCash, SadaPay, NayaPay & EasyPaisa with instant WhatsApp verification."
+      title: "Cash on Delivery & Open Parcel",
+      description: "Pay at your doorstep with 100% open parcel inspection. Direct online payment (JazzCash / SadaPay) also accepted."
     },
     {
       icon: Award,
