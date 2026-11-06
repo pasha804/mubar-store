@@ -282,8 +282,10 @@ export default function Footer({ onScrollTo, onOpenPolicy }) {
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '16px' }}>
               <img 
-                src="/images/branding/mubar_logo.png" 
+                src="/images/branding/mubar_logo_sm.webp" 
                 alt="MUBAR" 
+                width="76"
+                height="76"
                 style={{ 
                   height: '76px', 
                   width: 'auto', 

@@ -14,8 +14,8 @@ export default function ProductCatalog({ products, onSelectProduct, onQuickBuy }
         let matchesCategory = false;
         if (selectedCategory === "All Timepieces") {
           matchesCategory = true;
-        } else if (selectedCategory === "Under Rs. 2,199 Deals") {
-          matchesCategory = p.salePrice <= 2199;
+        } else if (selectedCategory === "Under Rs. 2,499 Deals" || selectedCategory === "Under Rs. 2,199 Deals") {
+          matchesCategory = p.salePrice <= 2499;
         } else {
           matchesCategory = p.category === selectedCategory;
         }

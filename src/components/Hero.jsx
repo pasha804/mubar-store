@@ -66,14 +66,16 @@ export default function Hero({ onExploreClick }) {
         style={{ position: 'relative', cursor: 'pointer' }}
       >
         <picture>
-          <source srcSet="/images/branding/Mubar%20Store%20Luxury%20Watch%20Sale%20Banner.webp" type="image/webp" />
+          <source srcSet="/images/branding/hero_banner.webp" type="image/webp" />
           <img 
-            src="/images/branding/Mubar Store Luxury Watch Sale Banner.png" 
+            src="/images/branding/hero_banner.jpg" 
             alt="MUBAR Store Luxury Watch Sale - Premium Watches, Unbeatable Prices - Save Up to 40% Off" 
             className="mubar-hero-banner-img"
             loading="eager"
             fetchPriority="high"
             decoding="async"
+            width="1280"
+            height="520"
           />
         </picture>
 

@@ -117,8 +117,10 @@ export default function Navbar({
             title="MUBAR Home"
           >
             <img 
-              src="/images/branding/mubar_logo.png" 
+              src="/images/branding/mubar_logo_sm.webp" 
               alt="MUBAR" 
+              width="98"
+              height="98"
               style={{
                 height: 'clamp(68px, 9.2vw, 98px)',
                 width: 'auto',

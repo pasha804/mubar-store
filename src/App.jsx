@@ -3,19 +3,17 @@ import AnnouncementBar from './components/AnnouncementBar';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import TrustBenefits from './components/TrustBenefits';
-import UnboxingFeature from './components/UnboxingFeature';
 import ProductCatalog from './components/ProductCatalog';
-import ProductPage from './components/ProductPage';
-import QuickCODModal from './components/QuickCODModal';
-import CartDrawer from './components/CartDrawer';
 import SocialProof from './components/SocialProof';
 import WhatsAppWidget from './components/WhatsAppWidget';
 import Footer from './components/Footer';
 import { PRODUCTS } from './data/products';
-import { recordVisitorHit } from './services/storeSync';
 import { trackPageView, trackViewContent, trackAddToCart, trackInitiateCheckout } from './services/pixelService';
 
-// Lazy-loaded heavy components (loaded only on-demand, keeping storefront fast)
+// Lazy-loaded heavy components (loaded strictly on-demand, keeping initial storefront instant & featherlight)
+const ProductPage = React.lazy(() => import('./components/ProductPage'));
+const QuickCODModal = React.lazy(() => import('./components/QuickCODModal'));
+const CartDrawer = React.lazy(() => import('./components/CartDrawer'));
 const AdminBridge = React.lazy(() => import('./components/AdminBridge'));
 const AdminLogin = React.lazy(() => import('./components/AdminLogin'));
 const PolicyModal = React.lazy(() => import('./components/PolicyModal'));
@@ -118,7 +116,6 @@ export default function App() {
       setMetaTag('meta[property="og:url"]', 'content', 'https://www.mubarstore.com/');
       setMetaTag('meta[property="og:image"]', 'content', 'https://www.mubarstore.com/images/branding/mubar_og_share.jpg');
       setMetaTag('link[rel="canonical"]', 'href', 'https://www.mubarstore.com/');
-      recordVisitorHit('/');
     } else if (routeState.name === 'product' && routeState.productId) {
       const prod = PRODUCTS.find(p => p.id === routeState.productId);
       if (prod) {
@@ -137,10 +134,22 @@ export default function App() {
         setMetaTag('meta[property="og:image"]', 'content', prodImg);
         setMetaTag('link[rel="canonical"]', 'href', prodUrl);
 
-        recordVisitorHit(`/product/${prod.id}`);
         trackViewContent(prod);
+      }
+    }
+
+    // Deferred Visitor Sync: Runs asynchronously when browser is completely idle
+    const targetHitPath = routeState.name === 'store' ? '/' : `/product/${routeState.productId || ''}`;
+    const logVisit = () => {
+      import('./services/storeSync')
+        .then(sync => sync.recordVisitorHit(targetHitPath))
+        .catch(() => {});
+    };
+    if (typeof window !== 'undefined') {
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(logVisit, { timeout: 3500 });
       } else {
-        recordVisitorHit(`/product/${routeState.productId}`);
+        setTimeout(logVisit, 1500);
       }
     }
   }, [routeState]);
@@ -307,15 +316,17 @@ export default function App() {
         />
 
         {/* Dedicated Product Page for this specific watch */}
-        <ProductPage 
-          productId={routeState.productId}
-          initialVariant={selectedProductVariant}
-          onBackToStore={(secId) => navigateToStore(secId)}
-          onNavigateToProduct={(id, v) => navigateToProduct(id, v)}
-          onQuickBuy={(p) => handleQuickBuy(p)}
-          onAddToCart={handleAddToCart}
-          onOpenCart={() => setIsCartOpen(true)}
-        />
+        <React.Suspense fallback={<div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--brand-navy, #172A3A)', fontWeight: 600 }}>Loading timepiece details...</div>}>
+          <ProductPage 
+            productId={routeState.productId}
+            initialVariant={selectedProductVariant}
+            onBackToStore={(secId) => navigateToStore(secId)}
+            onNavigateToProduct={(id, v) => navigateToProduct(id, v)}
+            onQuickBuy={(p) => handleQuickBuy(p)}
+            onAddToCart={handleAddToCart}
+            onOpenCart={() => setIsCartOpen(true)}
+          />
+        </React.Suspense>
 
         {/* Verified Pakistani Social Proof Carousel */}
         <SocialProof />
@@ -331,26 +342,32 @@ export default function App() {
 
         {/* Fast Cash on Delivery Checkout Modal */}
         {quickBuyProduct && (
-          <QuickCODModal 
-            product={quickBuyProduct}
-            onClose={() => setQuickBuyProduct(null)}
-          />
+          <React.Suspense fallback={null}>
+            <QuickCODModal 
+              product={quickBuyProduct}
+              onClose={() => setQuickBuyProduct(null)}
+            />
+          </React.Suspense>
         )}
 
         {/* Slide-out Cart Drawer */}
-        <CartDrawer 
-          isOpen={isCartOpen}
-          onClose={() => setIsCartOpen(false)}
-          cartItems={cartItems}
-          onUpdateQty={handleUpdateQty}
-          onRemoveItem={handleRemoveItem}
-          onCheckout={() => {
-            setIsCartOpen(false);
-            if (cartItems.length > 0) {
-              handleQuickBuy(cartItems[0]);
-            }
-          }}
-        />
+        {isCartOpen && (
+          <React.Suspense fallback={null}>
+            <CartDrawer 
+              isOpen={isCartOpen}
+              onClose={() => setIsCartOpen(false)}
+              cartItems={cartItems}
+              onUpdateQty={handleUpdateQty}
+              onRemoveItem={handleRemoveItem}
+              onCheckout={() => {
+                setIsCartOpen(false);
+                if (cartItems.length > 0) {
+                  handleQuickBuy(cartItems[0]);
+                }
+              }}
+            />
+          </React.Suspense>
+        )}
 
         {/* Policy Modal */}
         {activePolicy && (
@@ -437,26 +454,32 @@ export default function App() {
 
       {/* Fast Cash on Delivery Checkout Modal */}
       {quickBuyProduct && (
-        <QuickCODModal 
-          product={quickBuyProduct}
-          onClose={() => setQuickBuyProduct(null)}
-        />
+        <React.Suspense fallback={null}>
+          <QuickCODModal 
+            product={quickBuyProduct}
+            onClose={() => setQuickBuyProduct(null)}
+          />
+        </React.Suspense>
       )}
 
       {/* Slide-out Cart Drawer */}
-      <CartDrawer 
-        isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
-        cartItems={cartItems}
-        onUpdateQty={handleUpdateQty}
-        onRemoveItem={handleRemoveItem}
-        onCheckout={() => {
-          setIsCartOpen(false);
-          if (cartItems.length > 0) {
-            handleQuickBuy(cartItems[0]);
-          }
-        }}
-      />
+      {isCartOpen && (
+        <React.Suspense fallback={null}>
+          <CartDrawer 
+            isOpen={isCartOpen}
+            onClose={() => setIsCartOpen(false)}
+            cartItems={cartItems}
+            onUpdateQty={handleUpdateQty}
+            onRemoveItem={handleRemoveItem}
+            onCheckout={() => {
+              setIsCartOpen(false);
+              if (cartItems.length > 0) {
+                handleQuickBuy(cartItems[0]);
+              }
+            }}
+          />
+        </React.Suspense>
+      )}
 
       {/* Policy Modal */}
       {activePolicy && (

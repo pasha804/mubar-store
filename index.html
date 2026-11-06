@@ -60,14 +60,17 @@
     <meta name="twitter:image" content="https://www.mubarstore.com/images/branding/mubar_og_share.jpg" />
 
     <!-- Preload Critical Above-The-Fold Visual Assets for Instant Response -->
-    <link rel="preload" as="image" href="/favicon-48x48.png" />
-    <link rel="preload" as="image" href="/images/branding/mubar_crest_logo_transparent.png" />
-    <link rel="preload" as="image" href="/images/branding/Mubar%20Store%20Luxury%20Watch%20Sale%20Banner.webp" type="image/webp" fetchpriority="high" />
+    <link rel="preload" as="image" href="/images/branding/hero_banner.webp" type="image/webp" fetchpriority="high" />
+    <link rel="preload" as="image" href="/images/branding/mubar_logo_sm.webp" type="image/webp" />
 
-    <!-- Google Fonts -->
+    <!-- Google Fonts (Preconnected & Non-blocking) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    </noscript>
 
     <!-- Schema.org JSON-LD Structured Data: Store & Organization for Google Rich Snippets -->
     <script type="application/ld+json">
